@@ -112,11 +112,11 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
 
 function IndexController($scope, PostService) {
 
-    $scope.newsEntries = PostService.query();
+    $scope.posts = PostService.query();
 
     $scope.deleteEntry = function (post) {
         post.$remove(function () {
-            $scope.newsEntries = PostService.query();
+            $scope.posts = PostService.query();
         });
     };
 };
@@ -186,5 +186,5 @@ services.factory('UserService', function ($resource) {
 
 services.factory('PostService', function ($resource) {
 
-    return $resource('rest/news/:id', {id: '@id'});
+    return $resource('rest/post/:id', {id: '@id'});
 });
