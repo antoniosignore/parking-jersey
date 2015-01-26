@@ -19,7 +19,7 @@ public class UserGroup implements Entity, Serializable {
     private String groupDesc;
 
     @ManyToOne
-    private User account;
+    private Account account;
 
     public UserGroup() {
     }
@@ -48,11 +48,11 @@ public class UserGroup implements Entity, Serializable {
         this.groupDesc = groupDesc;
     }
 
-    public User getAccount() {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount(User account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 

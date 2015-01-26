@@ -2,7 +2,6 @@ package com.parking.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.util.Date;
 
@@ -14,10 +13,10 @@ public class Connection implements Entity {
     private Long id;
 
     @OneToOne
-    private User initiator;
+    private Account initiator;
 
     @OneToOne
-    private User receiver;
+    private Account receiver;
 
     @OneToOne
     private UserGroup initiatorGroup;
@@ -40,19 +39,19 @@ public class Connection implements Entity {
         this.id = id;
     }
 
-    public User getInitiator() {
+    public Account getInitiator() {
         return initiator;
     }
 
-    public void setInitiator(User initiator) {
+    public void setInitiator(Account initiator) {
         this.initiator = initiator;
     }
 
-    public User getReceiver() {
+    public Account getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(User receiver) {
+    public void setReceiver(Account receiver) {
         this.receiver = receiver;
     }
 

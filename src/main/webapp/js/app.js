@@ -47,7 +47,7 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
         );
 
         /* Registers auth token interceptor, auth token is either passed by header or by query parameter
-         * as soon as there is an authenticated user */
+         * as soon as there is an authenticated account */
         $httpProvider.interceptors.push(function ($q, $rootScope, $location) {
                 return {
                     'request': function (config) {
@@ -94,7 +94,7 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
             $location.path("/login");
         };
 
-        /* Try getting valid user from cookie or go to login page */
+        /* Try getting valid account from cookie or go to login page */
         var originalPath = $location.path();
         $location.path("/login");
         var authToken = $cookieStore.get('authToken');
@@ -173,7 +173,7 @@ var services = angular.module('exampleApp.services', ['ngResource']);
 
 services.factory('UserService', function ($resource) {
 
-    return $resource('rest/user/:action', {},
+    return $resource('rest/account/:action', {},
         {
             authenticate: {
                 method: 'POST',

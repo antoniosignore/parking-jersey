@@ -1,13 +1,10 @@
 package com.parking.dao;
 
-import com.parking.dao.user.UserDao;
+import com.parking.dao.account.AccountDao;
 import com.parking.dao.post.PostDao;
-import com.parking.entity.Post;
-import com.parking.entity.User;
+import com.parking.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Date;
 
 
 /**
@@ -20,7 +17,7 @@ public class DataBaseInitializer {
     private PostDao postDao;
 
     @Autowired
-    private UserDao userDao;
+    private AccountDao accountDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,21 +26,21 @@ public class DataBaseInitializer {
         /* Default constructor for reflection instantiation */
     }
 
-    public DataBaseInitializer(UserDao userDao, PostDao postDao, PasswordEncoder passwordEncoder) {
-        this.userDao = userDao;
+    public DataBaseInitializer(AccountDao accountDao, PostDao postDao, PasswordEncoder passwordEncoder) {
+        this.accountDao = accountDao;
         this.postDao = postDao;
         this.passwordEncoder = passwordEncoder;
     }
 
     public void initDataBase() {
-        User userUser = new User("user", this.passwordEncoder.encode("user"));
-        userUser.addRole("user");
-        this.userDao.save(userUser);
+        Account userAccount = new Account("user", this.passwordEncoder.encode("user"));
+        userAccount.addRole("user");
+        this.accountDao.save(userAccount);
 
-        User adminUser = new User("admin", this.passwordEncoder.encode("admin"));
-        adminUser.addRole("user");
-        adminUser.addRole("admin");
-        this.userDao.save(adminUser);
+        Account adminAccount = new Account("admin", this.passwordEncoder.encode("admin"));
+        adminAccount.addRole("user");
+        adminAccount.addRole("admin");
+        this.accountDao.save(adminAccount);
 
 //        long timestamp = System.currentTimeMillis() - 1000 * 60 * 60 * 24;
 //        for (int i = 0; i < 10; i++) {

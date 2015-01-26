@@ -22,8 +22,8 @@ import java.util.Map;
 
 
 @Component
-@Path("/user")
-public class UserResource {
+@Path("/account")
+public class AccountResource {
 
     @Autowired
     private UserDetailsService userService;
@@ -34,7 +34,7 @@ public class UserResource {
 
 
     /**
-     * Retrieves the currently logged in user.
+     * Retrieves the currently logged in account.
      *
      * @return A transfer containing the username and the roles.
      */
@@ -53,10 +53,10 @@ public class UserResource {
 
 
     /**
-     * Authenticates a user and creates an authentication token.
+     * Authenticates a account and creates an authentication token.
      *
-     * @param username The name of the user.
-     * @param password The password of the user.
+     * @param username The name of the account.
+     * @param password The password of the account.
      * @return A transfer containing the authentication token.
      */
     @Path("authenticate")
@@ -71,7 +71,7 @@ public class UserResource {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		/*
-         * Reload user as password of authentication principal will be null after authorization and
+         * Reload account as password of authentication principal will be null after authorization and
 		 * password is needed for token generation
 		 */
         UserDetails userDetails = this.userService.loadUserByUsername(username);
@@ -80,7 +80,7 @@ public class UserResource {
     }
 
     private Map<String, Boolean> createRoleMap(UserDetails userDetails) {
-        Map<String, Boolean> roles = new HashMap<String, Boolean>();
+        Map<String, Boolean> roles = new HashMap<>();
         for (GrantedAuthority authority : userDetails.getAuthorities()) {
             roles.put(authority.getAuthority(), Boolean.TRUE);
         }

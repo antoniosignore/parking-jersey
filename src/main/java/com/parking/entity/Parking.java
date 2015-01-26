@@ -11,7 +11,7 @@ public class Parking implements com.parking.entity.Entity {
     Date parkingDate;
 
     @OneToOne
-    User pickedBy;
+    Account pickedBy;
 
     @OneToOne
 
@@ -28,7 +28,7 @@ public class Parking implements com.parking.entity.Entity {
     private Long id;
 
     @ManyToOne
-    private User account;
+    private Account account;
 
     @Enumerated(EnumType.STRING)
     private ParkingStatusEnum status;
@@ -44,11 +44,11 @@ public class Parking implements com.parking.entity.Entity {
         this.parkingDate = parkingDate;
     }
 
-    public User getPickedBy() {
+    public Account getPickedBy() {
         return pickedBy;
     }
 
-    public void setPickedBy(User pickedBy) {
+    public void setPickedBy(Account pickedBy) {
         this.pickedBy = pickedBy;
     }
 
@@ -92,11 +92,11 @@ public class Parking implements com.parking.entity.Entity {
         this.id = id;
     }
 
-    public User getAccount() {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount(User account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 

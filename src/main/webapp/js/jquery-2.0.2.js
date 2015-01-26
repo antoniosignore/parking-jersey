@@ -1224,7 +1224,7 @@
                 setHandle = test ? null : handler;
 
             while (i--) {
-                // Don't override a user's handler
+                // Don't override a account's handler
                 if (!(current = Expr.attrHandle[attrs[i]]) || current === handler) {
                     Expr.attrHandle[attrs[i]] = setHandle;
                 }
@@ -1861,7 +1861,7 @@
 
         Expr = Sizzle.selectors = {
 
-            // Can be adjusted by the user
+            // Can be adjusted by the account
             cacheLength: 50,
 
             createPseudo: markFunction,
@@ -2099,7 +2099,7 @@
                         fn = Expr.pseudos[pseudo] || Expr.setFilters[pseudo.toLowerCase()] ||
                             Sizzle.error("unsupported pseudo: " + pseudo);
 
-                    // The user may use createPseudo to indicate that
+                    // The account may use createPseudo to indicate that
                     // arguments are needed to create the filter function
                     // just as Sizzle does
                     if (fn[expando]) {
@@ -3335,9 +3335,9 @@
      1. Enforce API surface and semantic compatibility with 1.9.x branch
      2. Improve the module's maintainability by reducing the storage
      paths to a single mechanism.
-     3. Use the same single mechanism to support "private" and "user" data.
-     4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
-     5. Avoid exposing implementation details on user objects (eg. expando properties)
+     3. Use the same single mechanism to support "private" and "account" data.
+     4. _Never_ expose "private" data to account code (TODO: Drop _data, _removeData)
+     5. Avoid exposing implementation details on account objects (eg. expando properties)
      6. Provide a clear path for implementation upgrade to WeakMap in 2014
      */
     var data_user, data_priv,
@@ -5900,7 +5900,7 @@
                         }
                     }
                 }
-                // Discard any remaining `user` data
+                // Discard any remaining `account` data
                 delete data_user.cache[elem[data_user.expando]];
             }
         },
@@ -5983,7 +5983,7 @@
             }
         }
 
-        // 2. Copy user data
+        // 2. Copy account data
         if (data_user.hasData(src)) {
             udataOld = data_user.access(src);
             udataCur = jQuery.extend({}, udataOld);
@@ -8840,7 +8840,7 @@
     if (typeof module === "object" && module && typeof module.exports === "object") {
         // Expose jQuery as module.exports in loaders that implement the Node
         // module pattern (including browserify). Do not create the global, since
-        // the user will be storing it themselves locally, and globals are frowned
+        // the account will be storing it themselves locally, and globals are frowned
         // upon in the Node module world.
         module.exports = jQuery;
     } else {

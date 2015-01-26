@@ -1,24 +1,24 @@
 package com.parking.services.util;
 
 
-import com.parking.entity.User;
+import com.parking.entity.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccountList {
 
-    private List<User> accounts = new ArrayList<User>();
+    private List<Account> accounts = new ArrayList<Account>();
 
-    public AccountList(List<User> list) {
+    public AccountList(List<Account> list) {
         this.accounts = list;
     }
 
-    public List<User> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<User> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 

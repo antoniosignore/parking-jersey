@@ -20,7 +20,7 @@ public class Vehicle implements Entity{
     private String licensePlate;
 
     @ManyToOne
-    private User owner;
+    private Account owner;
 
     public Vehicle() {
     }
@@ -49,11 +49,11 @@ public class Vehicle implements Entity{
         this.licensePlate = licensePlate;
     }
 
-    public User getOwner() {
+    public Account getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Account owner) {
         this.owner = owner;
     }
 

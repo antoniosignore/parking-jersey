@@ -1,7 +1,6 @@
 package com.parking.dao.vehicle;
 
 import com.parking.dao.JpaDao;
-import com.parking.entity.User;
 import com.parking.entity.Vehicle;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,7 +8,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import java.util.List;
 

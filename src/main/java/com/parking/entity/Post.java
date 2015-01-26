@@ -27,7 +27,7 @@ public class Post implements Entity {
 
     @OneToOne
     @NotNull
-    private User owner;
+    private Account owner;
 
     public Post() {
         this.date = new Date();
@@ -60,11 +60,11 @@ public class Post implements Entity {
         this.id = id;
     }
 
-    public User getOwner() {
+    public Account getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Account owner) {
         this.owner = owner;
     }
 

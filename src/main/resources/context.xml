@@ -14,11 +14,11 @@
     <!--
         DATABASE SETUP
      -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="username" value="sa"/>
-        <property name="password" value=""/>
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsqldb:mem:example"/>
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="username" value="parking"/>
+        <property name="password" value="parking"/>
+        <property name="url" value="jdbc:postgresql://127.0.0.1:5432/parking"/>
+        <property name="driverClassName" value="org.postgresql.Driver"/>
     </bean>
 
     <bean id="entityManagerFactory"
@@ -38,7 +38,7 @@
     </bean>
 
     <bean id="postDao" class="com.parking.dao.post.JpaPostDao"/>
-    <bean id="userDao" class="com.parking.dao.user.JpaUserDao"/>
+    <bean id="userDao" class="com.parking.dao.account.JpaAccountDao"/>
     <bean id="vehicleDao" class="com.parking.dao.vehicle.JpaVehicleDao"/>
     <bean id="parkingDao" class="com.parking.dao.parking.JpaParkingDao"/>
     <bean id="connectionDao" class="com.parking.dao.connection.JpaConnectionDao"/>
@@ -57,7 +57,9 @@
      -->
 
     <context:component-scan base-package="com.parking.rest.resources"/>
+
     <context:component-scan base-package="com.parking.services.impl"/>
+
 
     <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
 

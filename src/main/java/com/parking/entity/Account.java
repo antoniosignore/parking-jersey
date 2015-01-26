@@ -10,9 +10,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @javax.persistence.Entity
-public class User implements com.parking.entity.Entity, UserDetails {
+public class Account implements com.parking.entity.Entity, UserDetails {
 
     @Id
     @GeneratedValue
@@ -28,12 +27,12 @@ public class User implements com.parking.entity.Entity, UserDetails {
     private Set<String> roles = new HashSet<String>();
 
 
-    public User() {
+    public Account() {
         /* Reflection instantiation */
     }
 
 
-    public User(String name, String passwordHash) {
+    public Account(String name, String passwordHash) {
         this.name = name;
         this.password = passwordHash;
     }

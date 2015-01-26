@@ -4,12 +4,12 @@ package com.parking.services;
 import com.parking.entity.*;
 import com.parking.services.util.*;
 
-public interface UserService {
+public interface AccountService {
 
-    public User findUser(Long id);
-    public User findByUserName(String name);
+    public Account findUser(Long id);
+    public Account findByUserName(String name);
 
-    public User createUser(User data);
+    public Account createUser(Account data);
 
     public UserGroup createUserGroup(Long accountId, UserGroup data);
     public Post createPost(Long accountId, Post data);

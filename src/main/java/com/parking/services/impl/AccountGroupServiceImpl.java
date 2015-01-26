@@ -13,26 +13,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountGroupServiceImpl implements AccountGroupService {
 
     @Autowired
-    private UserGroupDao accountGroupRepo;
+    private UserGroupDao userGroupDao;
 
     @Override
     public AccountGroupList findAllGroups() {
-        return new AccountGroupList(accountGroupRepo.findAll());
+        return new AccountGroupList(userGroupDao.findAll());
     }
 
     @Override
     public UserGroup findAccountGroup(Long id) {
-        return accountGroupRepo.find(id);
+        return userGroupDao.find(id);
     }
 
     @Override
     public void deleteAccountGroup(Long id) {
-        accountGroupRepo.delete(id);
+        userGroupDao.delete(id);
     }
 
     @Override
     public UserGroup updateAccountGroupEntry(Long id, UserGroup data) {
-        return accountGroupRepo.save(data);
+        return userGroupDao.save(data);
     }
 
 }
