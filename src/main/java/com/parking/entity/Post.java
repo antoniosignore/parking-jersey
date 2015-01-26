@@ -15,6 +15,7 @@ public class Post implements Entity {
     private Long id;
 
     @Column
+    @NotNull
     private Date date;
 
     @Column
@@ -25,10 +26,8 @@ public class Post implements Entity {
     private String content;
 
     @OneToOne
+    @NotNull
     private User owner;
-
-    @OneToOne
-    private Post replyTo;
 
     public Post() {
         this.date = new Date();
@@ -77,13 +76,6 @@ public class Post implements Entity {
         this.title = title;
     }
 
-    public Post getReplyTo() {
-        return replyTo;
-    }
-
-    public void setReplyTo(Post replyTo) {
-        this.replyTo = replyTo;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -92,7 +84,6 @@ public class Post implements Entity {
 
         Post post = (Post) o;
 
-        if (!content.equals(post.content)) return false;
         if (!date.equals(post.date)) return false;
         if (!id.equals(post.id)) return false;
         if (!owner.equals(post.owner)) return false;
@@ -106,7 +97,6 @@ public class Post implements Entity {
         int result = id.hashCode();
         result = 31 * result + date.hashCode();
         result = 31 * result + title.hashCode();
-        result = 31 * result + content.hashCode();
         result = 31 * result + owner.hashCode();
         return result;
     }

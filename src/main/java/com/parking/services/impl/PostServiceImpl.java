@@ -23,11 +23,7 @@ public class PostServiceImpl implements PostService {
     private UserDao userRepo;
 
     @Override
-    public Post createReply(Long fatherPostId, Long accountId, Post reply) {
-
-        Post blog = blogRepo.find(fatherPostId);
-        if (blog == null) throw new BlogNotFoundException();
-        reply.setReplyTo(blog);
+    public Post createPost(Long accountId, Post reply) {
 
         User poster = userRepo.find(accountId);
         if (poster == null) throw new UserDoesNotExistException();

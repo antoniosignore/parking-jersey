@@ -53,7 +53,7 @@ public class JpaPostDao extends JpaDao<Post, Long> implements PostDao {
 
     @Override
     public List<Post> findAllRepliesByPostId(Long postId) {
-        Query query = getEntityManager().createQuery("SELECT b from Post b where b.replyTo.id=?1");
+        Query query = getEntityManager().createQuery("SELECT b from Post b where b.replyToPostId=?1");
         query.setParameter(1, postId);
         return query.getResultList();
 
