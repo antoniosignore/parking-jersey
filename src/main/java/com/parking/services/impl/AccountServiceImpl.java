@@ -2,7 +2,7 @@ package com.parking.services.impl;
 
 import com.parking.dao.accountGroup.UserGroupDao;
 import com.parking.dao.connection.ConnectionDao;
-import com.parking.dao.newsentry.PostDao;
+import com.parking.dao.post.PostDao;
 import com.parking.dao.parking.ParkingDao;
 import com.parking.dao.user.UserDao;
 import com.parking.dao.vehicle.VehicleDao;

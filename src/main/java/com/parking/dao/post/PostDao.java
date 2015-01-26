@@ -1,8 +1,7 @@
-package com.parking.dao.newsentry;
+package com.parking.dao.post;
 
 import com.parking.dao.Dao;
 import com.parking.entity.Post;
-import com.parking.services.util.PostList;
 
 import java.util.List;
 

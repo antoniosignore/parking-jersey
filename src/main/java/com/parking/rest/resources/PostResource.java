@@ -1,7 +1,7 @@
 package com.parking.rest.resources;
 
 import com.parking.JsonViews;
-import com.parking.dao.newsentry.PostDao;
+import com.parking.dao.post.PostDao;
 import com.parking.entity.Post;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;

@@ -1,4 +1,4 @@
-package com.parking.dao.newsentry;
+package com.parking.dao.post;
 
 import com.parking.dao.JpaDao;
 import com.parking.entity.Post;

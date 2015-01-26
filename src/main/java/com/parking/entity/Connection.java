@@ -72,20 +72,20 @@ public class Connection implements Entity {
         this.receiverGroup = receiverGroup;
     }
 
-    public Boolean getConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(Boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
     public Date getCreated() {
         return created;
     }
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
     }
 
     @Override

@@ -37,18 +37,18 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="postDao" class="com.parking.dao.newsentry.JpaPostDao"></bean>
-    <bean id="userDao" class="com.parking.dao.user.JpaUserDao"></bean>
-    <bean id="vehicleDao" class="com.parking.dao.vehicle.JpaVehicleDao"></bean>
-    <bean id="parkingDao" class="com.parking.dao.parking.JpaParkingDao"></bean>
-    <bean id="connectionDao" class="com.parking.dao.connection.JpaConnectionDao"></bean>
-    <bean id="accountGroupDao" class="com.parking.dao.accountGroup.JpaUserGroupDao"></bean>
+    <bean id="postDao" class="com.parking.dao.post.JpaPostDao"/>
+    <bean id="userDao" class="com.parking.dao.user.JpaUserDao"/>
+    <bean id="vehicleDao" class="com.parking.dao.vehicle.JpaVehicleDao"/>
+    <bean id="parkingDao" class="com.parking.dao.parking.JpaParkingDao"/>
+    <bean id="connectionDao" class="com.parking.dao.connection.JpaConnectionDao"/>
+    <bean id="accountGroupDao" class="com.parking.dao.accountGroup.JpaUserGroupDao"/>
 
     <bean id="dataBaseInitializer"
           class="com.parking.dao.DataBaseInitializer"
           init-method="initDataBase">
         <constructor-arg ref="userDao"/>
-        <constructor-arg ref="newsEntryDao"/>
+        <constructor-arg ref="postDao"/>
         <constructor-arg ref="passwordEncoder"/>
     </bean>
 

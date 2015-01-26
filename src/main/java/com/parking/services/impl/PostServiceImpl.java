@@ -1,6 +1,6 @@
 package com.parking.services.impl;
 
-import com.parking.dao.newsentry.PostDao;
+import com.parking.dao.post.PostDao;
 import com.parking.dao.user.UserDao;
 import com.parking.entity.Post;
 import com.parking.entity.User;
