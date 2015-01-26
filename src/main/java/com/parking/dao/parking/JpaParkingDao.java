@@ -4,6 +4,7 @@ import com.parking.dao.JpaDao;
 import com.parking.entity.Parking;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +18,6 @@ public class JpaParkingDao extends JpaDao<Parking, Long> implements ParkingDao {
         super(Parking.class);
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public List<Parking> findAll() {
@@ -29,6 +29,20 @@ public class JpaParkingDao extends JpaDao<Parking, Long> implements ParkingDao {
 
         TypedQuery<Parking> typedQuery = this.getEntityManager().createQuery(criteriaQuery);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Parking> findParkingsByAccount(Long accountId) {
+        Query query = getEntityManager().createQuery("SELECT a FROM Parking a WHERE a.account.id=?1");
+        query.setParameter(1, accountId);
+        return query.getResultList();
+    }
+
+    public List<Parking> findParkingsByAccountName(String name){
+        Query query = getEntityManager().createQuery("SELECT a FROM Parking a WHERE a.account.name=?1");
+        query.setParameter(1, name);
+        return query.getResultList();
+
     }
 
 }

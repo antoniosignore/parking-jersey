@@ -3,10 +3,8 @@ package com.parking.entity;
 import com.parking.JsonViews;
 import org.codehaus.jackson.map.annotate.JsonView;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @javax.persistence.Entity
@@ -20,10 +18,17 @@ public class Post implements Entity {
     private Date date;
 
     @Column
+    @NotNull
+    private String title;
+
+    @Column
     private String content;
 
-    @ManyToOne
+    @OneToOne
     private User owner;
+
+    @OneToOne
+    private Post replyTo;
 
     public Post() {
         this.date = new Date();
@@ -62,6 +67,48 @@ public class Post implements Entity {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Post getReplyTo() {
+        return replyTo;
+    }
+
+    public void setReplyTo(Post replyTo) {
+        this.replyTo = replyTo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Post)) return false;
+
+        Post post = (Post) o;
+
+        if (!content.equals(post.content)) return false;
+        if (!date.equals(post.date)) return false;
+        if (!id.equals(post.id)) return false;
+        if (!owner.equals(post.owner)) return false;
+        if (!title.equals(post.title)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + content.hashCode();
+        result = 31 * result + owner.hashCode();
+        return result;
     }
 
     @Override

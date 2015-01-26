@@ -7,7 +7,7 @@
     <persistence-unit name="examplePU">
         <class>com.parking.entity.Post</class>
         <class>com.parking.entity.User</class>
-        <class>com.parking.entity.AccountGroup</class>
+        <class>com.parking.entity.UserGroup</class>
         <class>com.parking.entity.Connection</class>
         <class>com.parking.entity.Parking</class>
         <class>com.parking.entity.Vehicle</class>

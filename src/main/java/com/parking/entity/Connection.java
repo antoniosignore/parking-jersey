@@ -4,6 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.util.Date;
 
 @javax.persistence.Entity
 public class Connection implements Entity {
@@ -12,17 +13,19 @@ public class Connection implements Entity {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     private User initiator;
 
     @OneToOne
     private User receiver;
 
     @OneToOne
-    private AccountGroup initiatorGroup;
+    private UserGroup initiatorGroup;
 
     @OneToOne
-    private AccountGroup receiverGroup;
+    private UserGroup receiverGroup;
+
+    Date created;
 
     private Boolean confirmed;
 
@@ -53,19 +56,19 @@ public class Connection implements Entity {
         this.receiver = receiver;
     }
 
-    public AccountGroup getInitiatorGroup() {
+    public UserGroup getInitiatorGroup() {
         return initiatorGroup;
     }
 
-    public void setInitiatorGroup(AccountGroup initiatorGroup) {
+    public void setInitiatorGroup(UserGroup initiatorGroup) {
         this.initiatorGroup = initiatorGroup;
     }
 
-    public AccountGroup getReceiverGroup() {
+    public UserGroup getReceiverGroup() {
         return receiverGroup;
     }
 
-    public void setReceiverGroup(AccountGroup receiverGroup) {
+    public void setReceiverGroup(UserGroup receiverGroup) {
         this.receiverGroup = receiverGroup;
     }
 
@@ -75,6 +78,14 @@ public class Connection implements Entity {
 
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override

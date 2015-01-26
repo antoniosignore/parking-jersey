@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
 import java.util.List;
 
 @Service
@@ -30,6 +29,12 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<Vehicle> findByAccountName(Long name) {
-        return vehicleDao.findVehiclesByAccountId(name);
+        return vehicleDao.findVehiclesByAccountName(name);
     }
+
+    @Override
+    public List<Vehicle> findByAccountId(Long accountId) {
+        return vehicleDao.findVehiclesByAccountName(accountId);
+    }
+
 }

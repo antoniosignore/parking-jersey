@@ -1,95 +1,90 @@
 package com.parking.services.impl;
 
+import com.parking.dao.accountGroup.UserGroupDao;
+import com.parking.dao.connection.ConnectionDao;
+import com.parking.dao.newsentry.PostDao;
+import com.parking.dao.parking.ParkingDao;
+import com.parking.dao.user.UserDao;
+import com.parking.dao.vehicle.VehicleDao;
 import com.parking.entity.*;
-import com.parking.services.*;
+import com.parking.services.UserService;
 import com.parking.services.exceptions.*;
+import com.parking.services.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements UserService {
 
     @Autowired
-    private AccountRepo accountRepo;
+    private UserDao userDao;
 
     @Autowired
-    private BlogRepo blogRepo;
+    private PostDao blogRepo;
 
     @Autowired
-    private AccountGroupRepo accountGroupRepo;
+    private UserGroupDao userGroupRepo;
 
     @Autowired
-    private ConnectionRepo connectionRepo;
+    private ConnectionDao connectionRepo;
 
     @Autowired
-    private ParkingRepo parkingRepo;
+    private ParkingDao parkingRepo;
 
     @Autowired
-    private VehicleRepo vehicleRepo;
+    private VehicleDao vehicleRepo;
 
     @Override
-    public Account findAccount(Long id) {
-        return accountRepo.findAccount(id);
+    public User findUser(Long id) {
+        return userDao.find(id);
     }
 
     @Override
-    public Account createAccount(Account data) {
-
-        Account account = accountRepo.findAccountByName(data.getName());
-
-        if (account != null) {
-            throw new AccountExistsException();
-        }
-
-        return accountRepo.createAccount(data);
+    public User createUser(User data) {
+        User user = userDao.findByName(data.getName());
+        if (user != null) throw new AccountExistsException();
+        return userDao.save(data);
     }
 
     @Override
-    public Blog createBlog(Long accountId, Blog blog) {
+    public Post createPost(Long userId, Post blog) {
 
-        Blog blogSameTitle = blogRepo.findBlogByTitle(blog.getTitle());
-
+        Post blogSameTitle = blogRepo.findPostByTitle(blog.getContent());
         if (blogSameTitle != null) throw new BlogExistsException();
-
-        Account account = accountRepo.findAccount(accountId);
-
-        if (account == null) throw new AccountDoesNotExistException();
-
-        Blog createdBlog = blogRepo.createBlog(blog);
-
-        createdBlog.setOwner(account);
-
+        User user = userDao.find(userId);
+        if (user == null) throw new UserDoesNotExistException();
+        Post createdBlog = blogRepo.save(blog);
+        createdBlog.setOwner(user);
         return createdBlog;
     }
 
     @Override
-    public Connection createConnection(Long accountId, Long receiverId, Connection connection){
+    public Connection createConnection(Long userId, Long receiverId, Connection connection){
 
-        Connection byInitiatorReceiver = connectionRepo.findByInitiatorReceiver(accountId, receiverId);
+        Connection byInitiatorReceiver = connectionRepo.findByInitiatorReceiver(userId, receiverId);
         if (byInitiatorReceiver != null) throw new ConnectionExistsException();
 
-        Account initiator = accountRepo.findAccount(accountId);
-        if (initiator == null) throw new AccountDoesNotExistException();
+        User initiator = userDao.find(userId);
+        if (initiator == null) throw new UserDoesNotExistException();
 
-        Account receiver = accountRepo.findAccount(receiverId);
-        if (receiver == null) throw new AccountDoesNotExistException();
+        User receiver = userDao.find(receiverId);
+        if (receiver == null) throw new UserDoesNotExistException();
 
         connection.setInitiator(initiator);
         connection.setReceiver(receiver);
 
-        return connectionRepo.createConnection(connection);
-
+        return connectionRepo.save(connection);
     }
 
     @Override
-    public Parking createParking(Long accountId, Parking parking){
-        Account account = accountRepo.findAccount(accountId);
-        if (account == null) throw new AccountDoesNotExistException();
+    public Parking createParking(Long userId, Parking parking){
+        User user = userDao.find(userId);
+        if (user == null) throw new UserDoesNotExistException();
         try {
-            parking.setAccount(account);
-            parking = parkingRepo.createParking(parking);
+            parking.setAccount(user);
+            parking = parkingRepo.save(parking);
         } catch (Exception e) {
             e.printStackTrace();
             throw new GroupExistsException();
@@ -98,12 +93,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountGroup createAccountGroup(Long accountId, AccountGroup accountGroup) {
-        Account account = accountRepo.findAccount(accountId);
-        if (account == null) throw new AccountDoesNotExistException();
-        accountGroup.addAccount(account);
+    public UserGroup createUserGroup(Long userId, UserGroup userGroup) {
+        User user = userDao.find(userId);
+        if (user == null) throw new UserDoesNotExistException();
+        userGroup.setAccount(user);
         try {
-            return accountGroupRepo.createAccountGroup(accountGroup);
+            return userGroupRepo.save(userGroup);
         } catch (Exception e) {
             e.printStackTrace();
             throw new GroupExistsException();
@@ -111,12 +106,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Vehicle createVehicle(Long accountId, Vehicle vehicle) {
-        Account account = accountRepo.findAccount(accountId);
-        if (account == null) throw new AccountDoesNotExistException();
-        vehicle.setOwner(account);
+    public Vehicle createVehicle(Long userId, Vehicle vehicle) {
+        User user = userDao.find(userId);
+        if (user == null) throw new UserDoesNotExistException();
+        vehicle.setOwner(user);
         try {
-            return vehicleRepo.createVehicle(vehicle);
+            return vehicleRepo.save(vehicle);
         } catch (Exception e) {
             e.printStackTrace();
             throw new GroupExistsException();
@@ -124,57 +119,57 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public BlogList findBlogsByAccount(Long accountId) {
-        Account account = accountRepo.findAccount(accountId);
-        if (account == null) {
-            throw new AccountDoesNotExistException();
+    public PostList findPostsByUser(Long userId) {
+        User user = userDao.find(userId);
+        if (user == null) {
+            throw new UserDoesNotExistException();
         }
-        return new BlogList(blogRepo.findBlogsByAccountId(accountId));
+        return new PostList(blogRepo.findBlogsByAccountId(userId));
     }
 
     @Override
-    public ParkingList findParkingsByAccount(Long accountId) {
-        Parking parking = parkingRepo.findParking(accountId);
+    public ParkingList findParkingsByUser(Long userId) {
+        Parking parking = parkingRepo.find(userId);
         if (parking == null) {
             throw new ParkingDoesNotExistException();
         }
-        return new ParkingList(parkingRepo.findParkingsByAccount(accountId));
+        return new ParkingList(parkingRepo.findParkingsByAccount(userId));
     }
 
     @Override
-    public ConnectionList findConnectionsByAccount(Long accountId) {
-        Connection parking = connectionRepo.findConnection(accountId);
+    public ConnectionList findConnectionsByUser(Long userId) {
+        Connection parking = connectionRepo.find(userId);
         if (parking == null) {
             throw new ConnectionDoesNotExistException();
         }
-        return new ConnectionList(connectionRepo.findConnectionsByAccountId(accountId));
+        return new ConnectionList(connectionRepo.findConnectionsByAccountId(userId));
     }
 
     @Override
-    public VehicleList findVehiclesByAccount(Long accountId) {
-        Vehicle parking = vehicleRepo.findVehicle(accountId);
+    public VehicleList findVehiclesByUser(Long userId) {
+        Vehicle parking = vehicleRepo.find(userId);
         if (parking == null) {
             throw new VehicleDoesNotExistException();
         }
-        return new VehicleList(vehicleRepo.findVehiclesByAccountId(accountId));
+        return new VehicleList(vehicleRepo.findVehiclesByAccountId(userId));
     }
 
     @Override
-    public AccountGroupList findAccountGroupsByAccount(Long accountId) {
-        Account account = accountRepo.findAccount(accountId);
-        if (account == null) {
-            throw new AccountDoesNotExistException();
+    public AccountGroupList findUserGroupsByUser(Long userId) {
+        User user = userDao.find(userId);
+        if (user == null) {
+            throw new UserDoesNotExistException();
         }
-        return new AccountGroupList(account.getAccountGroups());
+        return new AccountGroupList(userGroupRepo.findByUserId(userId));
     }
 
     @Override
-    public AccountList findAllAccounts() {
-        return new AccountList(accountRepo.findAllAccounts());
+    public AccountList findAllUsers() {
+        return new AccountList(userDao.findAll());
     }
 
     @Override
-    public Account findByAccountName(String name) {
-        return accountRepo.findAccountByName(name);
+    public User findByUserName(String name) {
+        return userDao.findByName(name);
     }
 }

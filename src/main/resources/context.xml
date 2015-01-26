@@ -42,7 +42,7 @@
     <bean id="vehicleDao" class="com.parking.dao.vehicle.JpaVehicleDao"></bean>
     <bean id="parkingDao" class="com.parking.dao.parking.JpaParkingDao"></bean>
     <bean id="connectionDao" class="com.parking.dao.connection.JpaConnectionDao"></bean>
-    <bean id="accountGroupDao" class="com.parking.dao.accountGroup.JpaAccountGroupDao"></bean>
+    <bean id="accountGroupDao" class="com.parking.dao.accountGroup.JpaUserGroupDao"></bean>
 
     <bean id="dataBaseInitializer"
           class="com.parking.dao.DataBaseInitializer"

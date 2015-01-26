@@ -15,4 +15,10 @@ public interface ConnectionService {
     public List<Connection> findConnectionsByAccountName(String name);
 
     public List<Connection> findConnectionsByAccountId(Long id);
-}
+
+    public Connection findByInitiatorReceiver(Long initiatorId, Long receiverId);
+
+    public Connection findConnectionByAccountNames(String initiatorName, String receiverName) ;
+
+
+    }

@@ -1,7 +1,7 @@
 package com.parking.services.impl;
 
-import com.parking.dao.accountGroup.AccountGroupDao;
-import com.parking.entity.AccountGroup;
+import com.parking.dao.accountGroup.UserGroupDao;
+import com.parking.entity.UserGroup;
 import com.parking.services.AccountGroupService;
 import com.parking.services.util.AccountGroupList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountGroupServiceImpl implements AccountGroupService {
 
     @Autowired
-    private AccountGroupDao accountGroupRepo;
-
-    @Autowired
-    private AccountRepo accountRepo;
+    private UserGroupDao accountGroupRepo;
 
     @Override
     public AccountGroupList findAllGroups() {
@@ -24,14 +21,9 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     }
 
     @Override
-    public AccountGroup findAccountGroup(Long id) {
+    public UserGroup findAccountGroup(Long id) {
         return accountGroupRepo.find(id);
     }
-
-//    @Override
-//    public AccountGroup findAccountGroupEntry(Long id) {
-//        return accountGroupRepo.findAccountGroup(id);
-//    }
 
     @Override
     public void deleteAccountGroup(Long id) {
@@ -39,7 +31,7 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     }
 
     @Override
-    public AccountGroup updateAccountGroupEntry(Long id, AccountGroup data) {
+    public UserGroup updateAccountGroupEntry(Long id, UserGroup data) {
         return accountGroupRepo.save(data);
     }
 

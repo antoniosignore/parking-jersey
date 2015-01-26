@@ -4,6 +4,7 @@ import com.parking.dao.JpaDao;
 import com.parking.entity.Post;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,4 +32,30 @@ public class JpaPostDao extends JpaDao<Post, Long> implements PostDao {
         return typedQuery.getResultList();
     }
 
+    @Override
+    public Post findPostByTitle(String title) {
+        Query query = getEntityManager().createQuery("SELECT b from Post b where b.title=?1");
+        query.setParameter(1, title);
+        List<Post> blogs = query.getResultList();
+        if (blogs.isEmpty()) {
+            return null;
+        } else {
+            return blogs.get(0);
+        }
+    }
+
+    @Override
+    public List<Post> findBlogsByAccountId(Long accountId) {
+        Query query = getEntityManager().createQuery("SELECT b from Post b where b.owner.id=?1");
+        query.setParameter(1, accountId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Post> findAllRepliesByPostId(Long postId) {
+        Query query = getEntityManager().createQuery("SELECT b from Post b where b.replyTo.id=?1");
+        query.setParameter(1, postId);
+        return query.getResultList();
+
+    }
 }

@@ -1,9 +1,10 @@
 package com.parking.services.impl;
 
-import com.parking.core.models.entities.Parking;
-import com.parking.core.repositories.ParkingRepo;
-import com.parking.core.services.ParkingService;
-import com.parking.core.services.util.ParkingList;
+import com.parking.dao.parking.ParkingDao;
+import com.parking.entity.Parking;
+import com.parking.entity.Vehicle;
+import com.parking.services.ParkingService;
+import com.parking.services.util.ParkingList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,16 +16,15 @@ import java.util.List;
 public class ParkingServiceImpl implements ParkingService {
 
     @Autowired
-    private ParkingRepo parkingRepo;
+    private ParkingDao parkingRepo;
 
     @Override
     public ParkingList findAllParkings() {
-        return new ParkingList(parkingRepo.findAllParkings());
+        return new ParkingList(parkingRepo.findAll());
     }
 
     @Override
-    public Parking findParking(Long id) {
-        return parkingRepo.findParking(id);
+    public Parking findParking(Long id) { return parkingRepo.find(id);
     }
 
     @Override
@@ -36,10 +36,5 @@ public class ParkingServiceImpl implements ParkingService {
     public List<Parking> findParkingsByAccountName(String name) {
         return parkingRepo.findParkingsByAccountName(name);
     }
-
-//    @Override
-//    public Parking createParking(Long accountId, Parking data){
-//        return parkingRepo.createParking(data);
-//    }
 
 }

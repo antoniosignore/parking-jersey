@@ -13,4 +13,6 @@ public interface VehicleService {
 
     public List<Vehicle> findByAccountName(Long name);
 
-    }
+    public List<Vehicle> findByAccountId(Long accountId) ;
+
+}

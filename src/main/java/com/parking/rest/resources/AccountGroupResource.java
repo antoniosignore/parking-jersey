@@ -1,8 +1,8 @@
 package com.parking.rest.resources;
 
-import com.parking.entity.AccountGroup;
+import com.parking.entity.UserGroup;
 import com.parking.JsonViews;
-import com.parking.dao.accountGroup.AccountGroupDao;
+import com.parking.dao.accountGroup.UserGroupDao;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -29,7 +29,7 @@ public class AccountGroupResource {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private AccountGroupDao accountgroupDao;
+    private UserGroupDao accountgroupDao;
 
     @Autowired
     private ObjectMapper mapper;
@@ -45,7 +45,7 @@ public class AccountGroupResource {
         } else {
             viewWriter = this.mapper.writerWithView(JsonViews.User.class);
         }
-        List<AccountGroup> allEntries = this.accountgroupDao.findAll();
+        List<UserGroup> allEntries = this.accountgroupDao.findAll();
 
         return viewWriter.writeValueAsString(allEntries);
     }
@@ -53,10 +53,10 @@ public class AccountGroupResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public AccountGroup read(@PathParam("id") Long id) {
+    public UserGroup read(@PathParam("id") Long id) {
         this.logger.info("read(id)");
 
-        AccountGroup accountgroup = this.accountgroupDao.find(id);
+        UserGroup accountgroup = this.accountgroupDao.find(id);
         if (accountgroup == null) {
             throw new WebApplicationException(404);
         }
@@ -66,7 +66,7 @@ public class AccountGroupResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AccountGroup create(AccountGroup accountgroup) {
+    public UserGroup create(UserGroup accountgroup) {
         this.logger.info("create(): " + accountgroup);
 
         return this.accountgroupDao.save(accountgroup);
@@ -77,7 +77,7 @@ public class AccountGroupResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public AccountGroup update(@PathParam("id") Long id, AccountGroup accountgroup) {
+    public UserGroup update(@PathParam("id") Long id, UserGroup accountgroup) {
         this.logger.info("update(): " + accountgroup);
 
         return this.accountgroupDao.save(accountgroup);
