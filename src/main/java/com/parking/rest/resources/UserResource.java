@@ -1,5 +1,6 @@
 package com.parking.rest.resources;
 
+import com.parking.entity.Post;
 import com.parking.rest.TokenUtils;
 import com.parking.transfer.TokenTransfer;
 import com.parking.transfer.UserTransfer;
@@ -77,7 +78,6 @@ public class UserResource {
 
         return new TokenTransfer(TokenUtils.createToken(userDetails));
     }
-
 
     private Map<String, Boolean> createRoleMap(UserDetails userDetails) {
         Map<String, Boolean> roles = new HashMap<String, Boolean>();
