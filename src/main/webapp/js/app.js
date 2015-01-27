@@ -105,7 +105,6 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
                 $location.path(originalPath);
             });
         }
-
         $rootScope.initialized = true;
     });
 
@@ -121,11 +120,8 @@ function IndexController($scope, PostService) {
     };
 };
 
-
 function EditController($scope, $routeParams, $location, PostService) {
-
     $scope.post = PostService.get({id: $routeParams.id});
-
     $scope.save = function () {
         $scope.post.$save(function () {
             $location.path('/');
@@ -133,11 +129,8 @@ function EditController($scope, $routeParams, $location, PostService) {
     };
 };
 
-
 function CreateController($scope, $location, PostService) {
-
     $scope.post = new PostService();
-
     $scope.save = function () {
         $scope.post.$save(function () {
             $location.path('/');
@@ -147,9 +140,7 @@ function CreateController($scope, $location, PostService) {
 
 
 function LoginController($scope, $rootScope, $location, $cookieStore, UserService) {
-
     $scope.rememberMe = false;
-
     $scope.login = function () {
         UserService.authenticate($.param({
             username: $scope.username,
@@ -172,7 +163,6 @@ function LoginController($scope, $rootScope, $location, $cookieStore, UserServic
 var services = angular.module('exampleApp.services', ['ngResource']);
 
 services.factory('UserService', function ($resource) {
-
     return $resource('rest/account/:action', {},
         {
             authenticate: {
@@ -185,6 +175,21 @@ services.factory('UserService', function ($resource) {
 });
 
 services.factory('PostService', function ($resource) {
-
     return $resource('rest/post/:id', {id: '@id'});
+});
+
+services.factory('AccountGroupService', function ($resource) {
+    return $resource('rest/accountGroups/:id', {id: '@id'});
+});
+
+services.factory('ConnectionService', function ($resource) {
+    return $resource('rest/connection/:id', {id: '@id'});
+});
+
+services.factory('ParkingService', function ($resource) {
+    return $resource('rest/parking/:id', {id: '@id'});
+});
+
+services.factory('VehicleService', function ($resource) {
+    return $resource('rest/vehicle/:id', {id: '@id'});
 });

@@ -3,8 +3,6 @@ package com.parking.rest.resources;
 import com.parking.JsonViews;
 import com.parking.dao.post.PostDao;
 import com.parking.entity.Post;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.slf4j.Logger;
@@ -34,10 +32,9 @@ public class PostResource {
     @Autowired
     private ObjectMapper mapper;
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String list() throws JsonGenerationException, JsonMappingException, IOException {
+    public String list() throws IOException {
         this.logger.info("list()");
 
         ObjectWriter viewWriter;
