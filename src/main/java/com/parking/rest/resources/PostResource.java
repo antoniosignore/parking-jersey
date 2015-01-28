@@ -97,18 +97,45 @@ public class PostResource {
     private boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
-        if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
+        if (principal instanceof String && (principal).equals("anonymousUser")) {
             return false;
         }
         UserDetails userDetails = (UserDetails) principal;
-
         for (GrantedAuthority authority : userDetails.getAuthorities()) {
             if (authority.toString().equals("admin")) {
                 return true;
             }
         }
-
         return false;
     }
 
+
+
+
+
+    /*
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedIn = accountService.findByAccountName(details.getUsername());
+            if (loggedIn.getId() == accountId) {
+                try {
+                    AccountGroup createdAccountGroup = accountService.createAccountGroup(accountId, res.toAccountGroup());
+                    AccountGroupResource accountGroupResource = new AccountGroupResourceAsm().toResource(createdAccountGroup);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setLocation(URI.create(accountGroupResource.getLink("self").getHref()));
+                    return new ResponseEntity<AccountGroupResource>(accountGroupResource, headers, HttpStatus.CREATED);
+                } catch (AccountDoesNotExistException exception) {
+                    throw new NotFoundException(exception);
+                } catch (BlogExistsException exception) {
+                    throw new ConflictException(exception);
+                }
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new ForbiddenException();
+        }
+
+     */
 }

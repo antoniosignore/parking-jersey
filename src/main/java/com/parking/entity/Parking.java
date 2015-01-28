@@ -14,14 +14,15 @@ public class Parking implements com.parking.entity.Entity {
     Account pickedBy;
 
     @OneToOne
-
     Vehicle vehicle;
 
     Date whenPicked;
 
-    Long latitude;
+    @Column(nullable = true)
+    private Double latitude;
 
-    Long longitude;
+    @Column(nullable = true)
+    private Double longitude;
 
     @Id
     @GeneratedValue
@@ -68,19 +69,19 @@ public class Parking implements com.parking.entity.Entity {
         this.whenPicked = whenPicked;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -112,33 +113,14 @@ public class Parking implements com.parking.entity.Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Parking)) return false;
-
         Parking parking = (Parking) o;
-
-        if (!account.equals(parking.account)) return false;
         if (!id.equals(parking.id)) return false;
-        if (!latitude.equals(parking.latitude)) return false;
-        if (!longitude.equals(parking.longitude)) return false;
-        if (!parkingDate.equals(parking.parkingDate)) return false;
-        if (!pickedBy.equals(parking.pickedBy)) return false;
-        if (status != parking.status) return false;
-        if (!vehicle.equals(parking.vehicle)) return false;
-        if (!whenPicked.equals(parking.whenPicked)) return false;
-
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = parkingDate.hashCode();
-        result = 31 * result + pickedBy.hashCode();
-        result = 31 * result + vehicle.hashCode();
-        result = 31 * result + whenPicked.hashCode();
-        result = 31 * result + latitude.hashCode();
-        result = 31 * result + longitude.hashCode();
-        result = 31 * result + id.hashCode();
-        result = 31 * result + account.hashCode();
-        result = 31 * result + status.hashCode();
+        int result = 31 * id.hashCode();
         return result;
     }
 

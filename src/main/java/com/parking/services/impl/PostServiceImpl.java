@@ -6,7 +6,7 @@ import com.parking.entity.Post;
 import com.parking.entity.Account;
 import com.parking.services.PostService;
 import com.parking.services.exceptions.BlogNotFoundException;
-import com.parking.services.exceptions.UserDoesNotExistException;
+import com.parking.services.exceptions.AccountDoesNotExistException;
 import com.parking.services.util.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class PostServiceImpl implements PostService {
     public Post createPost(Long accountId, Post reply) {
 
         Account poster = accountDao.find(accountId);
-        if (poster == null) throw new UserDoesNotExistException();
+        if (poster == null) throw new AccountDoesNotExistException();
 
         reply.setOwner(poster);
         Post entry = postDao.save(reply);

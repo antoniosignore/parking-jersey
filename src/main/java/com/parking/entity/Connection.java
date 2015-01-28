@@ -97,9 +97,7 @@ public class Connection implements Entity {
         if (!confirmed.equals(that.confirmed)) return false;
         if (!id.equals(that.id)) return false;
         if (!initiator.equals(that.initiator)) return false;
-        if (!initiatorGroup.equals(that.initiatorGroup)) return false;
         if (!receiver.equals(that.receiver)) return false;
-        if (!receiverGroup.equals(that.receiverGroup)) return false;
 
         return true;
     }
@@ -111,7 +109,6 @@ public class Connection implements Entity {
         result = 31 * result + receiver.hashCode();
         result = 31 * result + initiatorGroup.hashCode();
         result = 31 * result + receiverGroup.hashCode();
-        result = 31 * result + confirmed.hashCode();
         return result;
     }
 

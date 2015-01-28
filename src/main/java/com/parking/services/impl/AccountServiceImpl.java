@@ -54,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
         Post blogSameTitle = postDao.findPostByTitle(blog.getContent());
         if (blogSameTitle != null) throw new BlogExistsException();
         Account account = accountDao.find(userId);
-        if (account == null) throw new UserDoesNotExistException();
+        if (account == null) throw new AccountDoesNotExistException();
         Post createdBlog = postDao.save(blog);
         createdBlog.setOwner(account);
         return createdBlog;
@@ -67,10 +67,10 @@ public class AccountServiceImpl implements AccountService {
         if (byInitiatorReceiver != null) throw new ConnectionExistsException();
 
         Account initiator = accountDao.find(userId);
-        if (initiator == null) throw new UserDoesNotExistException();
+        if (initiator == null) throw new AccountDoesNotExistException();
 
         Account receiver = accountDao.find(receiverId);
-        if (receiver == null) throw new UserDoesNotExistException();
+        if (receiver == null) throw new AccountDoesNotExistException();
 
         connection.setInitiator(initiator);
         connection.setReceiver(receiver);
@@ -81,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Parking createParking(Long userId, Parking parking){
         Account account = accountDao.find(userId);
-        if (account == null) throw new UserDoesNotExistException();
+        if (account == null) throw new AccountDoesNotExistException();
         try {
             parking.setAccount(account);
             parking = parkingDao.save(parking);
@@ -95,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public UserGroup createUserGroup(Long userId, UserGroup userGroup) {
         Account account = accountDao.find(userId);
-        if (account == null) throw new UserDoesNotExistException();
+        if (account == null) throw new AccountDoesNotExistException();
         userGroup.setAccount(account);
         try {
             return userGroupDao.save(userGroup);
@@ -108,7 +108,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Vehicle createVehicle(Long userId, Vehicle vehicle) {
         Account account = accountDao.find(userId);
-        if (account == null) throw new UserDoesNotExistException();
+        if (account == null) throw new AccountDoesNotExistException();
         vehicle.setOwner(account);
         try {
             return vehicleDao.save(vehicle);
@@ -122,7 +122,7 @@ public class AccountServiceImpl implements AccountService {
     public PostList findPostsByUser(Long userId) {
         Account account = accountDao.find(userId);
         if (account == null) {
-            throw new UserDoesNotExistException();
+            throw new AccountDoesNotExistException();
         }
         return new PostList(postDao.findBlogsByAccountId(userId));
     }
@@ -158,7 +158,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountGroupList findUserGroupsByUser(Long userId) {
         Account account = accountDao.find(userId);
         if (account == null) {
-            throw new UserDoesNotExistException();
+            throw new AccountDoesNotExistException();
         }
         return new AccountGroupList(userGroupDao.findByUserId(userId));
     }

@@ -61,23 +61,14 @@ public class Vehicle implements Entity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vehicle)) return false;
-
         Vehicle vehicle = (Vehicle) o;
-
         if (!id.equals(vehicle.id)) return false;
-        if (!licensePlate.equals(vehicle.licensePlate)) return false;
-        if (!name.equals(vehicle.name)) return false;
-        if (!owner.equals(vehicle.owner)) return false;
-
         return true;
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + licensePlate.hashCode();
-        result = 31 * result + owner.hashCode();
         return result;
     }
 

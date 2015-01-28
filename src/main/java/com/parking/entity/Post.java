@@ -81,23 +81,14 @@ public class Post implements Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Post)) return false;
-
         Post post = (Post) o;
-
-        if (!date.equals(post.date)) return false;
         if (!id.equals(post.id)) return false;
-        if (!owner.equals(post.owner)) return false;
-        if (!title.equals(post.title)) return false;
-
         return true;
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + owner.hashCode();
         return result;
     }
 

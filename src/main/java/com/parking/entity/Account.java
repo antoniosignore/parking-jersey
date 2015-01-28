@@ -26,6 +26,11 @@ public class Account implements com.parking.entity.Entity, UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<String>();
 
+    @Column(nullable = true)
+    private Double latitude;
+
+    @Column(nullable = true)
+    private Double longitude;
 
     public Account() {
         /* Reflection instantiation */
@@ -84,6 +89,22 @@ public class Account implements com.parking.entity.Entity, UserDetails {
     }
 
 
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<String> roles = this.getRoles();
@@ -99,7 +120,6 @@ public class Account implements com.parking.entity.Entity, UserDetails {
 
         return authorities;
     }
-
 
     @Override
     public String getUsername() {
@@ -130,4 +150,20 @@ public class Account implements com.parking.entity.Entity, UserDetails {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+
+        Account account = (Account) o;
+
+        if (!id.equals(account.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

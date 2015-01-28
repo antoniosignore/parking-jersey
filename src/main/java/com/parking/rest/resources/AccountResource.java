@@ -1,11 +1,22 @@
 package com.parking.rest.resources;
 
+import com.parking.entity.Account;
 import com.parking.entity.Post;
 import com.parking.rest.TokenUtils;
+import com.parking.rest.exceptions.ForbiddenException;
+import com.parking.services.AccountService;
+import com.parking.services.exceptions.AccountDoesNotExistException;
+import com.parking.services.exceptions.BlogExistsException;
 import com.parking.transfer.TokenTransfer;
 import com.parking.transfer.UserTransfer;
+import com.sun.jersey.api.ConflictException;
+import com.sun.jersey.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +44,9 @@ public class AccountResource {
     private AuthenticationManager authManager;
 
 
+    @Autowired
+    private AccountService accountService;
+
     /**
      * Retrieves the currently logged in account.
      *
@@ -50,7 +64,6 @@ public class AccountResource {
 
         return new UserTransfer(userDetails.getUsername(), this.createRoleMap(userDetails));
     }
-
 
     /**
      * Authenticates a account and creates an authentication token.
@@ -86,5 +99,47 @@ public class AccountResource {
         }
         return roles;
     }
+
+    @Path("/{accountName}/post")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Post createPost(
+            Post post,
+            @PathParam("accountName") String accountName) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedIn = accountService.findByUserName(details.getUsername());
+            if (loggedIn.getName().equals(accountName)) {
+                try {
+                    Post createPost = accountService.createPost(loggedIn.getId(), post);
+                    return createPost;
+                } catch (AccountDoesNotExistException exception) {
+                    throw new NotFoundException();
+                } catch (BlogExistsException exception) {
+                    throw new ConflictException();
+                }
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+//    @RequestMapping(value = "/{accountId}/blogs", method = RequestMethod.GET)
+//    @PreAuthorize("permitAll")
+//    public ResponseEntity<BlogListResource> findAllBlogs(
+//            @PathVariable Long accountId) {
+//        try {
+//            BlogList blogList = accountService.findBlogsByAccount(accountId);
+//            BlogListResource blogListRes = new BlogListResourceAsm().toResource(blogList);
+//            return new ResponseEntity<BlogListResource>(blogListRes, HttpStatus.OK);
+//        } catch (AccountDoesNotExistException exception) {
+//            throw new NotFoundException(exception);
+//        }
+//    }
+
 
 }
