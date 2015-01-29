@@ -69,7 +69,6 @@
     <!--
         SPRING SECURITY SETUP
     -->
-
     <bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
         <constructor-arg value="ThisIsASecretSoChangeMe"/>
     </bean>
