@@ -49,17 +49,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Post createPost(Long userId, Post blog) {
+    public Post createPost(Long userId, Post post) {
 
-        Post blogSameTitle = postDao.findPostByTitle(blog.getContent());
+        Post blogSameTitle = postDao.findPostByTitle(post.getContent());
         if (blogSameTitle != null) throw new BlogExistsException();
 
         Account account = accountDao.find(userId);
         if (account == null) throw new AccountDoesNotExistException();
 
-        blog.setOwner(account);
+        post.setOwner(account);
 
-        Post createdBlog = postDao.save(blog);
+        Post createdBlog = postDao.save(post);
         createdBlog.setOwner(account);
         return createdBlog;
     }
