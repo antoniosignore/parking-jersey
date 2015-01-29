@@ -1,6 +1,7 @@
 package com.parking.entity;
 
 import com.parking.JsonViews;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonView;
 
 import javax.persistence.*;

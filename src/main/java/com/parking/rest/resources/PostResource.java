@@ -5,6 +5,7 @@ import com.parking.dao.post.PostDao;
 import com.parking.entity.Post;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +44,13 @@ public class PostResource {
         } else {
             viewWriter = this.mapper.writerWithView(JsonViews.User.class);
         }
+
+//        this.mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+
         List<Post> allEntries = this.postDao.findAll();
 
         return viewWriter.writeValueAsString(allEntries);
     }
-
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -62,7 +65,6 @@ public class PostResource {
         return post;
     }
 
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -71,7 +73,6 @@ public class PostResource {
 
         return this.postDao.save(post);
     }
-
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

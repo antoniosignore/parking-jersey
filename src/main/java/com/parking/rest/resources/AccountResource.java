@@ -13,10 +13,6 @@ import com.sun.jersey.api.ConflictException;
 import com.sun.jersey.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -78,6 +74,10 @@ public class AccountResource {
     public TokenTransfer authenticate(
             @FormParam("username") String username,
             @FormParam("password") String password) {
+
+        System.out.println("\n\n************\nusername = " + username);
+        System.out.println("password = " + password);
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = this.authManager.authenticate(authenticationToken);
@@ -113,6 +113,9 @@ public class AccountResource {
             Account loggedIn = accountService.findByUserName(details.getUsername());
             if (loggedIn.getName().equals(accountName)) {
                 try {
+
+                    System.out.println("\n\n*************\nloggedIn = " + loggedIn.getId());
+
                     Post createPost = accountService.createPost(loggedIn.getId(), post);
                     return createPost;
                 } catch (AccountDoesNotExistException exception) {

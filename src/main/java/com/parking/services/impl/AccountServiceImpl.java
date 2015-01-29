@@ -53,8 +53,12 @@ public class AccountServiceImpl implements AccountService {
 
         Post blogSameTitle = postDao.findPostByTitle(blog.getContent());
         if (blogSameTitle != null) throw new BlogExistsException();
+
         Account account = accountDao.find(userId);
         if (account == null) throw new AccountDoesNotExistException();
+
+        blog.setOwner(account);
+
         Post createdBlog = postDao.save(blog);
         createdBlog.setOwner(account);
         return createdBlog;
