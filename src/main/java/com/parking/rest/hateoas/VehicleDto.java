@@ -1,9 +1,11 @@
 package com.parking.rest.hateoas;
 
 import com.parking.entity.Vehicle;
-import org.springframework.hateoas.ResourceSupport;
 
-public class VehicleResource extends ResourceSupport {
+
+public class VehicleDto {
+
+
 
     private String name;
 

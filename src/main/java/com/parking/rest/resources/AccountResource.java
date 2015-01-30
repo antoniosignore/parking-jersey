@@ -1,9 +1,12 @@
 package com.parking.rest.resources;
 
+import com.jayway.jaxrs.hateoas.Linkable;
+import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.parking.entity.Account;
 import com.parking.entity.Post;
 import com.parking.rest.TokenUtils;
 import com.parking.rest.exceptions.ForbiddenException;
+import com.parking.rest.hateoas.PostDto;
 import com.parking.services.AccountService;
 import com.parking.services.exceptions.AccountDoesNotExistException;
 import com.parking.services.exceptions.BlogExistsException;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +42,6 @@ public class AccountResource {
     @Autowired
     @Qualifier("authenticationManager")
     private AuthenticationManager authManager;
-
 
     @Autowired
     private AccountService accountService;
@@ -77,6 +80,7 @@ public class AccountResource {
 
         System.out.println("\n\n************\nusername = " + username);
         System.out.println("password = " + password);
+        System.out.println("authManager = " + authManager);
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -101,10 +105,11 @@ public class AccountResource {
     }
 
     @Path("/{accountName}/post")
+    @Linkable(value = LinkableIds.POST_NEW_ID, templateClass = PostDto.class)
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Post createPost(
+    public Response createPost(
             Post post,
             @PathParam("accountName") String accountName) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -113,11 +118,10 @@ public class AccountResource {
             Account loggedIn = accountService.findByUserName(details.getUsername());
             if (loggedIn.getName().equals(accountName)) {
                 try {
-
-                    System.out.println("\n\n*************\nloggedIn = " + loggedIn.getId());
-
                     Post createPost = accountService.createPost(loggedIn.getId(), post);
-                    return createPost;
+                    return HateoasResponse
+                            .created(LinkableIds.POST_DETAILS_ID, createPost.getId())
+                            .entity(PostDto.fromBean(createPost)).build();
                 } catch (AccountDoesNotExistException exception) {
                     throw new NotFoundException();
                 } catch (BlogExistsException exception) {
@@ -130,6 +134,37 @@ public class AccountResource {
             throw new ForbiddenException();
         }
     }
+
+//    @Path("/{accountName}/post")
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Post createPost(
+//            Post post,
+//            @PathParam("accountName") String accountName) {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            UserDetails details = (UserDetails) principal;
+//            Account loggedIn = accountService.findByUserName(details.getUsername());
+//            if (loggedIn.getName().equals(accountName)) {
+//                try {
+//
+//                    System.out.println("\n\n*************\nloggedIn = " + loggedIn.getId());
+//
+//                    Post createPost = accountService.createPost(loggedIn.getId(), post);
+//                    return createPost;
+//                } catch (AccountDoesNotExistException exception) {
+//                    throw new NotFoundException();
+//                } catch (BlogExistsException exception) {
+//                    throw new ConflictException();
+//                }
+//            } else {
+//                throw new ForbiddenException();
+//            }
+//        } else {
+//            throw new ForbiddenException();
+//        }
+//    }
 
 //    @RequestMapping(value = "/{accountId}/blogs", method = RequestMethod.GET)
 //    @PreAuthorize("permitAll")

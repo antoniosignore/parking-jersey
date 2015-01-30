@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
 
-    <display-name>angular-rest-springsecurity</display-name>
+    <display-name>Parking</display-name>
 
     <!--
         Load Spring Context
@@ -21,8 +21,7 @@
 
     <!--
         Map the REST Servlet to /rest/
-     -->
-    <servlet>
+         <servlet>
         <servlet-name>RestService</servlet-name>
         <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
         <init-param>
@@ -39,6 +38,63 @@
         <servlet-name>RestService</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
+     -->
+    <servlet>
+        <servlet-name>Hateoas</servlet-name>
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.parking.rest.application.ParkingApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
+            <param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+            <param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.config.feature.logging.DisableEntitylogging</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>com.parking.rest.resources</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>com.jayway.jaxrs.hateoas.verbosity</param-name>
+            <param-value>GENERIC_CLIENT</param-value>
+            <!--
+            The configuration above is a shortcut (named configuration), equivalent
+            to the detailed configuration below.
+
+            <param-value>REL, HREF, CONSUMES, METHOD, TEMPLATE</param-value>
+            -->
+        </init-param>
+        <init-param>
+            <param-name>com.jayway.jaxrs.hateoas.HateoasLinkInjector</param-name>
+            <param-value>com.jayway.jaxrs.hateoas.support.StrategyBasedLinkInjector</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.jayway.jaxrs.hateoas.CollectionWrapperStrategy</param-name>
+            <param-value>com.jayway.jaxrs.hateoas.support.DefaultCollectionWrapperStrategy</param-value>
+        </init-param>
+
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Hateoas</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
 
     <!--
         Apply Spring Security Filter to all Requests

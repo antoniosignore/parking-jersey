@@ -1,9 +1,9 @@
 package com.parking.rest.hateoas;
 
 import com.parking.entity.UserGroup;
-import org.springframework.hateoas.ResourceSupport;
 
-public class UserGroupResource extends ResourceSupport {
+
+public class AccountGroupDto {
 
     private String groupName;
 

@@ -2,11 +2,11 @@ package com.parking.rest.hateoas;
 
 import com.parking.entity.Parking;
 import com.parking.entity.ParkingStatusEnum;
-import org.springframework.hateoas.ResourceSupport;
+
 
 import java.util.Date;
 
-public class ParkingResource extends ResourceSupport {
+public class ParkingDto {
 
     ParkingStatusEnum status;
 

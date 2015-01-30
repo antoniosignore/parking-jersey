@@ -1,9 +1,9 @@
 package com.parking.rest.hateoas;
 
 import com.parking.entity.Connection;
-import org.springframework.hateoas.ResourceSupport;
 
-public class ConnectionResource extends ResourceSupport {
+
+public class ConnectionDto {
 
     private Boolean confirmed;
 

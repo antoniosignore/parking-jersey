@@ -1,11 +1,19 @@
 package com.parking.rest.resources;
 
-import com.parking.JsonViews;
+import com.jayway.jaxrs.hateoas.Linkable;
+import com.jayway.jaxrs.hateoas.core.HateoasResponse;
+import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.dao.post.PostDao;
+import com.parking.entity.Account;
 import com.parking.entity.Post;
+import com.parking.rest.exceptions.ForbiddenException;
+import com.parking.rest.hateoas.PostDto;
+import com.parking.services.AccountService;
+import com.parking.services.exceptions.AccountDoesNotExistException;
+import com.parking.services.exceptions.BlogExistsException;
+import com.sun.jersey.api.ConflictException;
+import com.sun.jersey.api.NotFoundException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-import org.codehaus.jackson.map.SerializationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 
@@ -33,46 +41,91 @@ public class PostResource {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private AccountService accountService;
+
     @GET
+    @Linkable(LinkableIds.POSTS_LIST_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public String list() throws IOException {
-        this.logger.info("list()");
-
-        ObjectWriter viewWriter;
-        if (this.isAdmin()) {
-            viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
-        } else {
-            viewWriter = this.mapper.writerWithView(JsonViews.User.class);
-        }
-
-//        this.mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-
+    public Response list() {
         List<Post> allEntries = this.postDao.findAll();
-
-        return viewWriter.writeValueAsString(allEntries);
+        return HateoasResponse
+                .ok(PostDto.fromBeanCollection(allEntries))
+                .selfLink(LinkableIds.POST_NEW_ID)
+                .selfEach(LinkableIds.POST_DETAILS_ID, "id").build();
     }
 
+
+//    public String list() throws IOException {
+//        this.logger.info("list()");
+//
+//        ObjectWriter viewWriter;
+//        if (this.isAdmin()) {
+//            viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
+//        } else {
+//            viewWriter = this.mapper.writerWithView(JsonViews.User.class);
+//        }
+//
+//        List<Post> allEntries = this.postDao.findAll();
+//
+//        return viewWriter.writeValueAsString(allEntries);
+//    }
+
     @GET
+    @Linkable(LinkableIds.POST_DETAILS_ID)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Post read(@PathParam("id") Long id) {
+    public Response getPostById(@PathParam("id") Long id) {
         this.logger.info("read(id)");
 
         Post post = this.postDao.find(id);
-        if (post == null) {
-            throw new WebApplicationException(404);
-        }
-        return post;
+        HateoasResponse.HateoasResponseBuilder builder = HateoasResponse
+                .ok(PostDto.fromBean(post))
+                .link(LinkableIds.BOOK_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Post create(Post post) {
-        this.logger.info("create(): " + post);
 
-        return this.postDao.save(post);
-    }
+//    @GET
+//    @Linkable(LinkableIds.BOOK_DETAILS_ID)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getBookById(@PathParam("id") Integer id) {
+//        Book book = bookRepository.getBookById(id);
+//        HateoasResponse.HateoasResponseBuilder builder = HateoasResponse
+//                .ok(BookDto.fromBean(book))
+//                .link(LinkableIds.BOOK_UPDATE_ID, AtomRels.SELF, id);
+//
+//        if (!book.isBorrowed()) {
+//            builder.link(LinkableIds.LOAN_NEW_ID, Rels.LOANS);
+//        } else {
+//            builder.link(LinkableIds.LOAN_DETAILS_ID, Rels.LOAN, book.getId());
+//        }
+//        return builder.build();
+//    }
+
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Post create(Post post) {
+//        this.logger.info("create(): " + post);
+//
+//        return this.postDao.save(post);
+//    }
+
+//    @POST
+//    @Linkable(value = LinkableIds.POST_NEW_ID, templateClass = PostDto.class)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response newPost(PostDto book) {
+//
+//        Post newBook = bookRepository
+//                .newBook(book.getAuthor(), book.getTitle());
+//
+//        return HateoasResponse
+//                .created(LinkableIds.POST_DETAILS_ID, newBook.getId())
+//                .entity(PostDto.fromBean(newBook)).build();
+//    }
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

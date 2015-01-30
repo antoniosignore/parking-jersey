@@ -3,9 +3,9 @@ package com.parking.rest.hateoas;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.parking.entity.Account;
-import org.springframework.hateoas.ResourceSupport;
 
-public class AccountResource extends ResourceSupport {
+
+public class AccountDto {
 
     private String name;
 

@@ -29,7 +29,7 @@ public class AccountGroupResource {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserGroupDao accountgroupDao;
+    private UserGroupDao userGroupDao;
 
     @Autowired
     private ObjectMapper mapper;
@@ -45,7 +45,7 @@ public class AccountGroupResource {
         } else {
             viewWriter = this.mapper.writerWithView(JsonViews.User.class);
         }
-        List<UserGroup> allEntries = this.accountgroupDao.findAll();
+        List<UserGroup> allEntries = this.userGroupDao.findAll();
 
         return viewWriter.writeValueAsString(allEntries);
     }
@@ -56,7 +56,7 @@ public class AccountGroupResource {
     public UserGroup read(@PathParam("id") Long id) {
         this.logger.info("read(id)");
 
-        UserGroup accountgroup = this.accountgroupDao.find(id);
+        UserGroup accountgroup = this.userGroupDao.find(id);
         if (accountgroup == null) {
             throw new WebApplicationException(404);
         }
@@ -69,7 +69,7 @@ public class AccountGroupResource {
     public UserGroup create(UserGroup accountgroup) {
         this.logger.info("create(): " + accountgroup);
 
-        return this.accountgroupDao.save(accountgroup);
+        return this.userGroupDao.save(accountgroup);
     }
 
 
@@ -80,7 +80,7 @@ public class AccountGroupResource {
     public UserGroup update(@PathParam("id") Long id, UserGroup accountgroup) {
         this.logger.info("update(): " + accountgroup);
 
-        return this.accountgroupDao.save(accountgroup);
+        return this.userGroupDao.save(accountgroup);
     }
 
 
@@ -90,7 +90,7 @@ public class AccountGroupResource {
     public void delete(@PathParam("id") Long id) {
         this.logger.info("delete(id)");
 
-        this.accountgroupDao.delete(id);
+        this.userGroupDao.delete(id);
     }
 
 
