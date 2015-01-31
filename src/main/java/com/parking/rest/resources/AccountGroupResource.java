@@ -1,8 +1,8 @@
 package com.parking.rest.resources;
 
-import com.parking.entity.AccountGroup;
 import com.parking.JsonViews;
 import com.parking.dao.accountGroup.UserGroupDao;
+import com.parking.entity.AccountGroup;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;

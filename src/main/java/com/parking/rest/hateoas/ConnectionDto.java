@@ -20,6 +20,19 @@ public class ConnectionDto {
         this.confirmed = confirmed;
     }
 
+    public static ConnectionDto fromBean(Connection connection) {
+        return new ConnectionDto(connection.getId(), connection.getConfirmed());
+    }
+
+    public static Collection<ConnectionDto> fromBeanCollection(Collection<Connection> connections) {
+        return Collections2.transform(connections, new Function<Connection, ConnectionDto>() {
+            @Override
+            public ConnectionDto apply(Connection connection) {
+                return fromBean(connection);
+            }
+        });
+    }
+
     public Long getId() {
         return id;
     }
@@ -34,19 +47,6 @@ public class ConnectionDto {
 
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
-    }
-
-    public static ConnectionDto fromBean(Connection connection) {
-        return new ConnectionDto(connection.getId(), connection.getConfirmed());
-    }
-
-    public static Collection<ConnectionDto> fromBeanCollection(Collection<Connection> connections) {
-        return Collections2.transform(connections, new Function<Connection, ConnectionDto>() {
-            @Override
-            public ConnectionDto apply(Connection connection) {
-                return fromBean(connection);
-            }
-        });
     }
 
 }

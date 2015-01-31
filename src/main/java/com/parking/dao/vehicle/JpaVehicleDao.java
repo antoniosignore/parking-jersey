@@ -1,6 +1,7 @@
 package com.parking.dao.vehicle;
 
 import com.parking.dao.JpaDao;
+import com.parking.entity.Account;
 import com.parking.entity.Vehicle;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,5 +48,13 @@ public class JpaVehicleDao extends JpaDao<Vehicle, Long> implements VehicleDao {
         query.setParameter(1, id);
         return query.getResultList();
     }
+
+    @Override
+    public List<Vehicle> findVehiclesByAccount(Account account) {
+        Query query = getEntityManager().createQuery("SELECT b from Vehicle b where b.owner.id=?1");
+        query.setParameter(1, account.getId());
+        return query.getResultList();
+    }
+
 
 }

@@ -1,10 +1,12 @@
 package com.parking.entity;
 
 import com.parking.JsonViews;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonView;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -39,6 +41,10 @@ public class Post implements Entity {
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @JsonView(JsonViews.User.class)
     public Date getDate() {
         return this.date;
@@ -55,10 +61,6 @@ public class Post implements Entity {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Account getOwner() {

@@ -9,6 +9,10 @@ import java.util.Collection;
 
 public class VehicleDto {
 
+    private Long id;
+    private String name;
+    private String licensePlate;
+
     public VehicleDto() {
     }
 
@@ -18,11 +22,18 @@ public class VehicleDto {
         this.id = id;
     }
 
-    private String name;
+    public static VehicleDto fromBean(Vehicle vehicle) {
+        return new VehicleDto(vehicle.getName(), vehicle.getLicensePlate(), vehicle.getId());
+    }
 
-    private String licensePlate;
-
-    private Long id;
+    public static Collection<VehicleDto> fromBeanCollection(Collection<Vehicle> vehicles) {
+        return Collections2.transform(vehicles, new Function<Vehicle, VehicleDto>() {
+            @Override
+            public VehicleDto apply(Vehicle vehicle) {
+                return fromBean(vehicle);
+            }
+        });
+    }
 
     public Long getId() {
         return id;
@@ -48,17 +59,10 @@ public class VehicleDto {
         this.licensePlate = licensePlate;
     }
 
-    public static VehicleDto fromBean(Vehicle vehicle) {
-        return new VehicleDto(vehicle.getName(), vehicle.getLicensePlate(), vehicle.getId());
+    public Vehicle toBean(VehicleDto vehicleDto) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setName(vehicleDto.getName());
+        vehicle.setLicensePlate(vehicleDto.getLicensePlate());
+        return vehicle;
     }
-
-    public static Collection<VehicleDto> fromBeanCollection(Collection<Vehicle> vehicles) {
-        return Collections2.transform(vehicles, new Function<Vehicle, VehicleDto>() {
-            @Override
-            public VehicleDto apply(Vehicle vehicle) {
-                return fromBean(vehicle);
-            }
-        });
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.parking.dao.post;
 
 import com.parking.dao.JpaDao;
+import com.parking.entity.Account;
 import com.parking.entity.Post;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,17 +46,17 @@ public class JpaPostDao extends JpaDao<Post, Long> implements PostDao {
     }
 
     @Override
-    public List<Post> findBlogsByAccountId(Long accountId) {
+    public List<Post> findBlogsByAccount(Account accountId) {
         Query query = getEntityManager().createQuery("SELECT b from Post b where b.owner.id=?1");
-        query.setParameter(1, accountId);
+        query.setParameter(1, accountId.getId());
         return query.getResultList();
     }
 
-    @Override
-    public List<Post> findAllRepliesByPostId(Long postId) {
-        Query query = getEntityManager().createQuery("SELECT b from Post b where b.replyToPostId=?1");
-        query.setParameter(1, postId);
-        return query.getResultList();
-
-    }
+//    @Override
+//    public List<Post> findAllRepliesByPostId(Long postId) {
+//        Query query = getEntityManager().createQuery("SELECT b from Post b where b.replyToPostId=?1");
+//        query.setParameter(1, postId);
+//        return query.getResultList();
+//
+//    }
 }

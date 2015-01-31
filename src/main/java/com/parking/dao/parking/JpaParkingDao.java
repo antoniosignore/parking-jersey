@@ -38,7 +38,7 @@ public class JpaParkingDao extends JpaDao<Parking, Long> implements ParkingDao {
         return query.getResultList();
     }
 
-    public List<Parking> findParkingsByAccountName(String name){
+    public List<Parking> findParkingsByAccountName(String name) {
         Query query = getEntityManager().createQuery("SELECT a FROM Parking a WHERE a.account.name=?1");
         query.setParameter(1, name);
         return query.getResultList();

@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.parking.entity.Parking;
 import com.parking.entity.ParkingStatusEnum;
-import com.parking.entity.Vehicle;
 
 import java.util.Collection;
 import java.util.Date;
@@ -30,6 +29,20 @@ public class ParkingDto {
         this.latitude = latitude;
         this.longitude = longitude;
         this.id = id;
+    }
+
+    public static ParkingDto fromBean(Parking vehicle) {
+        return new ParkingDto(vehicle.getStatus(), vehicle.getWhenPicked(), vehicle.getLatitude(),
+                vehicle.getLongitude(), vehicle.getId());
+    }
+
+    public static Collection<ParkingDto> fromBeanCollection(Collection<Parking> vehicles) {
+        return Collections2.transform(vehicles, new Function<Parking, ParkingDto>() {
+            @Override
+            public ParkingDto apply(Parking vehicle) {
+                return fromBean(vehicle);
+            }
+        });
     }
 
     public Long getId() {
@@ -70,20 +83,6 @@ public class ParkingDto {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
-    }
-
-    public static ParkingDto fromBean(Parking vehicle) {
-        return new ParkingDto(vehicle.getStatus(), vehicle.getWhenPicked(), vehicle.getLatitude(),
-                vehicle.getLongitude(), vehicle.getId());
-    }
-
-    public static Collection<ParkingDto> fromBeanCollection(Collection<Parking> vehicles) {
-        return Collections2.transform(vehicles, new Function<Parking, ParkingDto>() {
-            @Override
-            public ParkingDto apply(Parking vehicle) {
-                return fromBean(vehicle);
-            }
-        });
     }
 
 }

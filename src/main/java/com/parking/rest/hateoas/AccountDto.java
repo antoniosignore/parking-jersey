@@ -25,6 +25,19 @@ public class AccountDto {
         this.password = password;
     }
 
+    public static AccountDto fromBean(Account book) {
+        return new AccountDto(book.getId(), book.getName(), book.getPassword());
+    }
+
+    public static Collection<AccountDto> fromBeanCollection(Collection<Account> accounts) {
+        return Collections2.transform(accounts, new Function<Account, AccountDto>() {
+            @Override
+            public AccountDto apply(Account account) {
+                return fromBean(account);
+            }
+        });
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,19 +78,6 @@ public class AccountDto {
     @JsonProperty
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public static AccountDto fromBean(Account book) {
-        return new AccountDto(book.getId(), book.getName(),book.getPassword());
-    }
-
-    public static Collection<AccountDto> fromBeanCollection(Collection<Account> accounts) {
-        return Collections2.transform(accounts, new Function<Account, AccountDto>() {
-            @Override
-            public AccountDto apply(Account account) {
-                return fromBean(account);
-            }
-        });
     }
 
 }

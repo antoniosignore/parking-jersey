@@ -1,9 +1,10 @@
 package com.parking.services.impl;
 
 import com.parking.dao.vehicle.VehicleDao;
+import com.parking.entity.Account;
 import com.parking.entity.Vehicle;
 import com.parking.services.VehicleService;
-import com.parking.services.util.VehicleList;
+import com.parking.services.exceptions.GroupExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,8 @@ public class VehicleServiceImpl implements VehicleService {
     private VehicleDao vehicleDao;
 
     @Override
-    public VehicleList findAllVehicles() {
-        return new VehicleList(vehicleDao.findAll());
+    public List<Vehicle> findAllVehicles() {
+        return vehicleDao.findAll();
     }
 
     @Override
@@ -28,13 +29,41 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public List<Vehicle> findAllVehicleByAccount(Account account) {
+        return vehicleDao.findVehiclesByAccount(account);
+    }
+
+    @Override
     public List<Vehicle> findByAccountName(Long name) {
         return vehicleDao.findVehiclesByAccountName(name);
     }
 
     @Override
-    public List<Vehicle> findByAccountId(Long accountId) {
-        return vehicleDao.findVehiclesByAccountName(accountId);
+    public List<Vehicle> findByAccountId(Long id) {
+        return vehicleDao.findVehiclesByAccountName(id);
     }
 
+    @Override
+    public Vehicle createVehicle(Account loggedAccount, Vehicle vehicle) {
+        vehicle.setOwner(loggedAccount);
+        try {
+            return vehicleDao.save(vehicle);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GroupExistsException();
+        }
+    }
+
+    @Override
+    public Vehicle save(Long id, Vehicle vehicle) {
+        Vehicle veh = vehicleDao.find(id);
+        veh.setLicensePlate(vehicle.getLicensePlate());
+        veh.setName(vehicle.getName());
+        return vehicleDao.save(veh);
+    }
+
+    @Override
+    public void delete(Long id) {
+        vehicleDao.delete(id);
+    }
 }

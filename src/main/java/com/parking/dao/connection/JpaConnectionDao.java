@@ -1,7 +1,7 @@
 package com.parking.dao.connection;
 
-import com.parking.entity.Connection;
 import com.parking.dao.JpaDao;
+import com.parking.entity.Connection;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
@@ -44,7 +44,7 @@ public class JpaConnectionDao extends JpaDao<Connection, Long> implements Connec
         Query query = getEntityManager().createQuery("SELECT b from Connection b where b.initiator.id=?1 and b.receiver.id=?2");
         query.setParameter(1, initiatorId);
         query.setParameter(2, receiverId);
-        return (Connection)query.getSingleResult();
+        return (Connection) query.getSingleResult();
     }
 
     @Override

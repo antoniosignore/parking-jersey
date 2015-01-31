@@ -3,10 +3,11 @@ package com.parking.services.impl;
 import com.parking.dao.accountGroup.UserGroupDao;
 import com.parking.entity.AccountGroup;
 import com.parking.services.AccountGroupService;
-import com.parking.services.util.AccountGroupList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -16,8 +17,8 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     private UserGroupDao userGroupDao;
 
     @Override
-    public AccountGroupList findAllGroups() {
-        return new AccountGroupList(userGroupDao.findAll());
+    public List<AccountGroup> findAllGroups() {
+        return userGroupDao.findAll();
     }
 
     @Override

@@ -2,11 +2,12 @@ package com.parking.services;
 
 
 import com.parking.entity.AccountGroup;
-import com.parking.services.util.AccountGroupList;
+
+import java.util.List;
 
 public interface AccountGroupService {
 
-    public AccountGroupList findAllGroups();
+    public List<AccountGroup> findAllGroups();
 
     public AccountGroup findAccountGroup(Long id);
 

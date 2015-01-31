@@ -3,7 +3,6 @@ package com.parking.services.impl;
 import com.parking.dao.parking.ParkingDao;
 import com.parking.entity.Parking;
 import com.parking.services.ParkingService;
-import com.parking.services.util.ParkingList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +17,13 @@ public class ParkingServiceImpl implements ParkingService {
     private ParkingDao parkingDao;
 
     @Override
-    public ParkingList findAllParkings() {
-        return new ParkingList(parkingDao.findAll());
+    public List<Parking> findAllParkings() {
+        return parkingDao.findAll();
     }
 
     @Override
-    public Parking findParking(Long id) { return parkingDao.find(id);
+    public Parking findParking(Long id) {
+        return parkingDao.find(id);
     }
 
     @Override

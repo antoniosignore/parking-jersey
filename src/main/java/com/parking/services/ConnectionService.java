@@ -2,13 +2,12 @@ package com.parking.services;
 
 
 import com.parking.entity.Connection;
-import com.parking.services.util.ConnectionList;
 
 import java.util.List;
 
 public interface ConnectionService {
 
-    public ConnectionList findAllConnections();
+    public List<Connection> findAllConnections();
 
     public Connection findConnection(Long id);
 
@@ -18,7 +17,6 @@ public interface ConnectionService {
 
     public Connection findByInitiatorReceiver(Long initiatorId, Long receiverId);
 
-    public Connection findConnectionByAccountNames(String initiatorName, String receiverName) ;
+    public Connection findConnectionByAccountNames(String initiatorName, String receiverName);
 
-
-    }
+}

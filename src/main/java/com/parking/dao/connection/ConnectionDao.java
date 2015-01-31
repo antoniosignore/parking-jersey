@@ -1,7 +1,7 @@
 package com.parking.dao.connection;
 
-import com.parking.entity.Connection;
 import com.parking.dao.Dao;
+import com.parking.entity.Connection;
 
 import java.util.List;
 

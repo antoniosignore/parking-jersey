@@ -1,4 +1,3 @@
-
 package com.parking.rest.resources;
 
 public final class Rels {

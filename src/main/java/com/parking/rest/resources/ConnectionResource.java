@@ -1,8 +1,8 @@
 package com.parking.rest.resources;
 
-import com.parking.entity.Connection;
 import com.parking.JsonViews;
 import com.parking.dao.connection.ConnectionDao;
+import com.parking.entity.Connection;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.slf4j.Logger;

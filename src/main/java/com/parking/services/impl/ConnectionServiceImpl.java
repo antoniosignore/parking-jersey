@@ -3,7 +3,6 @@ package com.parking.services.impl;
 import com.parking.dao.connection.ConnectionDao;
 import com.parking.entity.Connection;
 import com.parking.services.ConnectionService;
-import com.parking.services.util.ConnectionList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +17,8 @@ public class ConnectionServiceImpl implements ConnectionService {
     private ConnectionDao connectionDao;
 
     @Override
-    public ConnectionList findAllConnections() {
-        return new ConnectionList(connectionDao.findAll());
+    public List<Connection> findAllConnections() {
+        return connectionDao.findAll();
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public Connection findConnectionByAccountNames(String initiatorName, String receiverName) {
-        return connectionDao.findConnectionByAccountNames(initiatorName,receiverName);
+        return connectionDao.findConnectionByAccountNames(initiatorName, receiverName);
     }
 
 }

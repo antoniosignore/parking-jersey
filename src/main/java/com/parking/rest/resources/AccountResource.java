@@ -1,19 +1,9 @@
 package com.parking.rest.resources;
 
-import com.jayway.jaxrs.hateoas.Linkable;
-import com.jayway.jaxrs.hateoas.core.HateoasResponse;
-import com.parking.entity.Account;
-import com.parking.entity.Post;
 import com.parking.rest.TokenUtils;
-import com.parking.rest.exceptions.ForbiddenException;
-import com.parking.rest.hateoas.PostDto;
 import com.parking.services.AccountService;
-import com.parking.services.exceptions.AccountDoesNotExistException;
-import com.parking.services.exceptions.BlogExistsException;
 import com.parking.transfer.TokenTransfer;
 import com.parking.transfer.UserTransfer;
-import com.sun.jersey.api.ConflictException;
-import com.sun.jersey.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,13 +17,12 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
 
 @Component
-@Path("/account")
+@Path("/accounts")
 public class AccountResource {
 
     @Autowired
@@ -104,36 +93,36 @@ public class AccountResource {
         return roles;
     }
 
-    @Path("/{accountName}/post")
-    @Linkable(value = LinkableIds.POST_NEW_ID, templateClass = PostDto.class)
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response createPost(
-            Post post,
-            @PathParam("accountName") String accountName) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails details = (UserDetails) principal;
-            Account loggedIn = accountService.findByUserName(details.getUsername());
-            if (loggedIn.getName().equals(accountName)) {
-                try {
-                    Post createPost = accountService.createPost(loggedIn.getId(), post);
-                    return HateoasResponse
-                            .created(LinkableIds.POST_DETAILS_ID, createPost.getId())
-                            .entity(PostDto.fromBean(createPost)).build();
-                } catch (AccountDoesNotExistException exception) {
-                    throw new NotFoundException();
-                } catch (BlogExistsException exception) {
-                    throw new ConflictException();
-                }
-            } else {
-                throw new ForbiddenException();
-            }
-        } else {
-            throw new ForbiddenException();
-        }
-    }
+//    @Path("/{accountName}/post")
+//    @Linkable(value = LinkableIds.POST_NEW_ID, templateClass = PostDto.class)
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Response createPost(
+//            Post post,
+//            @PathParam("accountName") String accountName) {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            UserDetails details = (UserDetails) principal;
+//            Account loggedIn = accountService.findByUserName(details.getUsername());
+//            if (loggedIn.getName().equals(accountName)) {
+//                try {
+//                    Post createPost = accountService.createPost(loggedIn.getId(), post);
+//                    return HateoasResponse
+//                            .created(LinkableIds.POST_DETAILS_ID, createPost.getId())
+//                            .entity(PostDto.fromBean(createPost)).build();
+//                } catch (AccountDoesNotExistException exception) {
+//                    throw new NotFoundException();
+//                } catch (BlogExistsException exception) {
+//                    throw new ConflictException();
+//                }
+//            } else {
+//                throw new ForbiddenException();
+//            }
+//        } else {
+//            throw new ForbiddenException();
+//        }
+//    }
 
 //    @Path("/{accountName}/post")
 //    @POST

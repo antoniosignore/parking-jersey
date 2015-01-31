@@ -24,6 +24,19 @@ public class AccountGroupDto {
         this.groupDescription = groupDescription;
     }
 
+    public static AccountGroupDto fromBean(AccountGroup group) {
+        return new AccountGroupDto(group.getId(), group.getGroupName(), group.getGroupDesc());
+    }
+
+    public static Collection<AccountGroupDto> fromBeanCollection(Collection<AccountGroup> groups) {
+        return Collections2.transform(groups, new Function<AccountGroup, AccountGroupDto>() {
+            @Override
+            public AccountGroupDto apply(AccountGroup group) {
+                return fromBean(group);
+            }
+        });
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,18 +59,5 @@ public class AccountGroupDto {
 
     public void setGroupDescription(String groupDescription) {
         this.groupDescription = groupDescription;
-    }
-
-    public static AccountGroupDto fromBean(AccountGroup group) {
-        return new AccountGroupDto(group.getId(), group.getGroupName(), group.getGroupDesc());
-    }
-
-    public static Collection<AccountGroupDto> fromBeanCollection(Collection<AccountGroup> groups) {
-        return Collections2.transform(groups, new Function<AccountGroup, AccountGroupDto>() {
-            @Override
-            public AccountGroupDto apply(AccountGroup group) {
-                return fromBean(group);
-            }
-        });
     }
 }

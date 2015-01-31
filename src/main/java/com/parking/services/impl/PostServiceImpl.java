@@ -1,16 +1,15 @@
 package com.parking.services.impl;
 
 import com.parking.dao.post.PostDao;
-import com.parking.dao.account.AccountDao;
-import com.parking.entity.Post;
 import com.parking.entity.Account;
+import com.parking.entity.Post;
 import com.parking.services.PostService;
-import com.parking.services.exceptions.BlogNotFoundException;
-import com.parking.services.exceptions.AccountDoesNotExistException;
-import com.parking.services.util.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,36 +18,38 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostDao postDao;
 
-    @Autowired
-    private AccountDao accountDao;
-
     @Override
-    public Post createPost(Long accountId, Post reply) {
+    public Post createPost(Account account, Post post) {
 
-        Account poster = accountDao.find(accountId);
-        if (poster == null) throw new AccountDoesNotExistException();
+        post.setOwner(account);
 
-        reply.setOwner(poster);
-        Post entry = postDao.save(reply);
-        return entry;
+        Post createdBlog = postDao.save(post);
+        createdBlog.setOwner(account);
+        return createdBlog;
     }
 
     @Override
-    public PostList findAllPosts(Long accountId) {
-        return new PostList(postDao.findBlogsByAccountId(accountId));
-    }
-
-    @Override
-    public PostList findAllReplies(Long postId) {
-        Post blog = postDao.find(postId);
-        if (blog == null) {
-            throw new BlogNotFoundException();
-        }
-        return new PostList(postDao.findAllRepliesByPostId(postId));
+    public List<Post> findAllPosts(Account account) {
+        return postDao.findBlogsByAccount(account);
     }
 
     @Override
     public Post findPost(Long id) {
         return postDao.find(id);
     }
+
+    @Override
+    public Post save(Long id, Post post) {
+        Post post1 = postDao.find(id);
+        post1.setDate(new Date());
+        post1.setContent(post.getContent());
+        post1.setTitle(post.getTitle());
+        return postDao.save(post);
+    }
+
+    @Override
+    public void delete(Long id) {
+        postDao.delete(id);
+    }
+
 }
