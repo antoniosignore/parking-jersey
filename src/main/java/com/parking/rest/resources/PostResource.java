@@ -4,15 +4,9 @@ import com.jayway.jaxrs.hateoas.Linkable;
 import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.dao.post.PostDao;
-import com.parking.entity.Account;
 import com.parking.entity.Post;
-import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.hateoas.PostDto;
 import com.parking.services.AccountService;
-import com.parking.services.exceptions.AccountDoesNotExistException;
-import com.parking.services.exceptions.BlogExistsException;
-import com.sun.jersey.api.ConflictException;
-import com.sun.jersey.api.NotFoundException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,12 +70,10 @@ public class PostResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Response getPostById(@PathParam("id") Long id) {
-        this.logger.info("read(id)");
-
         Post post = this.postDao.find(id);
         HateoasResponse.HateoasResponseBuilder builder = HateoasResponse
                 .ok(PostDto.fromBean(post))
-                .link(LinkableIds.BOOK_UPDATE_ID, AtomRels.SELF, id);
+                .link(LinkableIds.POST_UPDATE_ID, AtomRels.SELF, id);
         return builder.build();
     }
 

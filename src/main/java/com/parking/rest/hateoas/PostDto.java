@@ -12,20 +12,22 @@ public class PostDto {
     public PostDto() {
     }
 
-    public PostDto(String title, Long rid) {
+    public PostDto(String title, Long id, String content) {
         this.title = title;
-        this.rid = rid;
+        this.id = id;
+        this.content = content;
     }
 
+    private Long id;
     private String title;
-    private Long rid;
+    private String content;
 
-    public Long getRid() {
-        return rid;
+    public Long getId() {
+        return id;
     }
 
-    public void setRid(Long rid) {
-        this.rid = rid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -36,8 +38,17 @@ public class PostDto {
         this.title = title;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public static PostDto fromBean(Post book) {
-        return new PostDto(book.getTitle(), book.getId());
+
+        return new PostDto(book.getTitle(), book.getId(), book.getContent());
     }
 
     public static Collection<PostDto> fromBeanCollection(Collection<Post> books) {
