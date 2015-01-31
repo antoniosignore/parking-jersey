@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -25,11 +27,23 @@ public class ErrorResource {
 
     @Path("unauthorized")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response unauthorized() {
+    @POST
+    public Response postUnauthorized() {
+        return getUnauthorizedResponse();
+    }
+
+    @Path("unauthorized")
+    @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    public Response getUnauthorized() {
+        return getUnauthorizedResponse();
+    }
+
+
+    private Response getUnauthorizedResponse() {
         this.logger.info("Unauthorized!");
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
-
 
 
 }

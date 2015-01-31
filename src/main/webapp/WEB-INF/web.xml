@@ -111,11 +111,11 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/error/notfound</location>
+        <location>/rest/error/notfound</location>
     </error-page>
 
     <error-page>
         <error-code>401</error-code>
-        <location>/error/unauthorized</location>
+        <location>/rest/error/unauthorized</location>
     </error-page>
 </web-app>
