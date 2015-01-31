@@ -47,18 +47,16 @@ public class PostDto {
     }
 
     public static PostDto fromBean(Post book) {
-
         return new PostDto(book.getTitle(), book.getId(), book.getContent());
     }
 
-    public static Collection<PostDto> fromBeanCollection(Collection<Post> books) {
-        return Collections2.transform(books, new Function<Post, PostDto>() {
+    public static Collection<PostDto> fromBeanCollection(Collection<Post> posts) {
+        return Collections2.transform(posts, new Function<Post, PostDto>() {
             @Override
-            public PostDto apply(Post book) {
-                return fromBean(book);
+            public PostDto apply(Post post) {
+                return fromBean(post);
             }
         });
     }
-
 
 }

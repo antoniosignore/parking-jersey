@@ -1,7 +1,7 @@
 package com.parking.services.impl;
 
 import com.parking.dao.accountGroup.UserGroupDao;
-import com.parking.entity.UserGroup;
+import com.parking.entity.AccountGroup;
 import com.parking.services.AccountGroupService;
 import com.parking.services.util.AccountGroupList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     }
 
     @Override
-    public UserGroup findAccountGroup(Long id) {
+    public AccountGroup findAccountGroup(Long id) {
         return userGroupDao.find(id);
     }
 
@@ -31,7 +31,7 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     }
 
     @Override
-    public UserGroup updateAccountGroupEntry(Long id, UserGroup data) {
+    public AccountGroup updateAccountGroupEntry(Long id, AccountGroup data) {
         return userGroupDao.save(data);
     }
 

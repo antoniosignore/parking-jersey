@@ -1,24 +1,24 @@
 package com.parking.services.util;
 
 
-import com.parking.entity.UserGroup;
+import com.parking.entity.AccountGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccountGroupList {
 
-    private List<UserGroup> userGroups = new ArrayList<UserGroup>();
+    private List<AccountGroup> accountGroups = new ArrayList<AccountGroup>();
 
-    public AccountGroupList(List<UserGroup> resultList) {
-        this.userGroups = resultList;
+    public AccountGroupList(List<AccountGroup> resultList) {
+        this.accountGroups = resultList;
     }
 
-    public List<UserGroup> getUserGroups() {
-        return userGroups;
+    public List<AccountGroup> getAccountGroups() {
+        return accountGroups;
     }
 
-    public void setUserGroups(List<UserGroup> userGroups) {
-        this.userGroups = userGroups;
+    public void setAccountGroups(List<AccountGroup> accountGroups) {
+        this.accountGroups = accountGroups;
     }
 }

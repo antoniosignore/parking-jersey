@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @javax.persistence.Entity
-public class UserGroup implements Entity, Serializable {
+public class AccountGroup implements Entity, Serializable {
 
     @Id
     @GeneratedValue
@@ -21,7 +21,7 @@ public class UserGroup implements Entity, Serializable {
     @ManyToOne
     private Account account;
 
-    public UserGroup() {
+    public AccountGroup() {
     }
 
     public Long getId() {
@@ -59,9 +59,9 @@ public class UserGroup implements Entity, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserGroup)) return false;
+        if (!(o instanceof AccountGroup)) return false;
 
-        UserGroup that = (UserGroup) o;
+        AccountGroup that = (AccountGroup) o;
 
         if (!account.equals(that.account)) return false;
         if (!groupDesc.equals(that.groupDesc)) return false;

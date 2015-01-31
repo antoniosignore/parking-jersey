@@ -1,22 +1,35 @@
 package com.parking.rest.hateoas;
 
-import com.parking.entity.UserGroup;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.parking.entity.AccountGroup;
+
+import java.util.Collection;
 
 
 public class AccountGroupDto {
+
+    private Long id;
 
     private String groupName;
 
     private String groupDescription;
 
-    private Long rid;
-
-    public Long getRid() {
-        return rid;
+    public AccountGroupDto() {
     }
 
-    public void setRid(Long rid) {
-        this.rid = rid;
+    public AccountGroupDto(Long id, String groupName, String groupDescription) {
+        this.id = id;
+        this.groupName = groupName;
+        this.groupDescription = groupDescription;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getGroupName() {
@@ -35,10 +48,16 @@ public class AccountGroupDto {
         this.groupDescription = groupDescription;
     }
 
-    public UserGroup toAccountGroup() {
-        UserGroup accountGroup = new UserGroup();
-        accountGroup.setGroupName(groupName);
-        accountGroup.setGroupDesc(groupDescription);
-        return accountGroup;
+    public static AccountGroupDto fromBean(AccountGroup group) {
+        return new AccountGroupDto(group.getId(), group.getGroupName(), group.getGroupDesc());
+    }
+
+    public static Collection<AccountGroupDto> fromBeanCollection(Collection<AccountGroup> groups) {
+        return Collections2.transform(groups, new Function<AccountGroup, AccountGroupDto>() {
+            @Override
+            public AccountGroupDto apply(AccountGroup group) {
+                return fromBean(group);
+            }
+        });
     }
 }

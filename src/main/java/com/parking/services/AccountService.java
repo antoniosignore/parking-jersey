@@ -11,7 +11,7 @@ public interface AccountService {
 
     public Account createUser(Account data);
 
-    public UserGroup createUserGroup(Long accountId, UserGroup data);
+    public AccountGroup createUserGroup(Long accountId, AccountGroup data);
     public Post createPost(Long accountId, Post data);
     public Connection createConnection(Long accountId, Long receiverId, Connection data);
     public Parking createParking(Long accountId, Parking data);

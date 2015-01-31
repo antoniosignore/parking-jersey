@@ -1,7 +1,7 @@
 package com.parking.dao.accountGroup;
 
 import com.parking.dao.JpaDao;
-import com.parking.entity.UserGroup;
+import com.parking.entity.AccountGroup;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
@@ -12,30 +12,30 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 
-public class JpaUserGroupDao extends JpaDao<UserGroup, Long> implements UserGroupDao {
+public class JpaUserGroupDao extends JpaDao<AccountGroup, Long> implements UserGroupDao {
 
     public JpaUserGroupDao() {
-        super(UserGroup.class);
+        super(AccountGroup.class);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserGroup> findAll() {
+    public List<AccountGroup> findAll() {
         final CriteriaBuilder builder = this.getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<UserGroup> criteriaQuery = builder.createQuery(UserGroup.class);
+        final CriteriaQuery<AccountGroup> criteriaQuery = builder.createQuery(AccountGroup.class);
 
-        Root<UserGroup> root = criteriaQuery.from(UserGroup.class);
+        Root<AccountGroup> root = criteriaQuery.from(AccountGroup.class);
         criteriaQuery.orderBy(builder.desc(root.get("groupName")));
 
-        TypedQuery<UserGroup> typedQuery = this.getEntityManager().createQuery(criteriaQuery);
+        TypedQuery<AccountGroup> typedQuery = this.getEntityManager().createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }
 
 
     @Override
-    public List<UserGroup> findByUserId(Long userId) {
+    public List<AccountGroup> findByUserId(Long userId) {
 
-        Query query = getEntityManager().createQuery("SELECT a FROM UserGroup a WHERE a.account.id=?1");
+        Query query = getEntityManager().createQuery("SELECT a FROM AccountGroup a WHERE a.account.id=?1");
         query.setParameter(1, userId);
         return query.getResultList();
 

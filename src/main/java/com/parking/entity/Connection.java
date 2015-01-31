@@ -19,10 +19,10 @@ public class Connection implements Entity {
     private Account receiver;
 
     @OneToOne
-    private UserGroup initiatorGroup;
+    private AccountGroup initiatorGroup;
 
     @OneToOne
-    private UserGroup receiverGroup;
+    private AccountGroup receiverGroup;
 
     Date created;
 
@@ -55,19 +55,19 @@ public class Connection implements Entity {
         this.receiver = receiver;
     }
 
-    public UserGroup getInitiatorGroup() {
+    public AccountGroup getInitiatorGroup() {
         return initiatorGroup;
     }
 
-    public void setInitiatorGroup(UserGroup initiatorGroup) {
+    public void setInitiatorGroup(AccountGroup initiatorGroup) {
         this.initiatorGroup = initiatorGroup;
     }
 
-    public UserGroup getReceiverGroup() {
+    public AccountGroup getReceiverGroup() {
         return receiverGroup;
     }
 
-    public void setReceiverGroup(UserGroup receiverGroup) {
+    public void setReceiverGroup(AccountGroup receiverGroup) {
         this.receiverGroup = receiverGroup;
     }
 

@@ -1,24 +1,35 @@
 package com.parking.rest.hateoas;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.parking.entity.Vehicle;
+
+import java.util.Collection;
 
 
 public class VehicleDto {
 
+    public VehicleDto() {
+    }
 
+    public VehicleDto(String name, String licensePlate, Long id) {
+        this.name = name;
+        this.licensePlate = licensePlate;
+        this.id = id;
+    }
 
     private String name;
 
     private String licensePlate;
 
-    private Long rid;
+    private Long id;
 
-    public Long getRid() {
-        return rid;
+    public Long getId() {
+        return id;
     }
 
-    public void setRid(Long rid) {
-        this.rid = rid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,10 +48,17 @@ public class VehicleDto {
         this.licensePlate = licensePlate;
     }
 
-    public Vehicle toVehicle() {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setName(this.name);
-        vehicle.setLicensePlate(this.licensePlate);
-        return vehicle;
+    public static VehicleDto fromBean(Vehicle vehicle) {
+        return new VehicleDto(vehicle.getName(), vehicle.getLicensePlate(), vehicle.getId());
     }
+
+    public static Collection<VehicleDto> fromBeanCollection(Collection<Vehicle> vehicles) {
+        return Collections2.transform(vehicles, new Function<Vehicle, VehicleDto>() {
+            @Override
+            public VehicleDto apply(Vehicle vehicle) {
+                return fromBean(vehicle);
+            }
+        });
+    }
+
 }

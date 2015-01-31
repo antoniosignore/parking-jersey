@@ -33,9 +33,7 @@ public class Account implements com.parking.entity.Entity, UserDetails {
     private Double longitude;
 
     public Account() {
-        /* Reflection instantiation */
     }
-
 
     public Account(String name, String passwordHash) {
         this.name = name;

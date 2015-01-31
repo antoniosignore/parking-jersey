@@ -1,6 +1,6 @@
 package com.parking.rest.resources;
 
-import com.parking.entity.UserGroup;
+import com.parking.entity.AccountGroup;
 import com.parking.JsonViews;
 import com.parking.dao.accountGroup.UserGroupDao;
 import org.codehaus.jackson.JsonGenerationException;
@@ -45,7 +45,7 @@ public class AccountGroupResource {
         } else {
             viewWriter = this.mapper.writerWithView(JsonViews.User.class);
         }
-        List<UserGroup> allEntries = this.userGroupDao.findAll();
+        List<AccountGroup> allEntries = this.userGroupDao.findAll();
 
         return viewWriter.writeValueAsString(allEntries);
     }
@@ -53,10 +53,10 @@ public class AccountGroupResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public UserGroup read(@PathParam("id") Long id) {
+    public AccountGroup read(@PathParam("id") Long id) {
         this.logger.info("read(id)");
 
-        UserGroup accountgroup = this.userGroupDao.find(id);
+        AccountGroup accountgroup = this.userGroupDao.find(id);
         if (accountgroup == null) {
             throw new WebApplicationException(404);
         }
@@ -66,7 +66,7 @@ public class AccountGroupResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public UserGroup create(UserGroup accountgroup) {
+    public AccountGroup create(AccountGroup accountgroup) {
         this.logger.info("create(): " + accountgroup);
 
         return this.userGroupDao.save(accountgroup);
@@ -77,7 +77,7 @@ public class AccountGroupResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public UserGroup update(@PathParam("id") Long id, UserGroup accountgroup) {
+    public AccountGroup update(@PathParam("id") Long id, AccountGroup accountgroup) {
         this.logger.info("update(): " + accountgroup);
 
         return this.userGroupDao.save(accountgroup);

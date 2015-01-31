@@ -97,12 +97,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UserGroup createUserGroup(Long userId, UserGroup userGroup) {
+    public AccountGroup createUserGroup(Long userId, AccountGroup accountGroup) {
         Account account = accountDao.find(userId);
         if (account == null) throw new AccountDoesNotExistException();
-        userGroup.setAccount(account);
+        accountGroup.setAccount(account);
         try {
-            return userGroupDao.save(userGroup);
+            return userGroupDao.save(accountGroup);
         } catch (Exception e) {
             e.printStackTrace();
             throw new GroupExistsException();
