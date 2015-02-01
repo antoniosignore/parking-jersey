@@ -1,7 +1,7 @@
-package com.parking.dao;
+package com.parking.model;
 
-import com.parking.dao.account.AccountDao;
-import com.parking.dao.post.PostDao;
+import com.parking.model.dao.AccountDao;
+import com.parking.model.dao.PostDao;
 import com.parking.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.parking.dao;
+package com.parking.model;
 
 import com.parking.entity.Entity;
 

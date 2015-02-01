@@ -20,6 +20,6 @@ public class RootResource {
                 .link(LinkableIds.PARKINGS_LIST_ID, Rels.PARKINGS)
                 .link(LinkableIds.POSTS_LIST_ID, Rels.POSTS)
                 .link(LinkableIds.VEHICLES_LIST_ID, Rels.VEHICLES)
-                .link(LinkableIds.SEARCH_ITEM_ID, Rels.SEARCH, "foo").build();
+                .link(LinkableIds.SEARCH_ITEM_ID, Rels.SEARCH, "maradona").build();
     }
 }

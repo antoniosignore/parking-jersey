@@ -1,6 +1,6 @@
 package com.parking.services.impl;
 
-import com.parking.dao.accountGroup.UserGroupDao;
+import com.parking.model.dao.UserGroupDao;
 import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
 import com.parking.services.AccountGroupService;

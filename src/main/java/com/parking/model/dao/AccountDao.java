@@ -1,6 +1,6 @@
-package com.parking.dao.account;
+package com.parking.model.dao;
 
-import com.parking.dao.Dao;
+import com.parking.model.Dao;
 import com.parking.entity.Account;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

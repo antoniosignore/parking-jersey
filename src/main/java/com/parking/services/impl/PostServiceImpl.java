@@ -1,6 +1,6 @@
 package com.parking.services.impl;
 
-import com.parking.dao.post.PostDao;
+import com.parking.model.dao.PostDao;
 import com.parking.entity.Account;
 import com.parking.entity.Post;
 import com.parking.services.PostService;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 @Service

@@ -1,6 +1,6 @@
 package com.parking.services.impl;
 
-import com.parking.dao.vehicle.VehicleDao;
+import com.parking.model.dao.VehicleDao;
 import com.parking.entity.Account;
 import com.parking.entity.Vehicle;
 import com.parking.services.VehicleService;

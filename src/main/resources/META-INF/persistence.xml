@@ -4,7 +4,7 @@
         version="1.0"
         xmlns="http://java.sun.com/xml/ns/persistence"
         xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-    <persistence-unit name="examplePU">
+    <persistence-unit name="parking-persistence">
         <class>com.parking.entity.Post</class>
         <class>com.parking.entity.Account</class>
         <class>com.parking.entity.AccountGroup</class>

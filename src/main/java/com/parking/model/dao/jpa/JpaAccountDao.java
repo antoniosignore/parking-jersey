@@ -1,7 +1,8 @@
-package com.parking.dao.account;
+package com.parking.model.dao.jpa;
 
-import com.parking.dao.JpaDao;
+import com.parking.model.JpaDao;
 import com.parking.entity.Account;
+import com.parking.model.dao.AccountDao;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;

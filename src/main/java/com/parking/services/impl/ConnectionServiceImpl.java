@@ -1,6 +1,6 @@
 package com.parking.services.impl;
 
-import com.parking.dao.connection.ConnectionDao;
+import com.parking.model.dao.ConnectionDao;
 import com.parking.entity.Account;
 import com.parking.entity.Connection;
 import com.parking.services.ConnectionService;

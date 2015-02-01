@@ -1,11 +1,11 @@
 package com.parking.services.impl;
 
-import com.parking.dao.account.AccountDao;
-import com.parking.dao.accountGroup.UserGroupDao;
-import com.parking.dao.connection.ConnectionDao;
-import com.parking.dao.parking.ParkingDao;
-import com.parking.dao.post.PostDao;
-import com.parking.dao.vehicle.VehicleDao;
+import com.parking.model.dao.AccountDao;
+import com.parking.model.dao.UserGroupDao;
+import com.parking.model.dao.ConnectionDao;
+import com.parking.model.dao.ParkingDao;
+import com.parking.model.dao.PostDao;
+import com.parking.model.dao.VehicleDao;
 import com.parking.entity.Account;
 import com.parking.services.AccountService;
 import com.parking.services.exceptions.AccountExistsException;

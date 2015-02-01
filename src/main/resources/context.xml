@@ -40,14 +40,14 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="postDao" class="com.parking.dao.post.JpaPostDao"/>
-    <bean id="userDao" class="com.parking.dao.account.JpaAccountDao"/>
-    <bean id="vehicleDao" class="com.parking.dao.vehicle.JpaVehicleDao"/>
-    <bean id="parkingDao" class="com.parking.dao.parking.JpaParkingDao"/>
-    <bean id="connectionDao" class="com.parking.dao.connection.JpaConnectionDao"/>
-    <bean id="accountGroupDao" class="com.parking.dao.accountGroup.JpaUserGroupDao"/>
+    <bean id="postDao" class="com.parking.model.dao.jpa.JpaPostDao"/>
+    <bean id="userDao" class="com.parking.model.dao.jpa.JpaAccountDao"/>
+    <bean id="vehicleDao" class="com.parking.model.dao.jpa.JpaVehicleDao"/>
+    <bean id="parkingDao" class="com.parking.model.dao.jpa.JpaParkingDao"/>
+    <bean id="connectionDao" class="com.parking.model.dao.jpa.JpaConnectionDao"/>
+    <bean id="accountGroupDao" class="com.parking.model.dao.jpa.JpaUserGroupDao"/>
 
-    <bean id="dataBaseInitializer" class="com.parking.dao.DataBaseInitializer" init-method="initDataBase">
+    <bean id="dataBaseInitializer" class="com.parking.model.DataBaseInitializer" init-method="initDataBase">
         <constructor-arg ref="userDao"/>
         <constructor-arg ref="postDao"/>
         <constructor-arg ref="passwordEncoder"/>
