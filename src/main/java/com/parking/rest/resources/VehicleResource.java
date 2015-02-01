@@ -65,12 +65,15 @@ public class VehicleResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getVehicleById(@PathParam("id") Long id) {
+
         Vehicle vehicle = this.vehicleService.findVehicle(id);
+        if (vehicle == null) return Response.status(Response.Status.NOT_FOUND).build();
+
         HateoasResponse.HateoasResponseBuilder builder =
-                HateoasResponse
-                        .ok(VehicleDto.fromBean(vehicle))
-                        .link(LinkableIds.VEHICLE_DETAILS_ID, AtomRels.SELF, id);
-        return builder.build();
+                    HateoasResponse
+                            .ok(VehicleDto.fromBean(vehicle))
+                            .link(LinkableIds.VEHICLE_DETAILS_ID, AtomRels.SELF, id);
+            return builder.build();
     }
 
     @POST
@@ -96,34 +99,32 @@ public class VehicleResource {
     }
 
     @POST
+    @Linkable(value = LinkableIds.VEHICLE_UPDATE_ID, templateClass = VehicleDto.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Vehicle update(@PathParam("id") Long id, Vehicle vehicle) {
+    public Response update(@PathParam("id") Long id, Vehicle vehicle) {
 
-        return vehicleService.save(id, vehicle);
+        Vehicle veh = this.vehicleService.findVehicle(id);
+        if (veh == null) return Response.status(Response.Status.NOT_FOUND).build();
+
+        Vehicle save = vehicleService.save(id, vehicle);
+        if (save == null) return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(VehicleDto.fromBean(vehicle))
+                        .link(LinkableIds.VEHICLE_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
+        Vehicle veh = this.vehicleService.findVehicle(id);
+        if (veh == null) throw new NotFoundException();
         this.vehicleService.delete(id);
     }
 
-
-    private boolean isAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String && (principal).equals("anonymousUser")) {
-            return false;
-        }
-        UserDetails userDetails = (UserDetails) principal;
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
-            if (authority.toString().equals("admin")) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
