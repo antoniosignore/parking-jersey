@@ -1,7 +1,7 @@
 package com.parking.rest.resources;
 
 import com.jayway.jaxrs.hateoas.core.HateoasResponse;
-import com.parking.rest.hateoas.RootDto;
+import com.parking.rest.hateoas.HomeDto;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,7 +14,7 @@ public class HomeResource {
     @GET
     @Produces("application/json")
     public Response root() {
-        return HateoasResponse.ok(new RootDto())
+        return HateoasResponse.ok(new HomeDto())
                 .link(LinkableIds.ACCOUNTS_GROUP_LIST_ID, Rels.ACCOUNT_GROUPS)
                 .link(LinkableIds.CONNECTIONS_LIST_ID, Rels.CONNECTIONS)
                 .link(LinkableIds.PARKINGS_LIST_ID, Rels.PARKINGS)

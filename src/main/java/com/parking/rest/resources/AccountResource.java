@@ -1,9 +1,15 @@
 package com.parking.rest.resources;
 
+import com.jayway.jaxrs.hateoas.Linkable;
+import com.jayway.jaxrs.hateoas.core.HateoasResponse;
+import com.parking.entity.Account;
 import com.parking.rest.TokenUtils;
-import com.parking.services.AccountService;
+import com.parking.rest.hateoas.*;
+import com.parking.services.*;
+import com.parking.services.exceptions.AccountDoesNotExistException;
 import com.parking.transfer.TokenTransfer;
 import com.parking.transfer.UserTransfer;
+import com.sun.jersey.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +23,8 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +42,21 @@ public class AccountResource {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    ConnectionService connectionService;
+
+    @Autowired
+    ParkingService parkingService;
+
+    @Autowired
+    PostService postService;
+
+    @Autowired
+    AccountGroupService accountGroupService;
+
+    @Autowired
+    VehicleService vehicleService;
 
     /**
      * Retrieves the currently logged in account.
@@ -93,80 +116,104 @@ public class AccountResource {
         return roles;
     }
 
-//    @Path("/{accountName}/post")
-//    @Linkable(value = LinkableIds.POST_NEW_ID, templateClass = PostDto.class)
-//    @POST
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response createPost(
-//            Post post,
-//            @PathParam("accountName") String accountName) {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        if (principal instanceof UserDetails) {
-//            UserDetails details = (UserDetails) principal;
-//            Account loggedIn = accountService.findByUserName(details.getUsername());
-//            if (loggedIn.getName().equals(accountName)) {
-//                try {
-//                    Post createPost = accountService.createPost(loggedIn.getId(), post);
-//                    return HateoasResponse
-//                            .created(LinkableIds.POST_DETAILS_ID, createPost.getId())
-//                            .entity(PostDto.fromBean(createPost)).build();
-//                } catch (AccountDoesNotExistException exception) {
-//                    throw new NotFoundException();
-//                } catch (BlogExistsException exception) {
-//                    throw new ConflictException();
-//                }
-//            } else {
-//                throw new ForbiddenException();
-//            }
-//        } else {
-//            throw new ForbiddenException();
-//        }
-//    }
 
-//    @Path("/{accountName}/post")
-//    @POST
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Post createPost(
-//            Post post,
-//            @PathParam("accountName") String accountName) {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        if (principal instanceof UserDetails) {
-//            UserDetails details = (UserDetails) principal;
-//            Account loggedIn = accountService.findByUserName(details.getUsername());
-//            if (loggedIn.getName().equals(accountName)) {
-//                try {
-//
-//                    System.out.println("\n\n*************\nloggedIn = " + loggedIn.getId());
-//
-//                    Post createPost = accountService.createPost(loggedIn.getId(), post);
-//                    return createPost;
-//                } catch (AccountDoesNotExistException exception) {
-//                    throw new NotFoundException();
-//                } catch (BlogExistsException exception) {
-//                    throw new ConflictException();
-//                }
-//            } else {
-//                throw new ForbiddenException();
-//            }
-//        } else {
-//            throw new ForbiddenException();
-//        }
-//    }
+    @GET
+    @Path("/{id}/connections")
+    @Produces("application/json")
+    @Linkable(LinkableIds.ACCOUNT_CONNECTIONS_ID)
+    public Response getAccountConnections(@PathParam("id") Long id) {
 
-//    @RequestMapping(value = "/{accountId}/blogs", method = RequestMethod.GET)
-//    @PreAuthorize("permitAll")
-//    public ResponseEntity<BlogListResource> findAllBlogs(
-//            @PathVariable Long accountId) {
-//        try {
-//            BlogList blogList = accountService.findBlogsByAccount(accountId);
-//            BlogListResource blogListRes = new BlogListResourceAsm().toResource(blogList);
-//            return new ResponseEntity<BlogListResource>(blogListRes, HttpStatus.OK);
-//        } catch (AccountDoesNotExistException exception) {
-//            throw new NotFoundException(exception);
-//        }
-//    }
+        try {
+            Account user = accountService.findUser(id);
+
+            Collection<ConnectionDto> connections = ConnectionDto.fromBeanCollection(
+                    connectionService.findAllConnectionByAccount(user));
+
+            return HateoasResponse.ok(connections)
+                    .selfEach(LinkableIds.CONNECTION_DETAILS_ID, "id").build();
+
+        } catch (AccountDoesNotExistException exception) {
+            throw new NotFoundException();
+        }
+    }
 
 
+    @GET
+    @Path("/{id}/parkings")
+    @Produces("application/json")
+    @Linkable(LinkableIds.ACCOUNT_PARKINGS_ID)
+    public Response getAccountParkings(@PathParam("id") Long id) {
+
+        try {
+            Account user = accountService.findUser(id);
+
+            Collection<ParkingDto> parkings = ParkingDto.fromBeanCollection(
+                    parkingService.findAllParkingByAccount(user));
+
+            return HateoasResponse.ok(parkings)
+                    .selfEach(LinkableIds.PARKING_DETAILS_ID, "id").build();
+
+        } catch (AccountDoesNotExistException exception) {
+            throw new NotFoundException();
+        }
+    }
+
+    @GET
+    @Path("/{id}/blog-entries")
+    @Produces("application/json")
+    @Linkable(LinkableIds.ACCOUNT_POSTS_ID)
+    public Response getAccountBlogEntries(@PathParam("id") Long id) {
+
+        try {
+            Account user = accountService.findUser(id);
+
+            Collection<PostDto> posts = PostDto.fromBeanCollection(
+                    postService.findAllPosts(user));
+
+            return HateoasResponse.ok(posts)
+                    .selfEach(LinkableIds.POST_DETAILS_ID, "id").build();
+
+        } catch (AccountDoesNotExistException exception) {
+            throw new NotFoundException();
+        }
+    }
+
+    @GET
+    @Path("/{id}/account-groups")
+    @Produces("application/json")
+    @Linkable(LinkableIds.ACCOUNT_GROUPS_ID)
+    public Response getAccountGroups(@PathParam("id") Long id) {
+
+        try {
+            Account user = accountService.findUser(id);
+
+            Collection<AccountGroupDto> groups = AccountGroupDto.fromBeanCollection(
+                    accountGroupService.findAllAccountGroupByAccount(user));
+            return HateoasResponse.ok(groups)
+                    .selfEach(LinkableIds.ACCOUNT_GROUP_DETAILS_ID, "id").build();
+
+        } catch (AccountDoesNotExistException exception) {
+            throw new NotFoundException();
+        }
+    }
+
+    @GET
+    @Path("/{id}/vehicles")
+    @Produces("application/json")
+    @Linkable(LinkableIds.ACCOUNT_VEHICLES_ID)
+    public Response getAccountVehicles(@PathParam("id") Long id) {
+
+        try {
+            Account user = accountService.findUser(id);
+
+            Collection<VehicleDto> vehicles = VehicleDto.fromBeanCollection(
+                    vehicleService.findAllVehicleByAccount(user));
+
+            return HateoasResponse.ok(vehicles)
+                    .selfEach(LinkableIds.VEHICLE_DETAILS_ID, "id").build();
+
+        } catch (AccountDoesNotExistException exception) {
+            throw new NotFoundException();
+        }
+    }
 }

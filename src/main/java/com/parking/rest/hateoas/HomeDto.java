@@ -5,7 +5,7 @@ import com.jayway.jaxrs.hateoas.HateoasLinkBean;
 import java.util.Collection;
 import java.util.Map;
 
-public class RootDto implements HateoasLinkBean {
+public class HomeDto implements HateoasLinkBean {
 
     private Collection<Map<String, Object>> links;
 

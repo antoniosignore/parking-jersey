@@ -10,9 +10,7 @@ import java.util.Collection;
 public class AccountGroupDto {
 
     private Long id;
-
     private String groupName;
-
     private String groupDescription;
 
     public AccountGroupDto() {

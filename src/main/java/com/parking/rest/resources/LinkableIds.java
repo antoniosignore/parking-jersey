@@ -34,4 +34,9 @@ public class LinkableIds {
 
     static final String SEARCH_ITEM_ID = "item.search";
 
+    public static final String ACCOUNT_CONNECTIONS_ID = "account.connections";
+    public static final String ACCOUNT_PARKINGS_ID = "account.parkings";
+    public static final String ACCOUNT_POSTS_ID = "account.posts";
+    public static final String ACCOUNT_GROUPS_ID = "account.groups";
+    public static final String ACCOUNT_VEHICLES_ID = "account.vehicles";
 }
