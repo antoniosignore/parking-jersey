@@ -19,29 +19,9 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <!--
-        Map the REST Servlet to /rest/
-         <servlet>
-        <servlet-name>RestService</servlet-name>
-        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
-        <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>com.parking.rest</param-value>
-        </init-param>
-        <init-param>
-            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RestService</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
-     -->
     <servlet>
         <servlet-name>Hateoas</servlet-name>
-        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+        <servlet-class>com.jayway.jaxrs.hateoas.core.spring.SpringHateoasServlet</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>com.parking.rest.application.ParkingApplication</param-value>
@@ -69,7 +49,7 @@
         </init-param>
 
         <init-param>
-            <param-name>com.jayway.jaxrs.hateoas.verbosity</param-name>
+            <param-name>com.jayway.jaxrs.hateoas.HateoasVerbosity</param-name>
             <param-value>NORMAL</param-value>
         </init-param>
         <init-param>

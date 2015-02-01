@@ -69,7 +69,7 @@ public class VehicleResource {
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
                         .ok(VehicleDto.fromBean(vehicle))
-                        .link(LinkableIds.VEHICLE_UPDATE_ID, AtomRels.SELF, id);
+                        .link(LinkableIds.VEHICLE_DETAILS_ID, AtomRels.SELF, id);
         return builder.build();
     }
 

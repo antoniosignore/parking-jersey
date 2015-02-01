@@ -63,11 +63,11 @@
         <!--</dependency>-->
 
 
-        <dependency>
-            <groupId>com.jayway.jax-rs-hateoas</groupId>
-            <artifactId>jax-rs-hateoas-core</artifactId>
-            <version>0.4.5</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.jayway.jax-rs-hateoas</groupId>-->
+            <!--<artifactId>jax-rs-hateoas-core</artifactId>-->
+            <!--<version>0.4.5</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -196,6 +196,23 @@
             <version>r03</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+        </dependency>
     </dependencies>
 
 
