@@ -70,13 +70,7 @@
 
         <init-param>
             <param-name>com.jayway.jaxrs.hateoas.verbosity</param-name>
-            <param-value>GENERIC_CLIENT</param-value>
-            <!--
-            The configuration above is a shortcut (named configuration), equivalent
-            to the detailed configuration below.
-
-            <param-value>REL, HREF, CONSUMES, METHOD, TEMPLATE</param-value>
-            -->
+            <param-value>NORMAL</param-value>
         </init-param>
         <init-param>
             <param-name>com.jayway.jaxrs.hateoas.HateoasLinkInjector</param-name>
@@ -94,7 +88,6 @@
         <servlet-name>Hateoas</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-
 
     <!--
         Apply Spring Security Filter to all Requests

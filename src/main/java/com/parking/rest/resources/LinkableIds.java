@@ -22,15 +22,15 @@ public class LinkableIds {
     static final String ACCOUNT_GROUP_NEW_ID = "account-group.new";
     static final String ACCOUNTS_GROUP_LIST_ID = "account-group.list";
 
-    static final String CONNECTION_UPDATE_ID = "account-group.update";
-    static final String CONNECTION_DETAILS_ID = "account-group.details";
-    static final String CONNECTION_NEW_ID = "account-group.new";
-    static final String CONNECTIONS_GROUP_LIST_ID = "account-group.list";
+    static final String CONNECTION_UPDATE_ID = "connection.update";
+    static final String CONNECTION_DETAILS_ID = "connection.details";
+    static final String CONNECTION_NEW_ID = "connection.new";
+    static final String CONNECTIONS_GROUP_LIST_ID = "connection.list";
 
-    static final String PARKING_UPDATE_ID = "account-group.update";
-    static final String PARKING_DETAILS_ID = "account-group.details";
-    static final String PARKING_NEW_ID = "account-group.new";
-    static final String PARKINGS_LIST_ID = "account-group.list";
+    static final String PARKING_UPDATE_ID = "parking.update";
+    static final String PARKING_DETAILS_ID = "parking.details";
+    static final String PARKING_NEW_ID = "parking.new";
+    static final String PARKINGS_LIST_ID = "parking.list";
 
     static final String SEARCH_ITEM_ID = "item.search";
 
