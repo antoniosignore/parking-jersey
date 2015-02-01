@@ -66,6 +66,8 @@ public class PostResource {
     @Path("/{id}")
     public Response getPostById(@PathParam("id") Long id) {
         Post post = this.postService.findPost(id);
+        if (post == null) return Response.status(Response.Status.NOT_FOUND).build();
+
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
                         .ok(PostDto.fromBean(post))

@@ -14,8 +14,6 @@ import com.sun.jersey.api.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -24,7 +22,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-
 
 @Component
 @Path("/vehicles")
@@ -108,12 +105,16 @@ public class VehicleResource {
         Vehicle veh = this.vehicleService.findVehicle(id);
         if (veh == null) return Response.status(Response.Status.NOT_FOUND).build();
 
-        Vehicle save = vehicleService.save(id, vehicle);
-        if (save == null) return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+        Vehicle saved;
+        try {
+            saved = vehicleService.save(id, vehicle);
+        } catch (Exception e) {
+            throw new ForbiddenException();
+        }
 
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
-                        .ok(VehicleDto.fromBean(vehicle))
+                        .ok(VehicleDto.fromBean(saved))
                         .link(LinkableIds.VEHICLE_UPDATE_ID, AtomRels.SELF, id);
         return builder.build();
     }

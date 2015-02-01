@@ -64,7 +64,10 @@ public class AccountGroupResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getAccountGroupById(@PathParam("id") Long id) {
+
         AccountGroup accountgroup = this.accountGroupService.findAccountGroup(id);
+        if (accountgroup == null) return Response.status(Response.Status.NOT_FOUND).build();
+
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
                         .ok(AccountGroupDto.fromBean(accountgroup))

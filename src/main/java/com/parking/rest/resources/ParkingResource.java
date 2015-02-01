@@ -74,6 +74,8 @@ public class ParkingResource {
     @Path("/{id}")
     public Response getParkingById(@PathParam("id") Long id) {
         Parking parking = this.parkingService.findParking(id);
+        if (parking == null) return Response.status(Response.Status.NOT_FOUND).build();
+
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
                         .ok(ParkingDto.fromBean(parking))

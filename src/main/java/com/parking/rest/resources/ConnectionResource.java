@@ -65,7 +65,10 @@ public class ConnectionResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getConnectionById(@PathParam("id") Long id) {
+
         Connection connection = this.connectionService.findConnection(id);
+        if (connection == null) return Response.status(Response.Status.NOT_FOUND).build();
+
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
                         .ok(ConnectionDto.fromBean(connection))
