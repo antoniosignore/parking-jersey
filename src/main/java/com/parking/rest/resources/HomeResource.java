@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 @Path("/")
-public class RootResource {
+public class HomeResource {
 
     @GET
     @Produces("application/json")
@@ -19,7 +19,8 @@ public class RootResource {
                 .link(LinkableIds.CONNECTIONS_LIST_ID, Rels.CONNECTIONS)
                 .link(LinkableIds.PARKINGS_LIST_ID, Rels.PARKINGS)
                 .link(LinkableIds.POSTS_LIST_ID, Rels.POSTS)
-                .link(LinkableIds.VEHICLES_LIST_ID, Rels.VEHICLES)
-                .link(LinkableIds.SEARCH_ITEM_ID, Rels.SEARCH, "maradona").build();
+                .link(LinkableIds.VEHICLES_LIST_ID, Rels.VEHICLES).build();
+
+//                .link(LinkableIds.SEARCH_ITEM_ID, Rels.SEARCH, "maradona").build();
     }
 }
