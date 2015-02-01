@@ -1,12 +1,16 @@
 package com.parking.rest.resources;
 
-import com.parking.JsonViews;
-import com.parking.dao.accountGroup.UserGroupDao;
+import com.jayway.jaxrs.hateoas.Linkable;
+import com.jayway.jaxrs.hateoas.core.HateoasResponse;
+import com.jayway.jaxrs.hateoas.support.AtomRels;
+import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
+import com.parking.rest.exceptions.ForbiddenException;
+import com.parking.rest.hateoas.AccountGroupDto;
+import com.parking.services.AccountGroupService;
+import com.parking.services.AccountService;
+import com.parking.services.exceptions.AccountDoesNotExistException;
+import com.sun.jersey.api.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +22,8 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import javax.ws.rs.core.Response;
 import java.util.List;
-
 
 @Component
 @Path("/accountGroups")
@@ -29,86 +32,96 @@ public class AccountGroupResource {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserGroupDao userGroupDao;
+    private AccountService accountService;
 
     @Autowired
-    private ObjectMapper mapper;
+    private AccountGroupService accountGroupService;
 
     @GET
+    @Linkable(LinkableIds.ACCOUNTS_GROUP_LIST_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public String list() throws JsonGenerationException, JsonMappingException, IOException {
-        this.logger.info("list()");
-
-        ObjectWriter viewWriter;
-        if (this.isAdmin()) {
-            viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
+    public Response list() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            try {
+                List<AccountGroup> allEntries = this.accountGroupService.findAllAccountGroupByAccount(loggedAccount);
+                return HateoasResponse
+                        .ok(AccountGroupDto.fromBeanCollection(allEntries))
+                        .selfLink(LinkableIds.ACCOUNT_GROUP_NEW_ID)
+                        .selfEach(LinkableIds.ACCOUNT_GROUP_DETAILS_ID, "id").build();
+            } catch (AccountDoesNotExistException exception) {
+                throw new NotFoundException();
+            }
         } else {
-            viewWriter = this.mapper.writerWithView(JsonViews.User.class);
+            throw new ForbiddenException();
         }
-        List<AccountGroup> allEntries = this.userGroupDao.findAll();
-
-        return viewWriter.writeValueAsString(allEntries);
     }
 
     @GET
+    @Linkable(LinkableIds.ACCOUNT_GROUP_DETAILS_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
-    public AccountGroup read(@PathParam("id") Long id) {
-        this.logger.info("read(id)");
+    @Path("/{id}")
+    public Response getAccountGroupById(@PathParam("id") Long id) {
+        AccountGroup accountgroup = this.accountGroupService.findAccountGroup(id);
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(AccountGroupDto.fromBean(accountgroup))
+                        .link(LinkableIds.ACCOUNT_GROUP_DETAILS_ID, AtomRels.SELF, id);
+        return builder.build();
+    }
 
-        AccountGroup accountgroup = this.userGroupDao.find(id);
-        if (accountgroup == null) {
-            throw new WebApplicationException(404);
+    @POST
+    @Linkable(value = LinkableIds.ACCOUNT_GROUP_NEW_ID, templateClass = AccountGroupDto.class)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newAccountGroup(AccountGroupDto accountgroup) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            try {
+                AccountGroup createAccountgroup = accountGroupService.createAccountGroup(loggedAccount, accountgroup.toBean(accountgroup));
+                return HateoasResponse
+                        .created(LinkableIds.ACCOUNT_GROUP_DETAILS_ID, createAccountgroup.getId())
+                        .entity(AccountGroupDto.fromBean(createAccountgroup)).build();
+            } catch (AccountDoesNotExistException exception) {
+                throw new NotFoundException();
+            }
+        } else {
+            throw new ForbiddenException();
         }
-        return accountgroup;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public AccountGroup create(AccountGroup accountgroup) {
-        this.logger.info("create(): " + accountgroup);
-
-        return this.userGroupDao.save(accountgroup);
-    }
-
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public AccountGroup update(@PathParam("id") Long id, AccountGroup accountgroup) {
-        this.logger.info("update(): " + accountgroup);
-
-        return this.userGroupDao.save(accountgroup);
+        return accountGroupService.updateAccountGroupEntry(id, accountgroup);
     }
-
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
-        this.logger.info("delete(id)");
-
-        this.userGroupDao.delete(id);
+        this.accountGroupService.deleteAccountGroup(id);
     }
 
 
     private boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
-        if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
+        if (principal instanceof String && (principal).equals("anonymousUser")) {
             return false;
         }
         UserDetails userDetails = (UserDetails) principal;
-
         for (GrantedAuthority authority : userDetails.getAuthorities()) {
             if (authority.toString().equals("admin")) {
                 return true;
             }
         }
-
         return false;
     }
-
 }

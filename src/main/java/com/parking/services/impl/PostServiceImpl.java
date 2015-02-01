@@ -40,10 +40,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post save(Long id, Post post) {
-        Post post1 = postDao.find(id);
-        post1.setDate(new Date());
-        post1.setContent(post.getContent());
-        post1.setTitle(post.getTitle());
         return postDao.save(post);
     }
 

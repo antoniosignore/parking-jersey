@@ -25,7 +25,7 @@ public class LinkableIds {
     static final String CONNECTION_UPDATE_ID = "connection.update";
     static final String CONNECTION_DETAILS_ID = "connection.details";
     static final String CONNECTION_NEW_ID = "connection.new";
-    static final String CONNECTIONS_GROUP_LIST_ID = "connection.list";
+    static final String CONNECTIONS_LIST_ID = "connection.list";
 
     static final String PARKING_UPDATE_ID = "parking.update";
     static final String PARKING_DETAILS_ID = "parking.details";

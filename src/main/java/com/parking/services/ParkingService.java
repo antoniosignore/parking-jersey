@@ -1,5 +1,6 @@
 package com.parking.services;
 
+import com.parking.entity.Account;
 import com.parking.entity.Parking;
 
 import java.util.List;
@@ -14,8 +15,12 @@ public interface ParkingService {
 
     public List<Parking> findParkingsByAccountName(String name);
 
-//    public AccountGroup deleteParking(Long id);
-//    public AccountGroup updateParking(Long id, Parking data);
+    Parking createParking(Account loggedAccount, Parking parking);
 
+    List<Parking> findAllParkingByAccount(Account loggedAccount);
+
+    Parking update(Account loggedAccount, Parking parking);
+
+    void delete(Long id);
 
 }

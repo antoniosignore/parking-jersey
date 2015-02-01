@@ -1,6 +1,7 @@
 package com.parking.services.impl;
 
 import com.parking.dao.connection.ConnectionDao;
+import com.parking.entity.Account;
 import com.parking.entity.Connection;
 import com.parking.services.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public Connection findByInitiatorReceiver(Long initiatorId, Long receiverId) {
-        return connectionDao.findByInitiatorReceiver(initiatorId, receiverId);
+        return connectionDao.findByInitiatorIdReceiverId(initiatorId, receiverId);
     }
 
     @Override
@@ -44,6 +45,29 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Override
     public Connection findConnectionByAccountNames(String initiatorName, String receiverName) {
         return connectionDao.findConnectionByAccountNames(initiatorName, receiverName);
+    }
+
+    @Override
+    public List<Connection> findAllConnectionByAccount(Account loggedAccount) {
+        return connectionDao.findByInitiator(loggedAccount);
+    }
+
+    @Override
+    public Connection update(Long id, Connection connection) {
+
+        // todo
+        return null;
+
+    }
+
+    @Override
+    public Connection createConnection(Account loggedAccount, Connection connection) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+        // todo
     }
 
 }

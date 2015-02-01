@@ -56,10 +56,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle save(Long id, Vehicle vehicle) {
-        Vehicle veh = vehicleDao.find(id);
-        veh.setLicensePlate(vehicle.getLicensePlate());
-        veh.setName(vehicle.getName());
-        return vehicleDao.save(veh);
+        return vehicleDao.save(vehicle);
     }
 
     @Override

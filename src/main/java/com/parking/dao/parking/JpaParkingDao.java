@@ -1,6 +1,7 @@
 package com.parking.dao.parking;
 
 import com.parking.dao.JpaDao;
+import com.parking.entity.Account;
 import com.parking.entity.Parking;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,18 @@ public class JpaParkingDao extends JpaDao<Parking, Long> implements ParkingDao {
         Query query = getEntityManager().createQuery("SELECT a FROM Parking a WHERE a.account.name=?1");
         query.setParameter(1, name);
         return query.getResultList();
+    }
 
+    public List<Parking> findParkingsByAccount(Account loggedAccount) {
+        Query query = getEntityManager().createQuery("SELECT a FROM Parking a WHERE a.account.name=?1");
+        query.setParameter(1, loggedAccount.getName());
+        return query.getResultList();
+    }
+
+    @Override
+    public Parking save(Account loggedAccount, Parking parking) {
+       parking.setAccount(loggedAccount);
+       return save(parking);
     }
 
 }

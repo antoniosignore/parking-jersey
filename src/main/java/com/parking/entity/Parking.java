@@ -37,6 +37,10 @@ public class Parking implements com.parking.entity.Entity {
     public Parking() {
     }
 
+    public Parking(ParkingStatusEnum status, Date whenPicked, Double latitude, Double longitude, Long id) {
+
+    }
+
     public Date getParkingDate() {
         return parkingDate;
     }

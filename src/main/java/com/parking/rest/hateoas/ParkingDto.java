@@ -31,6 +31,11 @@ public class ParkingDto {
         this.id = id;
     }
 
+    public Parking toBean(ParkingDto vehicle) {
+        return new Parking(vehicle.getStatus(), vehicle.getWhenPicked(), vehicle.getLatitude(),
+                vehicle.getLongitude(), vehicle.getId());
+    }
+
     public static ParkingDto fromBean(Parking vehicle) {
         return new ParkingDto(vehicle.getStatus(), vehicle.getWhenPicked(), vehicle.getLatitude(),
                 vehicle.getLongitude(), vehicle.getId());

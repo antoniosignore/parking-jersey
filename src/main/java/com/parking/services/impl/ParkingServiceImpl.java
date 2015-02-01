@@ -1,6 +1,7 @@
 package com.parking.services.impl;
 
 import com.parking.dao.parking.ParkingDao;
+import com.parking.entity.Account;
 import com.parking.entity.Parking;
 import com.parking.services.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,27 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public List<Parking> findParkingsByAccountName(String name) {
         return parkingDao.findParkingsByAccountName(name);
+    }
+
+    @Override
+    public Parking createParking(Account loggedAccount, Parking parking) {
+        return parkingDao.save(loggedAccount, parking);
+    }
+
+    @Override
+    public List<Parking> findAllParkingByAccount(Account loggedAccount) {
+        return parkingDao.findParkingsByAccount(loggedAccount);
+    }
+
+    @Override
+    public Parking update(Account loggedAccount, Parking parking) {
+        parking.setAccount(loggedAccount);
+        return parkingDao.save(parking);
+    }
+
+    @Override
+    public void delete(Long id) {
+        parkingDao.delete(id);
     }
 
 }

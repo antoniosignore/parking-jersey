@@ -1,8 +1,19 @@
 package com.parking.rest.resources;
 
+import com.jayway.jaxrs.hateoas.Linkable;
+import com.jayway.jaxrs.hateoas.core.HateoasResponse;
+import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.JsonViews;
 import com.parking.dao.parking.ParkingDao;
+import com.parking.entity.Account;
 import com.parking.entity.Parking;
+import com.parking.entity.Parking;
+import com.parking.rest.exceptions.ForbiddenException;
+import com.parking.rest.hateoas.ParkingDto;
+import com.parking.services.AccountService;
+import com.parking.services.ParkingService;
+import com.parking.services.exceptions.AccountDoesNotExistException;
+import com.sun.jersey.api.NotFoundException;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -18,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,85 +41,107 @@ public class ParkingResource {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private ParkingDao parkingDao;
+    private AccountService accountService;
 
     @Autowired
-    private ObjectMapper mapper;
+    private ParkingService parkingService;
 
     @GET
+    @Linkable(LinkableIds.PARKINGS_LIST_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    public String list() throws JsonGenerationException, JsonMappingException, IOException {
-        this.logger.info("list()");
-
-        ObjectWriter viewWriter;
-        if (this.isAdmin()) {
-            viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
+    public Response list() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            try {
+                List<Parking> allEntries = this.parkingService.findAllParkingByAccount(loggedAccount);
+                return HateoasResponse
+                        .ok(ParkingDto.fromBeanCollection(allEntries))
+                        .selfLink(LinkableIds.PARKING_NEW_ID)
+                        .selfEach(LinkableIds.PARKING_DETAILS_ID, "id").build();
+            } catch (AccountDoesNotExistException exception) {
+                throw new NotFoundException();
+            }
         } else {
-            viewWriter = this.mapper.writerWithView(JsonViews.User.class);
+            throw new ForbiddenException();
         }
-        List<Parking> allEntries = this.parkingDao.findAll();
-
-        return viewWriter.writeValueAsString(allEntries);
     }
 
     @GET
+    @Linkable(LinkableIds.PARKING_DETAILS_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
-    public Parking read(@PathParam("id") Long id) {
-        this.logger.info("read(id)");
+    @Path("/{id}")
+    public Response getParkingById(@PathParam("id") Long id) {
+        Parking parking = this.parkingService.findParking(id);
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(ParkingDto.fromBean(parking))
+                        .link(LinkableIds.PARKING_DETAILS_ID, AtomRels.SELF, id);
+        return builder.build();
+    }
 
-        Parking parking = this.parkingDao.find(id);
-        if (parking == null) {
-            throw new WebApplicationException(404);
+    @POST
+    @Linkable(value = LinkableIds.PARKING_NEW_ID, templateClass = ParkingDto.class)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newParking(ParkingDto parking) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            try {
+                Parking createParking = parkingService.createParking(loggedAccount, parking.toBean(parking));
+                return HateoasResponse
+                        .created(LinkableIds.PARKING_DETAILS_ID, createParking.getId())
+                        .entity(ParkingDto.fromBean(createParking)).build();
+            } catch (AccountDoesNotExistException exception) {
+                throw new NotFoundException();
+            }
+        } else {
+            throw new ForbiddenException();
         }
-        return parking;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Parking create(Parking parking) {
-        this.logger.info("create(): " + parking);
-
-        return this.parkingDao.save(parking);
-    }
-
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public Parking update(@PathParam("id") Long id, Parking parking) {
-        this.logger.info("update(): " + parking);
-
-        return this.parkingDao.save(parking);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            try {
+                return parkingService.update(loggedAccount, parking);
+            } catch (AccountDoesNotExistException exception) {
+                throw new NotFoundException();
+            }
+        } else {
+            throw new ForbiddenException();
+        }
     }
-
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
-        this.logger.info("delete(id)");
-
-        this.parkingDao.delete(id);
+        this.parkingService.delete(id);
     }
 
 
     private boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
-        if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
+        if (principal instanceof String && (principal).equals("anonymousUser")) {
             return false;
         }
         UserDetails userDetails = (UserDetails) principal;
-
         for (GrantedAuthority authority : userDetails.getAuthorities()) {
             if (authority.toString().equals("admin")) {
                 return true;
             }
         }
-
         return false;
     }
 

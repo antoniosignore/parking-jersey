@@ -49,4 +49,9 @@ public class ConnectionDto {
         this.confirmed = confirmed;
     }
 
+    public Connection toBean(ConnectionDto connection) {
+        Connection c = new Connection();
+        c.setConfirmed(connection.getConfirmed());
+        return c;
+    }
 }

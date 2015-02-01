@@ -65,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
 //    @Override
 //    public Connection createConnection(Long userId, Long receiverId, Connection connection){
 //
-//        Connection byInitiatorReceiver = connectionDao.findByInitiatorReceiver(userId, receiverId);
+//        Connection byInitiatorReceiver = connectionDao.findByInitiatorIdReceiverId(userId, receiverId);
 //        if (byInitiatorReceiver != null) throw new ConnectionExistsException();
 //
 //        Account initiator = accountDao.find(userId);

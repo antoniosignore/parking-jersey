@@ -24,6 +24,13 @@ public class AccountGroupDto {
         this.groupDescription = groupDescription;
     }
 
+    public AccountGroup toBean (AccountGroupDto vehicleDto){
+        AccountGroup group = new AccountGroup();
+        group.setGroupName(vehicleDto.getGroupName());
+        group.setGroupDesc(vehicleDto.getGroupDescription());
+        return  group;
+    }
+
     public static AccountGroupDto fromBean(AccountGroup group) {
         return new AccountGroupDto(group.getId(), group.getGroupName(), group.getGroupDesc());
     }

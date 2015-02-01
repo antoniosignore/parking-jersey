@@ -63,11 +63,11 @@
         <!--</dependency>-->
 
 
-        <!--<dependency>-->
-            <!--<groupId>com.jayway.jax-rs-hateoas</groupId>-->
-            <!--<artifactId>jax-rs-hateoas-core</artifactId>-->
-            <!--<version>0.4.5</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.jayway.jax-rs-hateoas</groupId>
+            <artifactId>jax-rs-hateoas-core</artifactId>
+            <version>0.4.5</version>
+        </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>

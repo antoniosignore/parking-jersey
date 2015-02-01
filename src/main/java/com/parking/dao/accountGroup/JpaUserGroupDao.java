@@ -1,6 +1,7 @@
 package com.parking.dao.accountGroup;
 
 import com.parking.dao.JpaDao;
+import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +32,17 @@ public class JpaUserGroupDao extends JpaDao<AccountGroup, Long> implements UserG
         return typedQuery.getResultList();
     }
 
-
     @Override
     public List<AccountGroup> findByUserId(Long userId) {
-
         Query query = getEntityManager().createQuery("SELECT a FROM AccountGroup a WHERE a.account.id=?1");
         query.setParameter(1, userId);
         return query.getResultList();
+    }
 
+    @Override
+    public List<AccountGroup> findByUser(Account loggedAccount) {
+        Query query = getEntityManager().createQuery("SELECT a FROM AccountGroup a WHERE a.account.id=?1");
+        query.setParameter(1, loggedAccount.getId());
+        return query.getResultList();
     }
 }

@@ -63,7 +63,7 @@ public class VehicleResource {
     @GET
     @Linkable(LinkableIds.VEHICLE_DETAILS_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public Response getVehicleById(@PathParam("id") Long id) {
         Vehicle vehicle = this.vehicleService.findVehicle(id);
         HateoasResponse.HateoasResponseBuilder builder =
@@ -98,14 +98,15 @@ public class VehicleResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public Vehicle update(@PathParam("id") Long id, Vehicle vehicle) {
+
         return vehicleService.save(id, vehicle);
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
         this.vehicleService.delete(id);
     }

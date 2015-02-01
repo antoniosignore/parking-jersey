@@ -63,13 +63,13 @@ public class PostResource {
     @GET
     @Linkable(LinkableIds.POST_DETAILS_ID)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public Response getPostById(@PathParam("id") Long id) {
         Post post = this.postService.findPost(id);
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
                         .ok(PostDto.fromBean(post))
-                        .link(LinkableIds.POST_UPDATE_ID, AtomRels.SELF, id);
+                        .link(LinkableIds.POST_DETAILS_ID, AtomRels.SELF, id);
         return builder.build();
     }
 
@@ -98,14 +98,14 @@ public class PostResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public Post update(@PathParam("id") Long id, Post post) {
         return postService.save(id, post);
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
+    @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
         this.postService.delete(id);
     }
