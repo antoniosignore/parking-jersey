@@ -10,7 +10,7 @@
         <!-- Spring Security is based on Spring 3.0.7 -->
         <spring.version>3.2.8.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
-        <jersey.version>1.18.1</jersey.version>
+        <jersey.version>1.18.3</jersey.version>
         <org.slf4j.version>1.7.7</org.slf4j.version>
         <javax.servlet-api.version>2.5</javax.servlet-api.version>
         <org.hibernate.version>4.3.5.Final</org.hibernate.version>
@@ -62,6 +62,48 @@
         <!--<version>0.12.0.RELEASE</version>-->
         <!--</dependency>-->
 
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <version>1.18.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>com.sun.jersey</groupId>-->
+            <!--<artifactId>jersey-test-framework</artifactId>-->
+            <!--<version>1.18.3</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-external</artifactId>
+            <version>1.18.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-grizzly2</artifactId>
+            <version>1.10</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>com.jayway.jax-rs-hateoas</groupId>
@@ -80,22 +122,8 @@
             <version>5.1.0.Final</version>
         </dependency>
 
-        <!-- JSON Processing -->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-core</artifactId>-->
-            <!--<version>2.4.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-annotations</artifactId>-->
-            <!--<version>2.4.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-databind</artifactId>-->
-            <!--<version>2.4.0</version>-->
-        <!--</dependency>-->
+
+        <!--Database driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -103,9 +131,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-spring</artifactId>
-            <version>${jersey.version}</version>
+                <groupId>com.sun.jersey.contribs</groupId>
+                <artifactId>jersey-spring</artifactId>
+                <version>1.18.3</version>
             <!-- jersey-spring uses spring 2.5, we want to use 3.x instead -->
             <exclusions>
                 <exclusion>
@@ -161,20 +189,20 @@
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
-            <version>${jersey.version}</version>
+            <version>1.18.3</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
+            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
 

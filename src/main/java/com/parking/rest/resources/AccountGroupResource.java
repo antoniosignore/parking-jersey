@@ -7,6 +7,7 @@ import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
 import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.hateoas.AccountGroupDto;
+import com.parking.rest.hateoas.VehicleDto;
 import com.parking.services.AccountGroupService;
 import com.parking.services.AccountService;
 import com.parking.services.exceptions.AccountDoesNotExistException;
@@ -98,6 +99,7 @@ public class AccountGroupResource {
     }
 
     @POST
+    @Linkable(value = LinkableIds.ACCOUNT_GROUP_UPDATE_ID)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
@@ -105,12 +107,13 @@ public class AccountGroupResource {
         return accountGroupService.updateAccountGroupEntry(id, accountgroup);
     }
 
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
-    public void delete(@PathParam("id") Long id) {
-        this.accountGroupService.deleteAccountGroup(id);
-    }
+//    @DELETE
+//    @Linkable(value = LinkableIds.ACCOUNT_GROUP)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("/{id}")
+//    public void delete(@PathParam("id") Long id) {
+//        this.accountGroupService.deleteAccountGroup(id);
+//    }
 
 
     private boolean isAdmin() {
