@@ -6,6 +6,7 @@ import com.parking.rest.dto.UserTransfer;
 import com.sun.jersey.api.client.WebResource;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -26,8 +27,8 @@ public class BlogEntriesTest extends ApplicationTest {
         Gson gson = new Gson();
         UserTransfer result = gson.fromJson(json.toString(), UserTransfer.class);
 
-//        assertEquals("admin", result.getName());
-//        assertEquals(2, result.getRoles().size());
+        Assert.assertEquals("admin", result.getName());
+            Assert.assertEquals(2, result.getRoles().size());
 
         Post post = new Post();
         post.setContent("test content");
@@ -40,16 +41,17 @@ public class BlogEntriesTest extends ApplicationTest {
                 .type("application/json")
                 .post(String.class, gson.toJson(post));
 
-        System.out.println("post1 = " + post1);
+            System.out.println("JSON = \n" + toPrettyFormat(post1));
 
-        webResource = client().resource("http://localhost:8080/parking");
+
+            webResource = client().resource("http://localhost:8080/parking");
         post1 = webResource.path("/com/parking/rest/blog-entries")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
                 .get(String.class);
 
-        System.out.println("post1 = " + post1);
+            System.out.println("JSON = \n" + toPrettyFormat(post1));
 
     }
 }

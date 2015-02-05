@@ -1,5 +1,9 @@
 package com.parking.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.parsing.Parser;
 import com.sun.jersey.api.client.WebResource;
@@ -15,6 +19,17 @@ import javax.ws.rs.core.MediaType;
 import java.net.URISyntaxException;
 
 public class ApplicationTest extends JerseyTest {
+
+    public static String toPrettyFormat(String jsonString)
+    {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(json);
+
+        return prettyJson;
+    }
 
     @Override
     protected AppDescriptor configure() {

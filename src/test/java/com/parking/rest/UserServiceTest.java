@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 public class UserServiceTest extends ApplicationTest {
 
 
-	@Test
+//	@Test
 	public void testUserFetchesSuccess() throws JSONException,
 			URISyntaxException {
 

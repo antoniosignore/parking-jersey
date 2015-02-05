@@ -1,6 +1,7 @@
 package com.parking.rest;
 
 import com.google.gson.Gson;
+import com.jayway.restassured.path.json.JsonPath;
 import com.parking.entity.Vehicle;
 import com.parking.rest.dto.UserTransfer;
 import com.sun.jersey.api.client.WebResource;
@@ -8,6 +9,7 @@ import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -32,8 +34,8 @@ public class VehicleTest extends ApplicationTest {
         Gson gson = new Gson();
         UserTransfer result = gson.fromJson(json.toString(), UserTransfer.class);
 
-//        assertEquals("admin", result.getName());
-//        assertEquals(2, result.getRoles().size());
+        Assert.assertEquals("admin", result.getName());
+        Assert.assertEquals(2, result.getRoles().size());
 
         Vehicle vehicle = new Vehicle();
         vehicle.setName("test content");
@@ -46,7 +48,7 @@ public class VehicleTest extends ApplicationTest {
                 .type("application/json")
                 .post(String.class, gson.toJson(vehicle));
 
-        System.out.println("vehicle1 = " + vehicle1);
+        System.out.println("GET root = " + toPrettyFormat(vehicle1));
 
         webResource = client().resource("http://localhost:8080/parking");
         vehicle1 = webResource.path("/com/parking/rest/vehicles")
@@ -55,12 +57,11 @@ public class VehicleTest extends ApplicationTest {
                 .type("application/json")
                 .get(String.class);
 
-        System.out.println("vehicle1 = " + vehicle1);
+        System.out.println("GET root = " + toPrettyFormat(vehicle1));
 
     }
 
-
-    @Test
+//    @Test
     public void testCreateTwoVehicleSuccess() throws JSONException, URISyntaxException {
 
         String authToken = getToken("admin", "admin");
@@ -72,8 +73,8 @@ public class VehicleTest extends ApplicationTest {
         Gson gson = new Gson();
         UserTransfer result = gson.fromJson(json.toString(), UserTransfer.class);
 
-//        assertEquals("admin", result.getName());
-//        assertEquals(2, result.getRoles().size());
+        Assert.assertEquals("admin", result.getName());
+        Assert.assertEquals(2, result.getRoles().size());
 
         Vehicle vehicle = new Vehicle();
         vehicle.setName("test content");
@@ -85,7 +86,8 @@ public class VehicleTest extends ApplicationTest {
                 .accept("application/json")
                 .type("application/json")
                 .post(String.class, gson.toJson(vehicle));
-        System.out.println("vehicle1 = " + vehicle1);
+
+        System.out.println("JSON = \n" + toPrettyFormat(vehicle1));
 
 
         vehicle = new Vehicle();
@@ -98,8 +100,8 @@ public class VehicleTest extends ApplicationTest {
                 .accept("application/json")
                 .type("application/json")
                 .post(String.class, gson.toJson(vehicle));
-        System.out.println("vehicle1 = " + vehicle1);
 
+        System.out.println("JSON = \n" + toPrettyFormat(vehicle1));
 
         // GET 1
         webResource = client().resource("http://localhost:8080/parking");
@@ -109,7 +111,7 @@ public class VehicleTest extends ApplicationTest {
                 .type("application/json")
                 .get(String.class);
 
-        System.out.println("GET vehicle1 = " + vehicle1);
+        System.out.println("GET root = " + toPrettyFormat(vehicle1));
 
         // GET ALL
         webResource = client().resource("http://localhost:8080/parking");
@@ -119,7 +121,7 @@ public class VehicleTest extends ApplicationTest {
                 .type("application/json")
                 .get(String.class);
 
-        System.out.println("GET vehicle1 = " + vehicle1);
+        System.out.println("JSON = \n" + toPrettyFormat(vehicle1));
 
     }
 }
