@@ -27,7 +27,7 @@ public class VehicleTest extends ApplicationTest {
         String authToken = getToken("admin", "admin");
 
         WebResource webResource = client().resource("http://localhost:8080/parking");
-        JSONObject json = webResource.path("/com/parking/rest/accounts")
+        JSONObject json = webResource.path("/accounts")
                 .header("X-Auth-Token", authToken)
                 .get(JSONObject.class);
 
@@ -42,16 +42,16 @@ public class VehicleTest extends ApplicationTest {
         vehicle.setLicensePlate("Q-123-QR");
 
         webResource = client().resource("http://localhost:8080/parking");
-        String vehicle1 = webResource.path("/com/parking/rest/vehicles")
+        String vehicle1 = webResource.path("/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
                 .post(String.class, gson.toJson(vehicle));
 
-        System.out.println("GET root = " + toPrettyFormat(vehicle1));
+        System.out.println("JSON \n" + toPrettyFormat(vehicle1));
 
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/com/parking/rest/vehicles")
+        vehicle1 = webResource.path("/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -66,7 +66,7 @@ public class VehicleTest extends ApplicationTest {
 
         String authToken = getToken("admin", "admin");
         WebResource webResource = client().resource("http://localhost:8080/parking");
-        JSONObject json = webResource.path("/com/parking/rest/accounts")
+        JSONObject json = webResource.path("/accounts")
                 .header("X-Auth-Token", authToken)
                 .get(JSONObject.class);
 
@@ -81,7 +81,7 @@ public class VehicleTest extends ApplicationTest {
         vehicle.setLicensePlate("Q-111111-QR");
 
         webResource = client().resource("http://localhost:8080/parking");
-        String vehicle1 = webResource.path("/com/parking/rest/vehicles")
+        String vehicle1 = webResource.path("/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -95,7 +95,7 @@ public class VehicleTest extends ApplicationTest {
         vehicle.setLicensePlate("Q-222222-QR");
 
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/com/parking/rest/vehicles")
+        vehicle1 = webResource.path("/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -105,7 +105,7 @@ public class VehicleTest extends ApplicationTest {
 
         // GET 1
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/com/parking/rest/vehicles/33")
+        vehicle1 = webResource.path("/vehicles/33")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -115,7 +115,7 @@ public class VehicleTest extends ApplicationTest {
 
         // GET ALL
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/com/parking/rest/vehicles")
+        vehicle1 = webResource.path("/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
