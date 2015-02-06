@@ -14,21 +14,21 @@ import java.net.URISyntaxException;
 public class UserServiceTest extends ApplicationTest {
 
 
-//	@Test
+	@Test
 	public void testUserFetchesSuccess() throws JSONException,
 			URISyntaxException {
 
         String authToken = getToken("user", "user");
 
 		WebResource webResource = client().resource("http://localhost:8080/parking");
-		JSONObject json = webResource.path("/com/parking/rest/accounts")
+		JSONObject json = webResource.path("/rest/accounts")
                 .header("X-Auth-Token", authToken)
 				.get(JSONObject.class);
 
         Gson gson = new Gson();
         UserTransfer result = gson.fromJson(json.toString(), UserTransfer.class);
 
-        System.out.println("json = " + json.toString());
+        System.out.println("json = " + toPrettyFormat(json.toString()));
 
 //		assertEquals("user", result.getName());
 //        assertEquals(1, result.getRoles().size());

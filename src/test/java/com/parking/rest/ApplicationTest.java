@@ -36,7 +36,7 @@ public class ApplicationTest extends JerseyTest {
         return new WebAppDescriptor
                 .Builder("com.parking.rest.resources")
                 .contextPath("/")
-                .servletPath("api")
+                .servletPath("rest")
                 .initParam("javax.ws.rs.Application", "com.parking.rest.application.ParkingApplication")
                 .initParam("com.sun.jersey.api.json.POJOMappingFeature", "true")
                 .build();

@@ -92,6 +92,11 @@
         <security:intercept-url method="PUT" pattern="/rest/blog-entries/**" access="hasRole('admin')"/>
         <security:intercept-url method="POST" pattern="/rest/blog-entries/**" access="hasRole('admin')"/>
         <security:intercept-url method="DELETE" pattern="/rest/blog-entries/**" access="hasRole('admin')"/>
+
+        <security:intercept-url method="GET" pattern="/rest/vehicles/**" access="hasRole('user')"/>
+        <security:intercept-url method="PUT" pattern="/rest/vehicles/**" access="hasRole('admin')"/>
+        <security:intercept-url method="POST" pattern="/rest/vehicles/**" access="hasRole('admin')"/>
+        <security:intercept-url method="DELETE" pattern="/rest/vehicles/**" access="hasRole('admin')"/>
     </security:http>
 
     <bean id="unauthorizedEntryPoint"

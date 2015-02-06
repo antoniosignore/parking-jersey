@@ -1,12 +1,9 @@
 package com.parking.rest;
 
 import com.google.gson.Gson;
-import com.jayway.restassured.path.json.JsonPath;
 import com.parking.entity.Vehicle;
 import com.parking.rest.dto.UserTransfer;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
@@ -16,18 +13,13 @@ import java.net.URISyntaxException;
 
 public class VehicleTest extends ApplicationTest {
 
-	@Override
-	protected AppDescriptor configure() {
-		return new WebAppDescriptor.Builder().build();
-	}
-
 	@Test
 	public void testCreateOneVehicleSuccess() throws JSONException, URISyntaxException {
 
         String authToken = getToken("admin", "admin");
 
         WebResource webResource = client().resource("http://localhost:8080/parking");
-        JSONObject json = webResource.path("/accounts")
+        JSONObject json = webResource.path("/rest/accounts")
                 .header("X-Auth-Token", authToken)
                 .get(JSONObject.class);
 
@@ -42,7 +34,7 @@ public class VehicleTest extends ApplicationTest {
         vehicle.setLicensePlate("Q-123-QR");
 
         webResource = client().resource("http://localhost:8080/parking");
-        String vehicle1 = webResource.path("/vehicles")
+        String vehicle1 = webResource.path("/rest/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -51,7 +43,7 @@ public class VehicleTest extends ApplicationTest {
         System.out.println("JSON \n" + toPrettyFormat(vehicle1));
 
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/vehicles")
+        vehicle1 = webResource.path("/rest/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -66,7 +58,7 @@ public class VehicleTest extends ApplicationTest {
 
         String authToken = getToken("admin", "admin");
         WebResource webResource = client().resource("http://localhost:8080/parking");
-        JSONObject json = webResource.path("/accounts")
+        JSONObject json = webResource.path("/rest/accounts")
                 .header("X-Auth-Token", authToken)
                 .get(JSONObject.class);
 
@@ -81,7 +73,7 @@ public class VehicleTest extends ApplicationTest {
         vehicle.setLicensePlate("Q-111111-QR");
 
         webResource = client().resource("http://localhost:8080/parking");
-        String vehicle1 = webResource.path("/vehicles")
+        String vehicle1 = webResource.path("/rest/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -95,7 +87,7 @@ public class VehicleTest extends ApplicationTest {
         vehicle.setLicensePlate("Q-222222-QR");
 
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/vehicles")
+        vehicle1 = webResource.path("/rest/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -105,7 +97,7 @@ public class VehicleTest extends ApplicationTest {
 
         // GET 1
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/vehicles/33")
+        vehicle1 = webResource.path("/rest/vehicles/33")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
@@ -115,7 +107,7 @@ public class VehicleTest extends ApplicationTest {
 
         // GET ALL
         webResource = client().resource("http://localhost:8080/parking");
-        vehicle1 = webResource.path("/vehicles")
+        vehicle1 = webResource.path("/rest/vehicles")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")

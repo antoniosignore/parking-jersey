@@ -12,11 +12,6 @@ import java.net.URISyntaxException;
 
 public class HomeDocumentTest extends ApplicationTest {
 
-    @Override
-    protected AppDescriptor configure() {
-        return new WebAppDescriptor.Builder().build();
-    }
-
     @Test
     public void testGetRoot() throws JSONException, URISyntaxException {
 
