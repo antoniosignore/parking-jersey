@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PostServiceImpl implements PostService {
+public class BlogEntriesImpl implements PostService {
 
     @Autowired
     private PostDao postDao;

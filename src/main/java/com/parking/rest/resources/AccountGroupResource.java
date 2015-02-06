@@ -7,7 +7,6 @@ import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
 import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.hateoas.AccountGroupDto;
-import com.parking.rest.hateoas.VehicleDto;
 import com.parking.services.AccountGroupService;
 import com.parking.services.AccountService;
 import com.parking.services.exceptions.AccountDoesNotExistException;
@@ -99,21 +98,37 @@ public class AccountGroupResource {
     }
 
     @POST
-    @Linkable(value = LinkableIds.ACCOUNT_GROUP_UPDATE_ID)
+    @Linkable(value = LinkableIds.ACCOUNT_GROUP_UPDATE_ID, templateClass = AccountGroupDto.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public AccountGroup update(@PathParam("id") Long id, AccountGroup accountgroup) {
-        return accountGroupService.updateAccountGroupEntry(id, accountgroup);
+    public Response update(@PathParam("id") Long id, AccountGroup accountgroup) {
+
+        AccountGroup group = this.accountGroupService.findAccountGroup(id);
+        if (group == null) return Response.status(Response.Status.NOT_FOUND).build();
+
+        AccountGroup saved;
+        try {
+            saved = accountGroupService.update(accountgroup);
+        } catch (Exception e) {
+            throw new ForbiddenException();
+        }
+
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(AccountGroupDto.fromBean(saved))
+                        .link(LinkableIds.ACCOUNT_GROUP_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
-//    @DELETE
-//    @Linkable(value = LinkableIds.ACCOUNT_GROUP)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Path("/{id}")
-//    public void delete(@PathParam("id") Long id) {
-//        this.accountGroupService.deleteAccountGroup(id);
-//    }
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public void delete(@PathParam("id") Long id) {
+        AccountGroup group = this.accountGroupService.findAccountGroup(id);
+        if (group == null) throw new NotFoundException();
+        this.accountGroupService.delete(id);
+    }
 
 
     private boolean isAdmin() {

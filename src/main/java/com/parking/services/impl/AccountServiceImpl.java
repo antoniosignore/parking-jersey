@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
 //
 //        post.setOwner(account);
 //
-//        Post createdBlog = postDao.save(post);
+//        Post createdBlog = postDao.update(post);
 //        createdBlog.setOwner(account);
 //        return createdBlog;
 //    }
@@ -77,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
 //        connection.setInitiator(initiator);
 //        connection.setReceiver(receiver);
 //
-//        return connectionDao.save(connection);
+//        return connectionDao.update(connection);
 //    }
 //
 //    @Override
@@ -86,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
 //        if (account == null) throw new AccountDoesNotExistException();
 //        try {
 //            parking.setAccount(account);
-//            parking = parkingDao.save(parking);
+//            parking = parkingDao.update(parking);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            throw new GroupExistsException();
@@ -100,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
 //        if (account == null) throw new AccountDoesNotExistException();
 //        accountGroup.setAccount(account);
 //        try {
-//            return userGroupDao.save(accountGroup);
+//            return userGroupDao.update(accountGroup);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            throw new GroupExistsException();
@@ -113,7 +113,7 @@ public class AccountServiceImpl implements AccountService {
 //        if (account == null) throw new AccountDoesNotExistException();
 //        vehicle.setOwner(account);
 //        try {
-//            return vehicleDao.save(vehicle);
+//            return vehicleDao.update(vehicle);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            throw new GroupExistsException();

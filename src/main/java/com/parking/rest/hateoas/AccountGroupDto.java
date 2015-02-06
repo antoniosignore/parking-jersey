@@ -10,27 +10,27 @@ import java.util.Collection;
 public class AccountGroupDto {
 
     private Long id;
-    private String groupName;
-    private String groupDescription;
+    private String name;
+    private String description;
 
     public AccountGroupDto() {
     }
 
-    public AccountGroupDto(Long id, String groupName, String groupDescription) {
+    public AccountGroupDto(Long id, String name, String groupDescription) {
         this.id = id;
-        this.groupName = groupName;
-        this.groupDescription = groupDescription;
+        this.name = name;
+        this.description = groupDescription;
     }
 
-    public AccountGroup toBean (AccountGroupDto vehicleDto){
+    public AccountGroup toBean (AccountGroupDto accountGroupDto){
         AccountGroup group = new AccountGroup();
-        group.setGroupName(vehicleDto.getGroupName());
-        group.setGroupDesc(vehicleDto.getGroupDescription());
+        group.setName(accountGroupDto.getName());
+        group.setDescription(accountGroupDto.getDescription());
         return  group;
     }
 
     public static AccountGroupDto fromBean(AccountGroup group) {
-        return new AccountGroupDto(group.getId(), group.getGroupName(), group.getGroupDesc());
+        return new AccountGroupDto(group.getId(), group.getName(), group.getDescription());
     }
 
     public static Collection<AccountGroupDto> fromBeanCollection(Collection<AccountGroup> groups) {
@@ -50,19 +50,19 @@ public class AccountGroupDto {
         this.id = id;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getGroupDescription() {
-        return groupDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGroupDescription(String groupDescription) {
-        this.groupDescription = groupDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

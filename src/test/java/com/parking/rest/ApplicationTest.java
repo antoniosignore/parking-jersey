@@ -20,6 +20,8 @@ import java.net.URISyntaxException;
 
 public class ApplicationTest extends JerseyTest {
 
+    protected  Gson gson = new Gson();
+
     public static String toPrettyFormat(String jsonString)
     {
         JsonParser parser = new JsonParser();
@@ -50,6 +52,8 @@ public class ApplicationTest extends JerseyTest {
         RestAssured.registerParser("application/json", Parser.JSON);
         RestAssured.registerParser("application/json", Parser.JSON);
         RestAssured.registerParser("application/json", Parser.JSON);
+
+
     }
 
     protected String getToken(String name, String password) throws JSONException, URISyntaxException {

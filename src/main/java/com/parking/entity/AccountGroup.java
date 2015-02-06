@@ -14,9 +14,9 @@ public class AccountGroup implements Entity, Serializable {
     private Long id;
 
     @NotNull
-    private String groupName;
+    private String name;
 
-    private String groupDesc;
+    private String description;
 
     @ManyToOne
     private Account account;
@@ -32,20 +32,20 @@ public class AccountGroup implements Entity, Serializable {
         this.id = id;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setName(String groupName) {
+        this.name = groupName;
     }
 
-    public String getGroupDesc() {
-        return groupDesc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
+    public void setDescription(String groupDesc) {
+        this.description = groupDesc;
     }
 
     public Account getAccount() {
@@ -64,8 +64,8 @@ public class AccountGroup implements Entity, Serializable {
         AccountGroup that = (AccountGroup) o;
 
         if (!account.equals(that.account)) return false;
-        if (!groupDesc.equals(that.groupDesc)) return false;
-        if (!groupName.equals(that.groupName)) return false;
+        if (!description.equals(that.description)) return false;
+        if (!name.equals(that.name)) return false;
         if (!id.equals(that.id)) return false;
 
         return true;
@@ -74,8 +74,8 @@ public class AccountGroup implements Entity, Serializable {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + groupName.hashCode();
-        result = 31 * result + groupDesc.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
         result = 31 * result + account.hashCode();
         return result;
     }
@@ -84,8 +84,8 @@ public class AccountGroup implements Entity, Serializable {
     public String toString() {
         return "AccountGroup{" +
                 "id=" + id +
-                ", groupName='" + groupName + '\'' +
-                ", groupDesc='" + groupDesc + '\'' +
+                ", groupName='" + name + '\'' +
+                ", groupDesc='" + description + '\'' +
                 ", account=" + account +
                 '}';
     }

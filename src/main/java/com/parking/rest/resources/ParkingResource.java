@@ -5,7 +5,9 @@ import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.entity.Parking;
+import com.parking.entity.Parking;
 import com.parking.rest.exceptions.ForbiddenException;
+import com.parking.rest.hateoas.ParkingDto;
 import com.parking.rest.hateoas.ParkingDto;
 import com.parking.services.AccountService;
 import com.parking.services.ParkingService;
@@ -97,46 +99,42 @@ public class ParkingResource {
         }
     }
 
-    @POST
+    @PUT
+    @Linkable(value = LinkableIds.PARKING_UPDATE_ID, templateClass = ParkingDto.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Parking update(@PathParam("id") Long id, Parking parking) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
-            try {
-                return parkingService.update(loggedAccount, parking);
-            } catch (AccountDoesNotExistException exception) {
-                throw new NotFoundException();
-            }
-        } else {
+    public Response update(@PathParam("id") Long id, ParkingDto dto) {
+        Parking veh = this.parkingService.findParking(id);
+        if (veh == null) return Response.status(Response.Status.NOT_FOUND).build();
+        veh.setLatitude(dto.getLatitude());
+        veh.setLongitude(dto.getLongitude());
+        veh.setStatus(dto.getStatus());
+
+        // todo - add  pickedby to the ParkingDto
+        veh.setPickedBy(dto.ge());
+
+        veh.setLicensePlate(dto.getLicensePlate());
+        Parking saved;
+        try {
+            saved = parkingService.save(veh);
+        } catch (Exception e) {
             throw new ForbiddenException();
         }
+
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(ParkingDto.fromBean(saved))
+                        .link(LinkableIds.PARKING_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
-        this.parkingService.delete(id);
-    }
-
-
-    private boolean isAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String && (principal).equals("anonymousUser")) {
-            return false;
-        }
-        UserDetails userDetails = (UserDetails) principal;
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
-            if (authority.toString().equals("admin")) {
-                return true;
-            }
-        }
-        return false;
+        Parking veh = this.parkingService.findParking(id);
+        if (veh == null) throw new NotFoundException();
+        this.parkingService.delete(veh.getId());
     }
 
 }

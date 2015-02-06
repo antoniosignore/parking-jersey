@@ -19,7 +19,7 @@ public interface VehicleService {
 
     public Vehicle createVehicle(Account loggedAccount, Vehicle vehicle);
 
-    public Vehicle save(Long id, Vehicle post);
+    public Vehicle save(Vehicle post);
 
     public void delete(Long id);
 

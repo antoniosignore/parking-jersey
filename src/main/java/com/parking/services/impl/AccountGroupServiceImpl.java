@@ -1,5 +1,6 @@
 package com.parking.services.impl;
 
+import com.parking.entity.Vehicle;
 import com.parking.model.dao.UserGroupDao;
 import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
@@ -29,11 +30,6 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     }
 
     @Override
-    public void deleteAccountGroup(Long id) {
-        userGroupDao.delete(id);
-    }
-
-    @Override
     public List<AccountGroup> findAllAccountGroupByAccount(Account loggedAccount) {
         return userGroupDao.findByUser(loggedAccount);
     }
@@ -50,8 +46,13 @@ public class AccountGroupServiceImpl implements AccountGroupService {
     }
 
     @Override
-    public AccountGroup updateAccountGroupEntry(Long id, AccountGroup data) {
-        return userGroupDao.save(data);
+    public AccountGroup update(AccountGroup vehicle) {
+        return userGroupDao.save(vehicle);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userGroupDao.delete(id);
     }
 
 }

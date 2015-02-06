@@ -47,7 +47,7 @@ public class DataBaseInitializer {
 //            post.setContent("This is example content " + i);
 //            post.setDate(new Date(timestamp));
 //            post.setOwner(userUser);
-//            this.postDao.save(post);
+//            this.postDao.update(post);
 //            timestamp += 1000 * 60 * 60;
 //        }
     }

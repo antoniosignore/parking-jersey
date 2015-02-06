@@ -28,7 +28,7 @@ import java.util.List;
 
 @Component
 @Path("/blog-entries")
-public class PostResource {
+public class BlogEntryResource {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

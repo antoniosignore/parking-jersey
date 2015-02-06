@@ -3,6 +3,7 @@ package com.parking.services;
 
 import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
+import com.parking.entity.Vehicle;
 
 import java.util.List;
 
@@ -12,12 +13,13 @@ public interface AccountGroupService {
 
     public AccountGroup findAccountGroup(Long id);
 
-    public AccountGroup updateAccountGroupEntry(Long id, AccountGroup data);
-
-    public void deleteAccountGroup(Long id);
 
     public List<AccountGroup> findAllAccountGroupByAccount(Account loggedAccount);
 
     AccountGroup createAccountGroup(Account loggedAccount, AccountGroup group);
+
+    public AccountGroup update(AccountGroup post);
+
+    public void delete(Long id);
 
 }

@@ -95,19 +95,19 @@ public class VehicleResource {
         }
     }
 
-    @POST
+    @PUT
     @Linkable(value = LinkableIds.VEHICLE_UPDATE_ID, templateClass = VehicleDto.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, Vehicle vehicle) {
-
+    public Response update(@PathParam("id") Long id, VehicleDto dto) {
         Vehicle veh = this.vehicleService.findVehicle(id);
         if (veh == null) return Response.status(Response.Status.NOT_FOUND).build();
-
+        veh.setName(dto.getName());
+        veh.setLicensePlate(dto.getLicensePlate());
         Vehicle saved;
         try {
-            saved = vehicleService.save(id, vehicle);
+            saved = vehicleService.save(veh);
         } catch (Exception e) {
             throw new ForbiddenException();
         }
@@ -120,12 +120,11 @@ public class VehicleResource {
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
         Vehicle veh = this.vehicleService.findVehicle(id);
         if (veh == null) throw new NotFoundException();
-        this.vehicleService.delete(id);
+        this.vehicleService.delete(veh.getId());
     }
 
 }
