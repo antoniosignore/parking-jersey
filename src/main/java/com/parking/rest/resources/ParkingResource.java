@@ -112,12 +112,12 @@ public class ParkingResource {
         veh.setStatus(dto.getStatus());
 
         // todo - add  pickedby to the ParkingDto
-        veh.setPickedBy(dto.ge());
+//        veh.setPickedBy(dto.ge());
 
-        veh.setLicensePlate(dto.getLicensePlate());
+//        veh.setLicensePlate(dto.getLicensePlate());
         Parking saved;
         try {
-            saved = parkingService.save(veh);
+            saved = parkingService.update(veh);
         } catch (Exception e) {
             throw new ForbiddenException();
         }

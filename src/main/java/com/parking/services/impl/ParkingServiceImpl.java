@@ -48,8 +48,7 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public Parking update(Account loggedAccount, Parking parking) {
-        parking.setAccount(loggedAccount);
+    public Parking update(Parking parking) {
         return parkingDao.save(parking);
     }
 

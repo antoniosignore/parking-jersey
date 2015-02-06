@@ -19,7 +19,7 @@ public interface ParkingService {
 
     List<Parking> findAllParkingByAccount(Account loggedAccount);
 
-    Parking update(Account loggedAccount, Parking parking);
+    Parking update(Parking parking);
 
     void delete(Long id);
 
