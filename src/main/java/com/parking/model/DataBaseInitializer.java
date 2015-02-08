@@ -1,8 +1,8 @@
 package com.parking.model;
 
+import com.parking.entity.Account;
 import com.parking.model.dao.AccountDao;
 import com.parking.model.dao.BlogEntryDao;
-import com.parking.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

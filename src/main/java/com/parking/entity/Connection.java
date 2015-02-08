@@ -8,25 +8,19 @@ import java.util.Date;
 @javax.persistence.Entity
 public class Connection implements Entity {
 
+    Date created;
     @Id
     @GeneratedValue
     private Long id;
-
     @OneToOne
     private Account initiator;
-
     @OneToOne
     private Account receiver;
-
     @OneToOne
     private AccountGroup initiatorGroup;
-
     @OneToOne
     private AccountGroup receiverGroup;
-
     private Boolean confirmed;
-
-    Date created;
 
     public Connection() {
     }

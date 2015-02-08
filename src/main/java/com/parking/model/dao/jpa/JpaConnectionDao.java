@@ -1,8 +1,8 @@
 package com.parking.model.dao.jpa;
 
-import com.parking.model.JpaDao;
 import com.parking.entity.Account;
 import com.parking.entity.Connection;
+import com.parking.model.JpaDao;
 import com.parking.model.dao.ConnectionDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +65,7 @@ public class JpaConnectionDao extends JpaDao<Connection, Long> implements Connec
     }
 
     @Override
-    public List<Connection>  findByInitiator(Account initiator) {
+    public List<Connection> findByInitiator(Account initiator) {
         Query query = getEntityManager().createQuery("SELECT b from Connection b where b.initiator.id=?1");
         query.setParameter(1, initiator.getId());
         return query.getResultList();

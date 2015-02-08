@@ -1,7 +1,6 @@
 package com.parking.services;
 
 import com.parking.entity.Account;
-import com.parking.entity.Vehicle;
 
 public interface AccountService {
 

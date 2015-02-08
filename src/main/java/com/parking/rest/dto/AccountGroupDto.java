@@ -22,13 +22,6 @@ public class AccountGroupDto {
         this.description = groupDescription;
     }
 
-    public AccountGroup toBean (AccountGroupDto accountGroupDto){
-        AccountGroup group = new AccountGroup();
-        group.setName(accountGroupDto.getName());
-        group.setDescription(accountGroupDto.getDescription());
-        return  group;
-    }
-
     public static AccountGroupDto fromBean(AccountGroup group) {
         return new AccountGroupDto(group.getId(), group.getName(), group.getDescription());
     }
@@ -40,6 +33,13 @@ public class AccountGroupDto {
                 return fromBean(group);
             }
         });
+    }
+
+    public AccountGroup toBean(AccountGroupDto accountGroupDto) {
+        AccountGroup group = new AccountGroup();
+        group.setName(accountGroupDto.getName());
+        group.setDescription(accountGroupDto.getDescription());
+        return group;
     }
 
     public Long getId() {

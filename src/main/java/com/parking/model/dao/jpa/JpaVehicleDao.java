@@ -1,8 +1,8 @@
 package com.parking.model.dao.jpa;
 
-import com.parking.model.JpaDao;
 import com.parking.entity.Account;
 import com.parking.entity.Vehicle;
+import com.parking.model.JpaDao;
 import com.parking.model.dao.VehicleDao;
 import org.springframework.transaction.annotation.Transactional;
 

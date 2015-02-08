@@ -6,8 +6,8 @@ import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
 import com.parking.entity.Connection;
-import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.dto.ConnectionDto;
+import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.services.AccountGroupService;
 import com.parking.services.AccountService;
 import com.parking.services.ConnectionService;
@@ -89,7 +89,7 @@ public class ConnectionResource {
             Account loggedAccount = accountService.findByName(details.getUsername());
             try {
 
-                AccountGroup initiatorGroup = accountGroupService.findAccountGroup (dto.getInitiatorGroupId());
+                AccountGroup initiatorGroup = accountGroupService.findAccountGroup(dto.getInitiatorGroupId());
                 Account receiver = accountService.findAccount(dto.getReceiverId());
 
                 Connection createConnection = connectionService.createConnection(
@@ -122,13 +122,13 @@ public class ConnectionResource {
         connection.setConfirmed(dto.getConfirmed());
 
         Account initiator = accountService.findAccount(dto.getInitiatorId());
-        AccountGroup initiatorGroup = accountGroupService.findAccountGroup (dto.getInitiatorGroupId());
+        AccountGroup initiatorGroup = accountGroupService.findAccountGroup(dto.getInitiatorGroupId());
         Account receiver = accountService.findAccount(dto.getReceiverId());
         AccountGroup receiverGroup = accountGroupService.findAccountGroup(dto.getReceiverGroupId());
 
         Connection saved;
         try {
-            saved = connectionService.update(receiver,receiverGroup, initiator, initiatorGroup,connection);
+            saved = connectionService.update(receiver, receiverGroup, initiator, initiatorGroup, connection);
         } catch (Exception e) {
             throw new ForbiddenException();
         }

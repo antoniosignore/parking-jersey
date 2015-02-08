@@ -1,12 +1,7 @@
 package com.parking.services.impl;
 
-import com.parking.model.dao.AccountDao;
-import com.parking.model.dao.UserGroupDao;
-import com.parking.model.dao.ConnectionDao;
-import com.parking.model.dao.ParkingDao;
-import com.parking.model.dao.BlogEntryDao;
-import com.parking.model.dao.VehicleDao;
 import com.parking.entity.Account;
+import com.parking.model.dao.*;
 import com.parking.services.AccountService;
 import com.parking.services.exceptions.AccountExistsException;
 import org.springframework.beans.factory.annotation.Autowired;

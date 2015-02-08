@@ -5,8 +5,8 @@ import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.rest.TokenUtils;
-import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.dto.*;
+import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.services.*;
 import com.parking.services.exceptions.AccountDoesNotExistException;
 import com.parking.transfer.TokenTransfer;
@@ -36,29 +36,22 @@ import java.util.Map;
 public class AccountResource {
 
     @Autowired
+    ConnectionService connectionService;
+    @Autowired
+    ParkingService parkingService;
+    @Autowired
+    BlogEntryService blogEntryService;
+    @Autowired
+    AccountGroupService accountGroupService;
+    @Autowired
+    VehicleService vehicleService;
+    @Autowired
     private UserDetailsService userService;
-
     @Autowired
     @Qualifier("authenticationManager")
     private AuthenticationManager authManager;
-
     @Autowired
     private AccountService accountService;
-
-    @Autowired
-    ConnectionService connectionService;
-
-    @Autowired
-    ParkingService parkingService;
-
-    @Autowired
-    BlogEntryService blogEntryService;
-
-    @Autowired
-    AccountGroupService accountGroupService;
-
-    @Autowired
-    VehicleService vehicleService;
 
     /**
      * Retrieves the currently logged in account.
@@ -217,7 +210,6 @@ public class AccountResource {
             throw new NotFoundException();
         }
     }
-
 
 
     @POST

@@ -1,9 +1,8 @@
 package com.parking.services.impl;
 
-import com.parking.entity.Vehicle;
-import com.parking.model.dao.UserGroupDao;
 import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
+import com.parking.model.dao.UserGroupDao;
 import com.parking.services.AccountGroupService;
 import com.parking.services.exceptions.GroupExistsException;
 import org.springframework.beans.factory.annotation.Autowired;

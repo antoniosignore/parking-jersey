@@ -34,8 +34,8 @@ public class ConnectionDto {
 
     public static ConnectionDto fromBean(Connection connection) {
         return (
-        new ConnectionDto(connection.getId(), connection.getConfirmed(), connection.getInitiator().getId(),
-                connection.getReceiver().getId(), connection.getInitiatorGroup().getId(), connection.getReceiverGroup().getId()));
+                new ConnectionDto(connection.getId(), connection.getConfirmed(), connection.getInitiator().getId(),
+                        connection.getReceiver().getId(), connection.getInitiatorGroup().getId(), connection.getReceiverGroup().getId()));
     }
 
     public static Collection<ConnectionDto> fromBeanCollection(Collection<Connection> connections) {

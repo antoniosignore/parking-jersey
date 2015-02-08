@@ -1,8 +1,8 @@
 package com.parking.model.dao.jpa;
 
-import com.parking.model.JpaDao;
 import com.parking.entity.Account;
 import com.parking.entity.Parking;
+import com.parking.model.JpaDao;
 import com.parking.model.dao.ParkingDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,8 +54,8 @@ public class JpaParkingDao extends JpaDao<Parking, Long> implements ParkingDao {
 
     @Override
     public Parking save(Account loggedAccount, Parking parking) {
-       parking.setAccount(loggedAccount);
-       return save(parking);
+        parking.setAccount(loggedAccount);
+        return save(parking);
     }
 
 }

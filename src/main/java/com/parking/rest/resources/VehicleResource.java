@@ -5,8 +5,8 @@ import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.entity.Vehicle;
-import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.dto.VehicleDto;
+import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.services.AccountService;
 import com.parking.services.VehicleService;
 import com.parking.services.exceptions.AccountDoesNotExistException;
@@ -67,10 +67,10 @@ public class VehicleResource {
         if (vehicle == null) return Response.status(Response.Status.NOT_FOUND).build();
 
         HateoasResponse.HateoasResponseBuilder builder =
-                    HateoasResponse
-                            .ok(VehicleDto.fromBean(vehicle))
-                            .link(LinkableIds.VEHICLE_DETAILS_ID, AtomRels.SELF, id);
-            return builder.build();
+                HateoasResponse
+                        .ok(VehicleDto.fromBean(vehicle))
+                        .link(LinkableIds.VEHICLE_DETAILS_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
     @POST

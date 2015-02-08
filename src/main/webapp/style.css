@@ -1,17 +1,44 @@
 /* Styles go here */
 
-.top { border: 1px solid blue;
-position: absolute; height: 100px; width: auto; left: 0; right: 0; top: 0; bottom: auto;
+.top {
+    border: 1px solid blue;
+    position: absolute;
+    height: 100px;
+    width: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: auto;
 }
 
 .middle {
-position: absolute; height: auto; width: auto; left: 0; right: 0; top: 100px; bottom: 0;
+    position: absolute;
+    height: auto;
+    width: auto;
+    left: 0;
+    right: 0;
+    top: 100px;
+    bottom: 0;
 }
 
-.left { border: 1px solid blue;
-position: absolute; height: auto; width: 200px; left: 0; right: auto; top: 0; bottom: 0;
+.left {
+    border: 1px solid blue;
+    position: absolute;
+    height: auto;
+    width: 200px;
+    left: 0;
+    right: auto;
+    top: 0;
+    bottom: 0;
 }
 
-.main { border: 1px solid blue;
-position: absolute; height: auto; width: auto; left: 200px; right: 0; top: 0; bottom: 0;
+.main {
+    border: 1px solid blue;
+    position: absolute;
+    height: auto;
+    width: auto;
+    left: 200px;
+    right: 0;
+    top: 0;
+    bottom: 0;
 } 

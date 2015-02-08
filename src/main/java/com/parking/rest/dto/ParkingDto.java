@@ -37,18 +37,10 @@ public class ParkingDto {
         this.id = id;
     }
 
-    public Parking toBean(ParkingDto parkingDto) {
-        return new Parking(parkingDto.getStatus(),
-                parkingDto.getWhenPicked(),
-                parkingDto.getLatitude(),
-                parkingDto.getLongitude(),
-                parkingDto.getId());
-    }
-
     public static ParkingDto fromBean(Parking parking) {
         return new ParkingDto(parking.getStatus(), parking.getWhenPicked(), parking.getLatitude(),
                 parking.getLongitude(), parking.getPickedBy().getId(),
-                parking.getVehicle().getId(), parking.getId() );
+                parking.getVehicle().getId(), parking.getId());
     }
 
     public static Collection<ParkingDto> fromBeanCollection(Collection<Parking> vehicles) {
@@ -58,6 +50,14 @@ public class ParkingDto {
                 return fromBean(vehicle);
             }
         });
+    }
+
+    public Parking toBean(ParkingDto parkingDto) {
+        return new Parking(parkingDto.getStatus(),
+                parkingDto.getWhenPicked(),
+                parkingDto.getLatitude(),
+                parkingDto.getLongitude(),
+                parkingDto.getId());
     }
 
     public Long getId() {
