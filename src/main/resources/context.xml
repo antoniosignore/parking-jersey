@@ -49,7 +49,7 @@
 
     <bean id="dataBaseInitializer" class="com.parking.model.DataBaseInitializer" init-method="initDataBase">
         <constructor-arg ref="userDao"/>
-        <constructor-arg ref="postDao"/>
+        <constructor-arg ref="blogEntryDao"/>
         <constructor-arg ref="passwordEncoder"/>
     </bean>
 
