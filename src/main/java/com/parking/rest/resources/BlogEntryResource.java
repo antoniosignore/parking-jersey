@@ -6,7 +6,7 @@ import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.entity.BlogEntry;
 import com.parking.rest.exceptions.ForbiddenException;
-import com.parking.rest.hateoas.BlogEntryDto;
+import com.parking.rest.dto.BlogEntryDto;
 import com.parking.services.AccountService;
 import com.parking.services.BlogEntryService;
 import com.parking.services.exceptions.AccountDoesNotExistException;

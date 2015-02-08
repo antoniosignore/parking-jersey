@@ -6,7 +6,7 @@ import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.entity.AccountGroup;
 import com.parking.rest.exceptions.ForbiddenException;
-import com.parking.rest.hateoas.AccountGroupDto;
+import com.parking.rest.dto.AccountGroupDto;
 import com.parking.services.AccountGroupService;
 import com.parking.services.AccountService;
 import com.parking.services.exceptions.AccountDoesNotExistException;

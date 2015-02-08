@@ -1,13 +1,17 @@
 package com.parking.services.impl;
 
+import com.parking.entity.ParkingStatusEnum;
+import com.parking.entity.Vehicle;
 import com.parking.model.dao.ParkingDao;
 import com.parking.entity.Account;
 import com.parking.entity.Parking;
+import com.parking.model.dao.VehicleDao;
 import com.parking.services.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +20,9 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Autowired
     private ParkingDao parkingDao;
+
+    @Autowired
+    private VehicleDao vehicleDao;
 
     @Override
     public List<Parking> findAllParkings() {
@@ -38,13 +45,17 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public Parking createParking(Account loggedAccount, Parking parking) {
-        return parkingDao.save(loggedAccount, parking);
+    public Parking createParking(Account loggedAccount, Vehicle vehicle, Parking parking) {
+        parking.setStatus(ParkingStatusEnum.shared);
+        parking.setParkingDate(new Date());
+        parking.setVehicle(vehicle);
+        parking.setAccount(loggedAccount);
+        return parkingDao.save(parking);
     }
 
     @Override
-    public List<Parking> findAllParkingByAccount(Account loggedAccount) {
-        return parkingDao.findParkingsByAccount(loggedAccount);
+    public List<Parking> findAllParkingByAccount(Account account) {
+        return parkingDao.findParkingsByAccount(account);
     }
 
     @Override

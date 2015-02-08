@@ -1,7 +1,7 @@
 package com.parking.rest.resources;
 
 import com.jayway.jaxrs.hateoas.core.HateoasResponse;
-import com.parking.rest.hateoas.HomeDto;
+import com.parking.rest.dto.HomeDto;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

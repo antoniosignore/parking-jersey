@@ -1,4 +1,4 @@
-package com.parking.rest.hateoas;
+package com.parking.rest.dto;
 
 import com.jayway.jaxrs.hateoas.HateoasLinkBean;
 

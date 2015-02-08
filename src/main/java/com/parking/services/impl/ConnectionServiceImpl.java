@@ -1,5 +1,6 @@
 package com.parking.services.impl;
 
+import com.parking.entity.AccountGroup;
 import com.parking.model.dao.ConnectionDao;
 import com.parking.entity.Account;
 import com.parking.entity.Connection;
@@ -54,13 +55,25 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public Connection update(Connection connection) {
+    public Connection update(Account receiver,
+                             AccountGroup receiverGroup,
+                             Account initiator,
+                             AccountGroup initiatorGroup,
+                             Connection connection) {
+        connection.setInitiator(initiator);
+        connection.setInitiatorGroup(initiatorGroup);
+        connection.setReceiver(receiver);
+        connection.setReceiverGroup(receiverGroup);
         return connectionDao.save(connection);
     }
 
     @Override
-    public Connection createConnection(Account loggedAccount, Connection connection) {
-        connection.setInitiator(loggedAccount);
+    public Connection createConnection(Account initiator, AccountGroup initiatorGroup,
+                                       Account receiver,
+                                       Connection connection) {
+        connection.setInitiator(initiator);
+        connection.setInitiatorGroup(initiatorGroup);
+        connection.setReceiver(receiver);
         try {
             return connectionDao.save(connection);
         } catch (Exception e) {

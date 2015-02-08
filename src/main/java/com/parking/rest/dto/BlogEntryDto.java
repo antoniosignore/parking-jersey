@@ -1,4 +1,4 @@
-package com.parking.rest.hateoas;
+package com.parking.rest.dto;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -13,8 +13,10 @@ public class BlogEntryDto {
     private Long id;
     private String title;
     private String content;
+
     public BlogEntryDto() {
     }
+
     public BlogEntryDto(String title, Long id, String content) {
         this.title = title;
         this.id = id;

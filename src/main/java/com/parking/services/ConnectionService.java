@@ -2,6 +2,7 @@ package com.parking.services;
 
 
 import com.parking.entity.Account;
+import com.parking.entity.AccountGroup;
 import com.parking.entity.Connection;
 
 import java.util.List;
@@ -22,9 +23,13 @@ public interface ConnectionService {
 
     List<Connection> findAllConnectionByAccount(Account loggedAccount);
 
-    Connection update(Connection connection);
+    Connection update(Account receiver,
+                      AccountGroup receiverGroup,
+                      Account initiator,
+                      AccountGroup initiatorGroup,
+                      Connection connection);
 
-    Connection createConnection(Account loggedAccount, Connection connection);
+    Connection createConnection(Account loggedAccount, AccountGroup initiatorGroup, Account receiver, Connection connection);
 
     void delete(Long id);
 }

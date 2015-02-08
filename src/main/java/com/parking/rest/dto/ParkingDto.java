@@ -1,4 +1,4 @@
-package com.parking.rest.hateoas;
+package com.parking.rest.dto;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -18,27 +18,37 @@ public class ParkingDto {
 
     Double longitude;
 
-    private Long id;
+    Long pickedById;
+
+    Long vehicleId;
+
+    Long id;
 
     public ParkingDto() {
     }
 
-    public ParkingDto(ParkingStatusEnum status, Date whenPicked, Double latitude, Double longitude, Long id) {
+    public ParkingDto(ParkingStatusEnum status, Date whenPicked, Double latitude, Double longitude, Long pickedById, Long vehicleId, Long id) {
         this.status = status;
         this.whenPicked = whenPicked;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.pickedById = pickedById;
+        this.vehicleId = vehicleId;
         this.id = id;
     }
 
-    public Parking toBean(ParkingDto vehicle) {
-        return new Parking(vehicle.getStatus(), vehicle.getWhenPicked(), vehicle.getLatitude(),
-                vehicle.getLongitude(), vehicle.getId());
+    public Parking toBean(ParkingDto parkingDto) {
+        return new Parking(parkingDto.getStatus(),
+                parkingDto.getWhenPicked(),
+                parkingDto.getLatitude(),
+                parkingDto.getLongitude(),
+                parkingDto.getId());
     }
 
-    public static ParkingDto fromBean(Parking vehicle) {
-        return new ParkingDto(vehicle.getStatus(), vehicle.getWhenPicked(), vehicle.getLatitude(),
-                vehicle.getLongitude(), vehicle.getId());
+    public static ParkingDto fromBean(Parking parking) {
+        return new ParkingDto(parking.getStatus(), parking.getWhenPicked(), parking.getLatitude(),
+                parking.getLongitude(), parking.getPickedBy().getId(),
+                parking.getVehicle().getId(), parking.getId() );
     }
 
     public static Collection<ParkingDto> fromBeanCollection(Collection<Parking> vehicles) {
@@ -90,4 +100,19 @@ public class ParkingDto {
         this.longitude = longitude;
     }
 
+    public Long getPickedById() {
+        return pickedById;
+    }
+
+    public void setPickedById(Long pickedById) {
+        this.pickedById = pickedById;
+    }
+
+    public Long getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(Long vehicleId) {
+        this.vehicleId = vehicleId;
+    }
 }
