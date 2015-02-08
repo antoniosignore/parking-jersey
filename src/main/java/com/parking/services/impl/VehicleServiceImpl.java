@@ -55,7 +55,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Vehicle save(Vehicle vehicle) {
+    public Vehicle update(Vehicle vehicle) {
         return vehicleDao.save(vehicle);
     }
 

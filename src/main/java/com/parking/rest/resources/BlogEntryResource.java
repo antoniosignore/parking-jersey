@@ -4,18 +4,16 @@ import com.jayway.jaxrs.hateoas.Linkable;
 import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
-import com.parking.entity.Post;
+import com.parking.entity.BlogEntry;
 import com.parking.rest.exceptions.ForbiddenException;
-import com.parking.rest.hateoas.PostDto;
+import com.parking.rest.hateoas.BlogEntryDto;
 import com.parking.services.AccountService;
-import com.parking.services.PostService;
+import com.parking.services.BlogEntryService;
 import com.parking.services.exceptions.AccountDoesNotExistException;
 import com.sun.jersey.api.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -36,22 +34,22 @@ public class BlogEntryResource {
     private AccountService accountService;
 
     @Autowired
-    private PostService postService;
+    private BlogEntryService blogEntryService;
 
     @GET
-    @Linkable(LinkableIds.POSTS_LIST_ID)
+    @Linkable(LinkableIds.BLOG_ENTRIES_LIST_ID)
     @Produces(MediaType.APPLICATION_JSON)
     public Response list() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
-                List<Post> allEntries = this.postService.findAllPosts(loggedAccount);
+                List<BlogEntry> allEntries = this.blogEntryService.findAllBlogEntries(loggedAccount);
                 return HateoasResponse
-                        .ok(PostDto.fromBeanCollection(allEntries))
-                        .selfLink(LinkableIds.POST_NEW_ID)
-                        .selfEach(LinkableIds.POST_DETAILS_ID, "id").build();
+                        .ok(BlogEntryDto.fromBeanCollection(allEntries))
+                        .selfLink(LinkableIds.BLOG_ENTRY_NEW_ID)
+                        .selfEach(LinkableIds.BLOG_ENTRY_DETAILS_ID, "id").build();
             } catch (AccountDoesNotExistException exception) {
                 throw new NotFoundException();
             }
@@ -61,34 +59,34 @@ public class BlogEntryResource {
     }
 
     @GET
-    @Linkable(LinkableIds.POST_DETAILS_ID)
+    @Linkable(LinkableIds.BLOG_ENTRY_DETAILS_ID)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getPostById(@PathParam("id") Long id) {
-        Post post = this.postService.findPost(id);
-        if (post == null) return Response.status(Response.Status.NOT_FOUND).build();
+        BlogEntry blogEntry = this.blogEntryService.findBlogEntry(id);
+        if (blogEntry == null) return Response.status(Response.Status.NOT_FOUND).build();
 
         HateoasResponse.HateoasResponseBuilder builder =
                 HateoasResponse
-                        .ok(PostDto.fromBean(post))
-                        .link(LinkableIds.POST_DETAILS_ID, AtomRels.SELF, id);
+                        .ok(BlogEntryDto.fromBean(blogEntry))
+                        .link(LinkableIds.BLOG_ENTRY_DETAILS_ID, AtomRels.SELF, id);
         return builder.build();
     }
 
     @POST
-    @Linkable(value = LinkableIds.POST_NEW_ID, templateClass = PostDto.class)
+    @Linkable(value = LinkableIds.BLOG_ENTRY_NEW_ID, templateClass = BlogEntryDto.class)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response newPost(PostDto post) {
+    public Response newPost(BlogEntryDto post) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
-                Post createPost = postService.createPost(loggedAccount, post.toBean(post));
+                BlogEntry createBlogEntry = blogEntryService.createBlogEntry(loggedAccount, post.toBean(post));
                 return HateoasResponse
-                        .created(LinkableIds.POST_DETAILS_ID, createPost.getId())
-                        .entity(PostDto.fromBean(createPost)).build();
+                        .created(LinkableIds.BLOG_ENTRY_DETAILS_ID, createBlogEntry.getId())
+                        .entity(BlogEntryDto.fromBean(createBlogEntry)).build();
             } catch (AccountDoesNotExistException exception) {
                 throw new NotFoundException();
             }
@@ -97,36 +95,38 @@ public class BlogEntryResource {
         }
     }
 
-    @POST
+    @PUT
+    @Linkable(value = LinkableIds.BLOG_ENTRY_UPDATE_ID, templateClass = BlogEntryDto.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Post update(@PathParam("id") Long id, Post post) {
-        return postService.save(id, post);
+    public Response update(@PathParam("id") Long id, BlogEntryDto dto) {
+        BlogEntry veh = this.blogEntryService.findBlogEntry(id);
+        if (veh == null) return Response.status(Response.Status.NOT_FOUND).build();
+
+        veh.setTitle(dto.getTitle());
+        veh.setContent(dto.getContent());
+
+        BlogEntry saved;
+        try {
+            saved = blogEntryService.update(veh);
+        } catch (Exception e) {
+            throw new ForbiddenException();
+        }
+
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(BlogEntryDto.fromBean(saved))
+                        .link(LinkableIds.BLOG_ENTRY_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
-        this.postService.delete(id);
+        BlogEntry veh = this.blogEntryService.findBlogEntry(id);
+        if (veh == null) throw new NotFoundException();
+        this.blogEntryService.delete(veh.getId());
     }
-
-
-    private boolean isAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String && (principal).equals("anonymousUser")) {
-            return false;
-        }
-        UserDetails userDetails = (UserDetails) principal;
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
-            if (authority.toString().equals("admin")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 }

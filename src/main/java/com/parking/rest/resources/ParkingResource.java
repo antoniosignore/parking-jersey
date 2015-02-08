@@ -5,9 +5,7 @@ import com.jayway.jaxrs.hateoas.core.HateoasResponse;
 import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.entity.Parking;
-import com.parking.entity.Parking;
 import com.parking.rest.exceptions.ForbiddenException;
-import com.parking.rest.hateoas.ParkingDto;
 import com.parking.rest.hateoas.ParkingDto;
 import com.parking.services.AccountService;
 import com.parking.services.ParkingService;
@@ -16,8 +14,6 @@ import com.sun.jersey.api.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -47,7 +43,7 @@ public class ParkingResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 List<Parking> allEntries = this.parkingService.findAllParkingByAccount(loggedAccount);
                 return HateoasResponse
@@ -85,7 +81,7 @@ public class ParkingResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 Parking createParking = parkingService.createParking(loggedAccount, parking.toBean(parking));
                 return HateoasResponse
@@ -113,7 +109,6 @@ public class ParkingResource {
 
         // todo - add  pickedby to the ParkingDto
 //        veh.setPickedBy(dto.ge());
-
 //        veh.setLicensePlate(dto.getLicensePlate());
         Parking saved;
         try {

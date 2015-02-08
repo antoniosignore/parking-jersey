@@ -1,17 +1,18 @@
 package com.parking.services;
 
 import com.parking.entity.Account;
+import com.parking.entity.Vehicle;
 
 public interface AccountService {
 
-    public Account findUser(Long id);
+    public Account findAccount(Long id);
 
-    public Account findByUserName(String name);
+    public Account findByName(String name);
 
-    public Account createUser(Account data);
+    public Account createAccount(Account data);
 
 //    public AccountGroup createUserGroup(Long accountId, AccountGroup data);
-//    public Post createPost(Account account, Post data);
+//    public Post createBlogEntry(Account account, Post data);
 //    public Connection createConnection(Long accountId, Long receiverId, Connection data);
 //    public Parking createParking(Long accountId, Parking data);
 //    public Vehicle createVehicle(Long accountId, Vehicle data);
@@ -22,4 +23,14 @@ public interface AccountService {
 //    public ConnectionList findConnectionsByUser(Long accountId);
 //    public AccountGroupList findUserGroupsByUser(Long accountId);
 //    public VehicleList findVehiclesByUser(Long accountId);
+
+
+    public Account update(Account user);
+
+    public void delete(Long id);
+
+
 }
+
+
+

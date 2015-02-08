@@ -2,10 +2,10 @@ package com.parking.rest.resources;
 
 public class LinkableIds {
 
-    static final String POST_UPDATE_ID = "post.update";
-    static final String POST_DETAILS_ID = "post.details";
-    static final String POST_NEW_ID = "post.new";
-    static final String POSTS_LIST_ID = "post.list";
+    static final String BLOG_ENTRY_UPDATE_ID = "blogEntry.update";
+    static final String BLOG_ENTRY_DETAILS_ID = "blogEntry.details";
+    static final String BLOG_ENTRY_NEW_ID = "blogEntry.new";
+    static final String BLOG_ENTRIES_LIST_ID = "blogEntry.list";
 
     static final String VEHICLE_UPDATE_ID = "vehicle.update";
     static final String VEHICLE_DETAILS_ID = "vehicle.details";

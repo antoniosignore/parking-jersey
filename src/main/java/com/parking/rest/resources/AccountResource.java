@@ -2,8 +2,10 @@ package com.parking.rest.resources;
 
 import com.jayway.jaxrs.hateoas.Linkable;
 import com.jayway.jaxrs.hateoas.core.HateoasResponse;
+import com.jayway.jaxrs.hateoas.support.AtomRels;
 import com.parking.entity.Account;
 import com.parking.rest.TokenUtils;
+import com.parking.rest.exceptions.ForbiddenException;
 import com.parking.rest.hateoas.*;
 import com.parking.services.*;
 import com.parking.services.exceptions.AccountDoesNotExistException;
@@ -50,7 +52,7 @@ public class AccountResource {
     ParkingService parkingService;
 
     @Autowired
-    PostService postService;
+    BlogEntryService blogEntryService;
 
     @Autowired
     AccountGroupService accountGroupService;
@@ -116,7 +118,6 @@ public class AccountResource {
         return roles;
     }
 
-
     @GET
     @Path("/{id}/connections")
     @Produces("application/json")
@@ -124,7 +125,7 @@ public class AccountResource {
     public Response getAccountConnections(@PathParam("id") Long id) {
 
         try {
-            Account user = accountService.findUser(id);
+            Account user = accountService.findAccount(id);
 
             Collection<ConnectionDto> connections = ConnectionDto.fromBeanCollection(
                     connectionService.findAllConnectionByAccount(user));
@@ -145,7 +146,7 @@ public class AccountResource {
     public Response getAccountParkings(@PathParam("id") Long id) {
 
         try {
-            Account user = accountService.findUser(id);
+            Account user = accountService.findAccount(id);
 
             Collection<ParkingDto> parkings = ParkingDto.fromBeanCollection(
                     parkingService.findAllParkingByAccount(user));
@@ -165,13 +166,13 @@ public class AccountResource {
     public Response getAccountBlogEntries(@PathParam("id") Long id) {
 
         try {
-            Account user = accountService.findUser(id);
+            Account user = accountService.findAccount(id);
 
-            Collection<PostDto> posts = PostDto.fromBeanCollection(
-                    postService.findAllPosts(user));
+            Collection<BlogEntryDto> posts = BlogEntryDto.fromBeanCollection(
+                    blogEntryService.findAllBlogEntries(user));
 
             return HateoasResponse.ok(posts)
-                    .selfEach(LinkableIds.POST_DETAILS_ID, "id").build();
+                    .selfEach(LinkableIds.BLOG_ENTRY_DETAILS_ID, "id").build();
 
         } catch (AccountDoesNotExistException exception) {
             throw new NotFoundException();
@@ -185,7 +186,7 @@ public class AccountResource {
     public Response getAccountGroups(@PathParam("id") Long id) {
 
         try {
-            Account user = accountService.findUser(id);
+            Account user = accountService.findAccount(id);
 
             Collection<AccountGroupDto> groups = AccountGroupDto.fromBeanCollection(
                     accountGroupService.findAllAccountGroupByAccount(user));
@@ -204,7 +205,7 @@ public class AccountResource {
     public Response getAccountVehicles(@PathParam("id") Long id) {
 
         try {
-            Account user = accountService.findUser(id);
+            Account user = accountService.findAccount(id);
 
             Collection<VehicleDto> vehicles = VehicleDto.fromBeanCollection(
                     vehicleService.findAllVehicleByAccount(user));
@@ -216,4 +217,65 @@ public class AccountResource {
             throw new NotFoundException();
         }
     }
+
+
+
+    @POST
+    @Linkable(value = LinkableIds.ACCOUNT_NEW_ID, templateClass = AccountDto.class)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newAccount(AccountDto account) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails details = (UserDetails) principal;
+            Account loggedAccount = accountService.findByName(details.getUsername());
+            try {
+                Account createAccount = accountService.createAccount(account.toBean(account));
+                return HateoasResponse
+                        .created(LinkableIds.ACCOUNT_DETAILS_ID, createAccount.getId())
+                        .entity(AccountDto.fromBean(createAccount)).build();
+            } catch (AccountDoesNotExistException exception) {
+                throw new NotFoundException();
+            }
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+    @PUT
+    @Linkable(value = LinkableIds.ACCOUNT_UPDATE_ID, templateClass = AccountDto.class)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response update(@PathParam("id") Long id, AccountDto dto) {
+        Account user = this.accountService.findAccount(id);
+        if (user == null) return Response.status(Response.Status.NOT_FOUND).build();
+
+        user.setName(dto.getName());
+        user.setLongitude(dto.getLongitude());
+        user.setLatitude(dto.getLatitude());
+        user.setPassword(dto.getPassword());
+        user.setPassword(dto.getPassword());
+        Account saved;
+        try {
+            saved = accountService.update(user);
+        } catch (Exception e) {
+            throw new ForbiddenException();
+        }
+
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(AccountDto.fromBean(saved))
+                        .link(LinkableIds.ACCOUNT_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") Long id) {
+        Account veh = this.accountService.findAccount(id);
+        if (veh == null) throw new NotFoundException();
+        this.accountService.delete(veh.getId());
+    }
+
 }

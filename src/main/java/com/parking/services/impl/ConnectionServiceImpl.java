@@ -4,6 +4,7 @@ import com.parking.model.dao.ConnectionDao;
 import com.parking.entity.Account;
 import com.parking.entity.Connection;
 import com.parking.services.ConnectionService;
+import com.parking.services.exceptions.ConnectionExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,21 +54,23 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public Connection update(Long id, Connection connection) {
-
-        // todo
-        return null;
-
+    public Connection update(Connection connection) {
+        return connectionDao.save(connection);
     }
 
     @Override
     public Connection createConnection(Account loggedAccount, Connection connection) {
-        return null;
+        connection.setInitiator(loggedAccount);
+        try {
+            return connectionDao.save(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectionExistsException();
+        }
     }
 
     @Override
     public void delete(Long id) {
-        // todo
+        connectionDao.delete(id);
     }
-
 }

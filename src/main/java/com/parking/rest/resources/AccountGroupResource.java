@@ -44,7 +44,7 @@ public class AccountGroupResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 List<AccountGroup> allEntries = this.accountGroupService.findAllAccountGroupByAccount(loggedAccount);
                 return HateoasResponse
@@ -83,7 +83,7 @@ public class AccountGroupResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 AccountGroup createAccountgroup = accountGroupService.createAccountGroup(loggedAccount, accountgroup.toBean(accountgroup));
                 return HateoasResponse

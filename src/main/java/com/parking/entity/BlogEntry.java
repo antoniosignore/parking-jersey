@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @javax.persistence.Entity
-public class Post implements Entity {
+public class BlogEntry implements Entity {
 
     @Id
     @GeneratedValue
@@ -32,7 +32,7 @@ public class Post implements Entity {
     @NotNull
     private Account owner;
 
-    public Post() {
+    public BlogEntry() {
         this.date = new Date();
     }
 
@@ -83,9 +83,9 @@ public class Post implements Entity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Post)) return false;
-        Post post = (Post) o;
-        if (!id.equals(post.id)) return false;
+        if (!(o instanceof BlogEntry)) return false;
+        BlogEntry blogEntry = (BlogEntry) o;
+        if (!id.equals(blogEntry.id)) return false;
         return true;
     }
 

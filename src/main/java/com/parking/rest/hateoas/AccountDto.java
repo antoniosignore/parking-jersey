@@ -80,4 +80,18 @@ public class AccountDto {
         this.password = password;
     }
 
+    public Account toBean(AccountDto dto) {
+        Account user = new Account();
+        user.setName(dto.getName());
+        user.setLongitude(dto.getLongitude());
+        user.setLatitude(dto.getLatitude());
+        user.setPassword(dto.getPassword());
+
+        // todo - check roles
+//        user.setRoles(dto.getRoles());
+
+        return user;
+    }
+
+
 }

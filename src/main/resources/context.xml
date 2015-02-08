@@ -40,7 +40,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="postDao" class="com.parking.model.dao.jpa.JpaPostDao"/>
+    <bean id="blogEntryDao" class="com.parking.model.dao.jpa.JpaBlogEntryDao"/>
     <bean id="userDao" class="com.parking.model.dao.jpa.JpaAccountDao"/>
     <bean id="vehicleDao" class="com.parking.model.dao.jpa.JpaVehicleDao"/>
     <bean id="parkingDao" class="com.parking.model.dao.jpa.JpaParkingDao"/>

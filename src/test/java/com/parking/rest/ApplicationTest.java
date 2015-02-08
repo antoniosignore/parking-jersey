@@ -52,8 +52,6 @@ public class ApplicationTest extends JerseyTest {
         RestAssured.registerParser("application/json", Parser.JSON);
         RestAssured.registerParser("application/json", Parser.JSON);
         RestAssured.registerParser("application/json", Parser.JSON);
-
-
     }
 
     protected String getToken(String name, String password) throws JSONException, URISyntaxException {

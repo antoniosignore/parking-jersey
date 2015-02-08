@@ -14,8 +14,6 @@ import com.sun.jersey.api.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -45,7 +43,7 @@ public class ConnectionResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 List<Connection> allEntries = this.connectionService.findAllConnectionByAccount(loggedAccount);
                 return HateoasResponse
@@ -84,7 +82,7 @@ public class ConnectionResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 Connection createConnection = connectionService.createConnection(loggedAccount, connection.toBean(connection));
                 return HateoasResponse
@@ -98,35 +96,38 @@ public class ConnectionResource {
         }
     }
 
-    @POST
+    @PUT
+    @Linkable(value = LinkableIds.CONNECTION_UPDATE_ID, templateClass = ConnectionDto.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Connection update(@PathParam("id") Long id, Connection connection) {
-        return connectionService.update(id, connection);
+    public Response update(@PathParam("id") Long id, ConnectionDto dto) {
+        Connection connection = this.connectionService.findConnection(id);
+        if (connection == null) return Response.status(Response.Status.NOT_FOUND).build();
+
+        connection.setConfirmed(dto.getConfirmed());
+        //todo - add foreign keys
+
+        Connection saved;
+        try {
+            saved = connectionService.update(connection);
+        } catch (Exception e) {
+            throw new ForbiddenException();
+        }
+
+        HateoasResponse.HateoasResponseBuilder builder =
+                HateoasResponse
+                        .ok(ConnectionDto.fromBean(saved))
+                        .link(LinkableIds.CONNECTION_UPDATE_ID, AtomRels.SELF, id);
+        return builder.build();
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void delete(@PathParam("id") Long id) {
-        this.connectionService.delete(id);
-    }
-
-
-    private boolean isAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String && (principal).equals("anonymousUser")) {
-            return false;
-        }
-        UserDetails userDetails = (UserDetails) principal;
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
-            if (authority.toString().equals("admin")) {
-                return true;
-            }
-        }
-        return false;
+        Connection connection = this.connectionService.findConnection(id);
+        if (connection == null) throw new NotFoundException();
+        this.connectionService.delete(connection.getId());
     }
 
 }

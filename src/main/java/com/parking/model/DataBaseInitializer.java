@@ -1,7 +1,7 @@
 package com.parking.model;
 
 import com.parking.model.dao.AccountDao;
-import com.parking.model.dao.PostDao;
+import com.parking.model.dao.BlogEntryDao;
 import com.parking.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataBaseInitializer {
 
     @Autowired
-    private PostDao postDao;
+    private BlogEntryDao blogEntryDao;
 
     @Autowired
     private AccountDao accountDao;
@@ -25,9 +25,9 @@ public class DataBaseInitializer {
         /* Default constructor for reflection instantiation */
     }
 
-    public DataBaseInitializer(AccountDao accountDao, PostDao postDao, PasswordEncoder passwordEncoder) {
+    public DataBaseInitializer(AccountDao accountDao, BlogEntryDao blogEntryDao, PasswordEncoder passwordEncoder) {
         this.accountDao = accountDao;
-        this.postDao = postDao;
+        this.blogEntryDao = blogEntryDao;
         this.passwordEncoder = passwordEncoder;
     }
 

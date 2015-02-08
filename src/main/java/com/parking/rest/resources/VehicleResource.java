@@ -42,7 +42,7 @@ public class VehicleResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 List<Vehicle> allEntries = this.vehicleService.findAllVehicleByAccount(loggedAccount);
                 return HateoasResponse
@@ -81,7 +81,7 @@ public class VehicleResource {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails details = (UserDetails) principal;
-            Account loggedAccount = accountService.findByUserName(details.getUsername());
+            Account loggedAccount = accountService.findByName(details.getUsername());
             try {
                 Vehicle createVehicle = vehicleService.createVehicle(loggedAccount, vehicle.toBean(vehicle));
                 return HateoasResponse
@@ -107,7 +107,7 @@ public class VehicleResource {
         veh.setLicensePlate(dto.getLicensePlate());
         Vehicle saved;
         try {
-            saved = vehicleService.save(veh);
+            saved = vehicleService.update(veh);
         } catch (Exception e) {
             throw new ForbiddenException();
         }

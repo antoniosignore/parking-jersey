@@ -4,7 +4,7 @@ import com.parking.model.dao.AccountDao;
 import com.parking.model.dao.UserGroupDao;
 import com.parking.model.dao.ConnectionDao;
 import com.parking.model.dao.ParkingDao;
-import com.parking.model.dao.PostDao;
+import com.parking.model.dao.BlogEntryDao;
 import com.parking.model.dao.VehicleDao;
 import com.parking.entity.Account;
 import com.parking.services.AccountService;
@@ -21,7 +21,7 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
 
     @Autowired
-    private PostDao postDao;
+    private BlogEntryDao blogEntryDao;
 
     @Autowired
     private UserGroupDao userGroupDao;
@@ -36,24 +36,24 @@ public class AccountServiceImpl implements AccountService {
     private VehicleDao vehicleDao;
 
     @Override
-    public Account findUser(Long id) {
+    public Account findAccount(Long id) {
         return accountDao.find(id);
     }
 
 //    @Override
-//    public Account findByUserName(String name) {
+//    public Account findByName(String name) {
 //        return null;
 //    }
 
     @Override
-    public Account createUser(Account data) {
+    public Account createAccount(Account data) {
         Account account = accountDao.findByName(data.getName());
         if (account != null) throw new AccountExistsException();
         return accountDao.save(data);
     }
 
 //    @Override
-//    public Post createPost(Account account, Post post) {
+//    public Post createBlogEntry(Account account, Post post) {
 //
 //        post.setOwner(account);
 //
@@ -171,7 +171,19 @@ public class AccountServiceImpl implements AccountService {
 //    }
 //
     @Override
-    public Account findByUserName(String name) {
+    public Account findByName(String name) {
         return accountDao.findByName(name);
     }
+
+
+    @Override
+    public Account update(Account user) {
+        return accountDao.save(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        accountDao.delete(id);
+    }
+
 }

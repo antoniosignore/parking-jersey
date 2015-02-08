@@ -22,7 +22,7 @@ public interface ConnectionService {
 
     List<Connection> findAllConnectionByAccount(Account loggedAccount);
 
-    Connection update(Long id, Connection connection);
+    Connection update(Connection connection);
 
     Connection createConnection(Account loggedAccount, Connection connection);
 
