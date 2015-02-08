@@ -10,7 +10,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
-
 public class JpaDao<T extends Entity, I> implements Dao<T, I> {
 
     protected Class<T> entityClass;
