@@ -18,7 +18,7 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
         });
 
         $routeProvider.otherwise({
-            templateUrl: 'partials/index-original.html',
+            templateUrl: 'partials/index.html',
             controller: IndexController
         });
 
@@ -183,13 +183,13 @@ services.factory('AccountGroupService', function ($resource) {
 });
 
 services.factory('ConnectionService', function ($resource) {
-    return $resource('rest/connection/:id', {id: '@id'});
+    return $resource('rest/connections/:id', {id: '@id'});
 });
 
 services.factory('ParkingService', function ($resource) {
-    return $resource('rest/parking/:id', {id: '@id'});
+    return $resource('rest/parkings/:id', {id: '@id'});
 });
 
 services.factory('VehicleService', function ($resource) {
-    return $resource('rest/vehicle/:id', {id: '@id'});
+    return $resource('rest/vehicles/:id', {id: '@id'});
 });
