@@ -55,7 +55,7 @@
 
         <init-param>
             <param-name>com.jayway.jaxrs.hateoas.HateoasVerbosity</param-name>
-            <param-value>NORMAL</param-value>
+            <param-value>ATOM</param-value>
         </init-param>
 
         <init-param>
