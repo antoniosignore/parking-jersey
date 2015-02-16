@@ -14,6 +14,7 @@ import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import javax.ws.rs.core.MediaType;
 import java.net.URISyntaxException;
@@ -54,14 +55,15 @@ public class ApplicationTest extends JerseyTest {
         RestAssured.registerParser("application/json", Parser.JSON);
     }
 
+
     protected String getToken(String name, String password) throws JSONException, URISyntaxException {
 
         Form form = new Form();
         form.add("password", password);
         form.add("username", name);
 
-        WebResource webResource = client().resource("http://localhost:8080/parking");
-        JSONObject json = webResource.path("/rest/accounts/authenticate")
+        WebResource webResource = client().resource("/rest/accounts");
+        JSONObject json = webResource.path("authenticate")
                 .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .accept("application/json")
                 .post(JSONObject.class, form);

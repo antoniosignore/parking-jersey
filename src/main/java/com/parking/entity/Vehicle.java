@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @javax.persistence.Entity
 public class Vehicle implements Entity {
@@ -18,6 +19,9 @@ public class Vehicle implements Entity {
 
     @Size(min = 2, max = 14)
     private String licensePlate;
+
+    @NotNull
+    private Date created_at;
 
     @ManyToOne
     private Account owner;
@@ -55,6 +59,14 @@ public class Vehicle implements Entity {
 
     public void setOwner(Account owner) {
         this.owner = owner;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
     @Override

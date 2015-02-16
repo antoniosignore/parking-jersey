@@ -1,6 +1,6 @@
 package com.parking.rest;
 
-import com.parking.entity.AccountGroup;
+import com.parking.rest.dto.AccountGroupDto;
 import com.sun.jersey.api.client.WebResource;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class AccountGroupTest extends ApplicationTest {
 
         String authToken = getToken("admin", "admin");
 
-        AccountGroup accountgroup = new AccountGroup();
+        AccountGroupDto accountgroup = new AccountGroupDto();
         accountgroup.setDescription("test content");
         accountgroup.setName("family");
 
@@ -43,7 +43,7 @@ public class AccountGroupTest extends ApplicationTest {
 
         String authToken = getToken("admin", "admin");
 
-        AccountGroup accountgroup = new AccountGroup();
+        AccountGroupDto accountgroup = new AccountGroupDto();
         accountgroup.setDescription("test content");
         accountgroup.setName("family");
 
@@ -56,7 +56,7 @@ public class AccountGroupTest extends ApplicationTest {
 
         System.out.println("JSON = \n" + toPrettyFormat(vehicle1));
 
-        accountgroup = new AccountGroup();
+        accountgroup = new AccountGroupDto();
         accountgroup.setName("family");
         accountgroup.setDescription("test content");
 

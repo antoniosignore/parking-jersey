@@ -5,6 +5,7 @@ import com.google.common.collect.Collections2;
 import com.parking.entity.Vehicle;
 
 import java.util.Collection;
+import java.util.Date;
 
 
 public class VehicleDto {
@@ -12,18 +13,20 @@ public class VehicleDto {
     private Long id;
     private String name;
     private String licensePlate;
+    private Date created_at;
 
     public VehicleDto() {
     }
 
-    public VehicleDto(String name, String licensePlate, Long id) {
+    public VehicleDto(String name, String licensePlate, Long id, Date created_at) {
         this.name = name;
         this.licensePlate = licensePlate;
         this.id = id;
+        this.created_at = created_at;
     }
 
     public static VehicleDto fromBean(Vehicle vehicle) {
-        return new VehicleDto(vehicle.getName(), vehicle.getLicensePlate(), vehicle.getId());
+        return new VehicleDto(vehicle.getName(), vehicle.getLicensePlate(), vehicle.getId(), vehicle.getCreated_at());
     }
 
     public static Collection<VehicleDto> fromBeanCollection(Collection<Vehicle> vehicles) {
@@ -59,10 +62,19 @@ public class VehicleDto {
         this.licensePlate = licensePlate;
     }
 
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
     public Vehicle toBean(VehicleDto vehicleDto) {
         Vehicle vehicle = new Vehicle();
         vehicle.setName(vehicleDto.getName());
         vehicle.setLicensePlate(vehicleDto.getLicensePlate());
+        vehicle.setCreated_at(vehicleDto.getCreated_at());
         return vehicle;
     }
 }

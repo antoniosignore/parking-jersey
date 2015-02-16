@@ -13,6 +13,8 @@ public class BlogEntryDto {
     private Long id;
     private String title;
     private String content;
+    private Date published_at;
+    private Integer views;
 
     public BlogEntryDto() {
     }
@@ -60,11 +62,28 @@ public class BlogEntryDto {
         this.content = content;
     }
 
-    public BlogEntry toBean(BlogEntryDto book) {
+    public Date getPublished_at() {
+        return published_at;
+    }
+
+    public void setPublished_at(Date published_at) {
+        this.published_at = published_at;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
+
+    public BlogEntry toBean(BlogEntryDto blog) {
         BlogEntry blogEntry = new BlogEntry();
-        blogEntry.setTitle(book.getTitle());
-        blogEntry.setContent(book.getContent());
+        blogEntry.setTitle(blog.getTitle());
+        blogEntry.setContent(blog.getContent());
         blogEntry.setDate(new Date());
+        blogEntry.setViews(blog.getViews());
         return blogEntry;
     }
 

@@ -1,8 +1,7 @@
 package com.parking.rest;
 
-import com.google.gson.Gson;
-import com.parking.entity.Vehicle;
 import com.parking.rest.dto.UserTransfer;
+import com.parking.rest.dto.VehicleDto;
 import com.sun.jersey.api.client.WebResource;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -17,7 +16,7 @@ public class VehicleTest extends ApplicationTest {
 	public void testCreateVehicles() throws JSONException, URISyntaxException {
 
         String authToken = getToken("admin", "admin");
-        WebResource webResource = client().resource("http://localhost:8080/parking");
+        WebResource webResource = client().resource("accounts");
         JSONObject json = webResource.path("/rest/accounts")
                 .header("X-Auth-Token", authToken)
                 .get(JSONObject.class);
@@ -27,7 +26,7 @@ public class VehicleTest extends ApplicationTest {
         Assert.assertEquals("admin", result.getName());
         Assert.assertEquals(2, result.getRoles().size());
 
-        Vehicle vehicle = new Vehicle();
+        VehicleDto vehicle = new VehicleDto();
         vehicle.setName("test content");
         vehicle.setLicensePlate("Q-111111-QR");
         webResource = client().resource("http://localhost:8080/parking");
@@ -39,7 +38,7 @@ public class VehicleTest extends ApplicationTest {
 
         System.out.println("JSON = \n" + toPrettyFormat(vehicle1));
 
-        vehicle = new Vehicle();
+        vehicle = new VehicleDto();
         vehicle.setName("test content 2");
         vehicle.setLicensePlate("Q-222222-QR");
 
@@ -74,7 +73,7 @@ public class VehicleTest extends ApplicationTest {
 
         // -------------------------------------------------------------------
         // UPDATE
-        Vehicle updatedVehicle = new Vehicle();
+        VehicleDto updatedVehicle = new VehicleDto();
         updatedVehicle.setName("test content 6");
         updatedVehicle.setLicensePlate("Q-8888888-QR");
         webResource = client().resource("http://localhost:8080/parking");

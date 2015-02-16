@@ -28,12 +28,14 @@ public class BlogEntry implements Entity {
     @Column
     private String content;
 
+    @Column
+    private Integer views;
+
     @OneToOne
     @NotNull
     private Account owner;
 
     public BlogEntry() {
-        this.date = new Date();
     }
 
     @JsonView(JsonViews.Admin.class)
@@ -79,6 +81,13 @@ public class BlogEntry implements Entity {
         this.title = title;
     }
 
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,30 +1,40 @@
 package com.parking.rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.codehaus.jettison.json.JSONException;
 import org.junit.Test;
 
+import java.io.InputStream;
 import java.net.URISyntaxException;
+
+import static com.jayway.restassured.RestAssured.expect;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 
 public class HomeDocumentTest extends ApplicationTest {
 
     @Test
     public void testGetRoot() throws JSONException, URISyntaxException {
 
-        String authToken = getToken("admin", "admin");
+        InputStream rootResponse = expect().
+                statusCode(200).
+                body("links.rel", hasItems("account-groups", "connections", "parkings", "blog-entries", "vehicles")).
+                body("links[0].method", equalTo("GET")).
+                body("links[1].method", equalTo("GET")).
+                body("links[2].method", equalTo("GET")).
+        when().get("/rest").asInputStream();
 
-        WebResource webResource = client().resource("http://localhost:8080/parking/rest");
-        String json = webResource
-                .header("X-Auth-Token", authToken)
-                .accept("application/json")
-                .type("application/json")
-                .get(String.class);
 
-        System.out.println("JSON = \n" + toPrettyFormat(json));
+//        String authToken = getToken("admin", "admin");
+//
+//        WebResource webResource = client().resource("http://localhost:8080/parking/rest");
+//        String json = webResource
+//                .header("X-Auth-Token", authToken)
+//                .accept("application/json")
+//                .type("application/json")
+//                .get(String.class);
+//
+//        System.out.println("JSON = \n" + toPrettyFormat(json));
 
     }
 }

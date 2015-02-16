@@ -3,8 +3,6 @@ package com.parking.rest;
 import com.google.gson.Gson;
 import com.parking.rest.dto.UserTransfer;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;

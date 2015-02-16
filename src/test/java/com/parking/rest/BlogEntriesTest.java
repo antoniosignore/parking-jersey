@@ -1,7 +1,7 @@
 package com.parking.rest;
 
 import com.google.gson.Gson;
-import com.parking.entity.BlogEntry;
+import com.parking.rest.dto.BlogEntryDto;
 import com.parking.rest.dto.UserTransfer;
 import com.sun.jersey.api.client.WebResource;
 import org.codehaus.jettison.json.JSONException;
@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
+import java.util.Date;
 
 public class BlogEntriesTest extends ApplicationTest {
 
@@ -20,7 +21,7 @@ public class BlogEntriesTest extends ApplicationTest {
         String authToken = getToken("admin", "admin");
 
         WebResource webResource = client().resource("http://localhost:8080/parking");
-        JSONObject json = webResource.path("/com/parking/rest/accounts")
+        JSONObject json = webResource.path("/rest/accounts")
                 .header("X-Auth-Token", authToken)
                 .get(JSONObject.class);
 
@@ -30,22 +31,23 @@ public class BlogEntriesTest extends ApplicationTest {
         Assert.assertEquals("admin", result.getName());
         Assert.assertEquals(2, result.getRoles().size());
 
-        BlogEntry blogEntry = new BlogEntry();
+        BlogEntryDto blogEntry = new BlogEntryDto();
         blogEntry.setContent("test content");
         blogEntry.setTitle("test title");
+        String js = gson.toJson(blogEntry);
 
         webResource = client().resource("http://localhost:8080/parking");
-        String post1 = webResource.path("/com/parking/rest/blog-entries")
+        String post1 = webResource.path("/rest/blog-entries")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")
-                .post(String.class, gson.toJson(blogEntry));
+                .post(String.class, js);
 
         System.out.println("JSON = \n" + toPrettyFormat(post1));
 
 
         webResource = client().resource("http://localhost:8080/parking");
-        post1 = webResource.path("/com/parking/rest/blog-entries")
+        post1 = webResource.path("/rest/blog-entries")
                 .header("X-Auth-Token", authToken)
                 .accept("application/json")
                 .type("application/json")

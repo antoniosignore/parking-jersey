@@ -8,7 +8,6 @@ public class UserTransfer {
 
     private Map<String, Boolean> roles;
 
-
     public UserTransfer() {
     }
 
