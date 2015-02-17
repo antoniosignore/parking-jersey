@@ -14,6 +14,7 @@ public class HomeResource {
     @GET
     @Produces("application/json")
     public Response root() {
+
         return HateoasResponse.ok(new HomeDto())
                 .link(LinkableIds.ACCOUNTS_GROUP_LIST_ID, Rels.ACCOUNT_GROUPS)
                 .link(LinkableIds.CONNECTIONS_LIST_ID, Rels.CONNECTIONS)

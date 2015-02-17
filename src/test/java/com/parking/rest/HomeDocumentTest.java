@@ -18,7 +18,8 @@ public class HomeDocumentTest extends ApplicationTest {
     public void testGetRoot() throws JSONException, URISyntaxException {
 
         InputStream rootResponse =
-                        given().filter(ResponseLoggingFilter.logResponseIfStatusCodeIs(200)).
+
+                given().filter(ResponseLoggingFilter.logResponseIfStatusCodeIs(200)).
                         expect().
                         statusCode(200).
                         body("links.rel", hasItems("account-groups", "connections", "parkings", "blog-entries", "vehicles")).
@@ -27,7 +28,7 @@ public class HomeDocumentTest extends ApplicationTest {
                         body("links[2].method", equalTo("GET")).
                                 body("links[3].method", equalTo("GET")).
                                 body("links[4].method", equalTo("GET")).
-        when().get("/rest").asInputStream();
+                when().get("/rest").asInputStream();
 
 
 //        String authToken = getToken("admin", "admin");
