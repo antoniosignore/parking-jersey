@@ -37,16 +37,22 @@ public class AccountResource {
 
     @Autowired
     ConnectionService connectionService;
+
     @Autowired
     ParkingService parkingService;
+
     @Autowired
     BlogEntryService blogEntryService;
+
     @Autowired
     AccountGroupService accountGroupService;
+
     @Autowired
     VehicleService vehicleService;
+
     @Autowired
     private UserDetailsService userService;
+
     @Autowired
     @Qualifier("authenticationManager")
     private AuthenticationManager authManager;
@@ -71,13 +77,6 @@ public class AccountResource {
         return new UserTransfer(userDetails.getUsername(), this.createRoleMap(userDetails));
     }
 
-    /**
-     * Authenticates a account and creates an authentication token.
-     *
-     * @param username The name of the account.
-     * @param password The password of the account.
-     * @return A transfer containing the authentication token.
-     */
     @Path("authenticate")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
